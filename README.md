@@ -2,6 +2,20 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 25 (this repo uses `.nvmrc`)
+- pnpm (this repo uses `packageManager` in `package.json`)
+
+If you use `nvm`:
+
+```bash
+nvm use
+corepack enable
+corepack prepare pnpm@10.26.2 --activate
+pnpm install
+```
+
 First, run the development server:
 
 ```bash

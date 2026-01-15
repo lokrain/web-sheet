@@ -22,18 +22,37 @@ echo "packing skill: $skill_name -> $out" >&2
 SKILL_DIR="$skill_dir" OUT_ZIP_TMP="$tmp" python3 - <<'PY'
 import os
 import zipfile
+import stat
 
 skill_dir = os.environ["SKILL_DIR"]
 out_tmp = os.environ["OUT_ZIP_TMP"]
 
+EXCLUDED_DIRS = {"node_modules", ".next", ".turbo", "dist", "build"}
+FIXED_DATE_TIME = (1980, 1, 1, 0, 0, 0)
+
+def iter_files(root_dir: str):
+  for root, dirs, files in os.walk(root_dir):
+    dirs[:] = sorted([d for d in dirs if d not in EXCLUDED_DIRS])
+    for fn in sorted(files):
+      abs_path = os.path.join(root, fn)
+      rel = os.path.relpath(abs_path, os.path.dirname(root_dir))
+      rel = rel.replace(os.sep, "/")
+      yield abs_path, rel
+
 with zipfile.ZipFile(out_tmp, "w", compression=zipfile.ZIP_DEFLATED) as z:
-  for root, dirs, files in os.walk(skill_dir):
-    # avoid zipping transient folders if they exist
-    dirs[:] = [d for d in dirs if d not in {"node_modules", ".next", ".turbo", "dist", "build"}]
-    for fn in files:
-      p = os.path.join(root, fn)
-      rel = os.path.relpath(p, os.path.dirname(skill_dir))
-      z.write(p, rel)
+  for abs_path, rel in iter_files(skill_dir):
+    with open(abs_path, "rb") as f:
+      data = f.read()
+
+    st = os.stat(abs_path)
+    mode = stat.S_IMODE(st.st_mode)
+
+    info = zipfile.ZipInfo(rel)
+    info.date_time = FIXED_DATE_TIME
+    info.compress_type = zipfile.ZIP_DEFLATED
+    info.external_attr = (mode & 0xFFFF) << 16
+
+    z.writestr(info, data)
 PY
 
 mkdir -p "$(dirname "$out")"
