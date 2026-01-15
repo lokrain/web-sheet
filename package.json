@@ -31,9 +31,7 @@
     "perf:update-baseline": "node --expose-gc node_modules/.bin/tsx perf/update-baseline.ts",
     "skills:test": "bash scripts/test-skills.sh",
     "clean": "bash scripts/clean.sh",
-    "md:check": "prettier --check \"**/*.md\"",
-    "md:format": "prettier --write \"**/*.md\"",
-    "verify": "pnpm lint && pnpm md:check && pnpm typecheck && pnpm test && pnpm skills:test",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm skills:test",
     "ci": "pnpm verify",
     "prepare": "husky"
   },
@@ -100,7 +98,6 @@
     "husky": "9.1.6",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
-    "prettier": "^3.8.0",
     "shadcn": "^3.6.3",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
