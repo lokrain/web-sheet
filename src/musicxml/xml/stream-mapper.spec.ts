@@ -49,4 +49,27 @@ test("mapMusicXmlScorePartwise emits PartDef from part-list", () => {
       expect.objectContaining({ kind: "PartDef", partId: "P1", name: "Piano" }),
     ]),
   );
+
+  expect(res.events).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        kind: "MeasureStart",
+        partId: "P1",
+        measureNo: "1",
+      }),
+      expect.objectContaining({
+        kind: "MeasureEnd",
+        partId: "P1",
+        measureNo: "1",
+      }),
+    ]),
+  );
+});
+
+test("mapMusicXmlScorePartwise marks implicit measures", () => {
+  const xml = loadFixture("score-partwise.implicit-measure.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const start = res.events.find((e) => e.kind === "MeasureStart");
+  expect(start && "implicit" in start ? start.implicit : null).toBe(true);
 });

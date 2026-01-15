@@ -73,7 +73,7 @@ Status: `IN_PROGRESS`
 
 ### Story 1.1 — Define Notation-Faithful Contract
 
-Status: `REVIEW`
+Status: `DONE`
 
 - Task 1.1.1: Write formal definition of “notation-faithful” output (no repeat expansion, no tie merging) **[2]**
   - Status: `DONE`
@@ -84,14 +84,14 @@ Status: `REVIEW`
 
 ### Story 1.2 — Test Corpus & Golden Outputs
 
-Status: `REVIEW`
+Status: `DONE`
 
 - Task 1.2.1: Create minimal MusicXML fixtures (single part, single voice) **[2]**
   - Status: `DONE`
 - Task 1.2.2: Add multi-voice fixtures with backup/forward **[3]**
   - Status: `DONE`
 - Task 1.2.3: Define golden event traces for fixtures **[3]**
-  - Status: `REVIEW`
+  - Status: `DONE`
 
 ---
 
@@ -101,7 +101,7 @@ Status: `IN_PROGRESS`
 
 ### Story 3.1 — Score Root Handling
 
-Status: `IN_PROGRESS`
+Status: `DONE`
 
 - Task 3.1.1: Detect and validate score-partwise root **[1]**
   - Status: `DONE`
@@ -110,21 +110,21 @@ Status: `IN_PROGRESS`
 
 ### Story 3.2 — Part List Mapping
 
-Status: `IN_PROGRESS`
+Status: `DONE`
 
 - Task 3.2.1: Parse part-list/score-part ids **[2]**
-  - Status: `REVIEW`
+  - Status: `DONE`
 - Task 3.2.2: Emit PartDef events with names/instruments **[3]**
-  - Status: `REVIEW`
+  - Status: `DONE`
 
 ### Story 3.3 — Measure Boundaries
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 3.3.1: Emit MeasureStart/MeasureEnd events **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 3.3.2: Track measure numbers and implicit measures **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ---
 

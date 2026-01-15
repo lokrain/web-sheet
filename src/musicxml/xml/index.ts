@@ -1,3 +1,9 @@
+export type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
+export type {
+  MusicXmlMeasureBoundaryEvent,
+  MusicXmlMeasureEndEvent,
+  MusicXmlMeasureStartEvent,
+} from "@/musicxml/xml/measure";
 export type {
   MusicXmlPartDefEvent,
   MusicXmlPartListEvent,

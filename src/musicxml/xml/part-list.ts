@@ -1,3 +1,4 @@
+import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
 import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
@@ -46,7 +47,7 @@ function segmentName(pool: XmlNamePool, evt: XmlEvent): string | null {
 export function createPartListReducer(
   pool: XmlNamePool,
   diagnostics: MusicXmlDiagnostic[],
-): MusicXmlReducer<State, MusicXmlPartListEvent> {
+): MusicXmlReducer<State, MusicXmlMapperEvent> {
   return {
     init: () => ({
       inScorePart: false,
@@ -57,7 +58,7 @@ export function createPartListReducer(
       captureInstrumentNameText: false,
     }),
 
-    consume: (state, evt, ctx, emit) => {
+    consume(state, evt, ctx, emit) {
       if (evt.kind === "StartElement") {
         const name = segmentName(pool, evt);
 
