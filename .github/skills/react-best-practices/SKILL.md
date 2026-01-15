@@ -133,11 +133,11 @@ For the complete guide with all rules expanded: `AGENTS.md`
 ## Usage
 
 ```bash
-bash /mnt/skills/user/react-best-practices/scripts/audit.sh
+bash .github/skills/react-best-practices/scripts/audit.sh
 ```
 
 ```bash
-bash /mnt/skills/user/react-best-practices/scripts/pack.sh
+bash .github/skills/react-best-practices/scripts/pack.sh
 ```
 
 **Arguments:**

@@ -11,7 +11,7 @@ A collection of skills for AI coding assistants (GitHub Copilot Chat, ChatGPT 5.
 ### Directory Structure
 
 ```
-skills/
+.github/skills/
   {skill-name}/           # kebab-case directory name
     SKILL.md              # Required: skill definition
     scripts/              # Required: executable scripts
@@ -83,7 +83,9 @@ Skills are loaded on-demand — only the skill name and description are loaded a
 - **Write specific descriptions** — helps the agent know exactly when to activate the skill
 - **Use progressive disclosure** — reference supporting files that get read only when needed
 - **Prefer scripts over inline code** — script execution doesn't consume context (only output does)
-- **File references work one level deep** — link directly from SKILL.md to supporting files
+**File references work one level deep** — link directly from SKILL.md to supporting files
+
+### Script Requirements
 
 ### Script Requirements
 
@@ -99,7 +101,7 @@ Skills are loaded on-demand — only the skill name and description are loaded a
 After creating or updating a skill:
 
 ```bash
-cd skills
+cd .github/skills
 zip -r {skill-name}.zip {skill-name}/
 ````
 
@@ -115,12 +117,12 @@ Document these installation methods for users:
 
 **GitHub Copilot Chat (VS Code):**
 
-- Keep the skill folder in the repo under `skills/{skill-name}/`.
-- In Copilot Chat, reference files directly (for example, “use skills/{skill-name}/SKILL.md”).
+- Keep the skill folder in the repo under `.github/skills/{skill-name}/`.
+- In Copilot Chat, reference files directly (for example, “use .github/skills/{skill-name}/SKILL.md”).
 
 **ChatGPT 5.2:**
 
-- Upload `skills/{skill-name}/SKILL.md` (and any referenced files) to your ChatGPT Project / workspace.
+- Upload `.github/skills/{skill-name}/SKILL.md` (and any referenced files) to your ChatGPT Project / workspace.
 - Or zip the folder and upload the zip.
 
 If the skill requires network access, ensure your environment allows the required outbound domains.
