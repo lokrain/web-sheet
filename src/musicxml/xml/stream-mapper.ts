@@ -1,3 +1,4 @@
+import { createClefReducer } from "@/musicxml/xml/clef";
 import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
 import { createDivisionsReducer } from "@/musicxml/xml/divisions";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
@@ -5,8 +6,10 @@ import { createKeySignatureReducer } from "@/musicxml/xml/key-signature";
 import { createMeasureBoundaryReducer } from "@/musicxml/xml/measure";
 import { createNoteReducer } from "@/musicxml/xml/note";
 import { createPartListReducer } from "@/musicxml/xml/part-list";
+import { createStavesReducer } from "@/musicxml/xml/staves";
 import { createTimeSignatureReducer } from "@/musicxml/xml/time-signature";
 import { createMusicXmlTimingState } from "@/musicxml/xml/timing-state";
+import { createTransposeReducer } from "@/musicxml/xml/transpose";
 import { parseEventsCollect } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
@@ -108,6 +111,9 @@ export function mapMusicXmlScorePartwise(
     createPartListReducer(pool, diagnostics),
     createTimeSignatureReducer(pool, diagnostics, timing),
     createKeySignatureReducer(pool, diagnostics, timing),
+    createStavesReducer(pool, diagnostics, timing),
+    createClefReducer(pool, diagnostics, timing),
+    createTransposeReducer(pool, diagnostics, timing),
     createMeasureBoundaryReducer(pool, diagnostics, timing),
     createNoteReducer(pool, diagnostics, timing),
   ]);

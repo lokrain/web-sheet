@@ -242,3 +242,36 @@ test("mapMusicXmlScorePartwise emits KeySig changes", () => {
     { fifths: -3, mode: "minor", tAbsDiv: 4 },
   ]);
 });
+
+test("mapMusicXmlScorePartwise emits Clef/Staves/Transpose events", () => {
+  const xml = loadFixture("score-partwise.clef-staves-transpose.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const staves = res.events.filter((e) => e.kind === "Staves");
+  expect(staves).toEqual([
+    expect.objectContaining({ partId: "P1", staves: 2, tAbsDiv: 0 }),
+  ]);
+
+  const clef = res.events.filter((e) => e.kind === "Clef");
+  expect(clef).toEqual([
+    expect.objectContaining({
+      partId: "P1",
+      sign: "G",
+      line: 2,
+      octaveChange: 1,
+      tAbsDiv: 0,
+    }),
+  ]);
+
+  const tr = res.events.filter((e) => e.kind === "Transpose");
+  expect(tr).toEqual([
+    expect.objectContaining({
+      partId: "P1",
+      chromatic: 2,
+      diatonic: 1,
+      octaveChange: 0,
+      double: true,
+      tAbsDiv: 0,
+    }),
+  ]);
+});

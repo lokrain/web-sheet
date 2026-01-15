@@ -91,41 +91,6 @@ Completion criteria:
 
 ---
 
-## EPIC 6 — Attributes & State Changes
-
-Status: `IN_PROGRESS`
-
-### Story 6.1 — Time Signature
-
-Status: `DONE`
-
-- Task 6.1.1: Parse attributes/time beats & beat-type **[2]**
-  - Status: `DONE`
-- Task 6.1.2: Emit TimeSig change events **[2]**
-  - Status: `DONE`
-
-### Story 6.2 — Key Signature
-
-Status: `DONE`
-
-- Task 6.2.1: Parse attributes/key fifths/mode **[2]**
-  - Status: `DONE`
-- Task 6.2.2: Emit KeySig change events **[1]**
-  - Status: `DONE`
-
-### Story 6.3 — Clefs, Staves, Transpose
-
-Status: `BACKLOG`
-
-- Task 6.3.1: Parse clef sign/line/octave-change **[2]**
-  - Status: `BACKLOG`
-- Task 6.3.2: Parse staves count **[1]**
-  - Status: `BACKLOG`
-- Task 6.3.3: Parse transpose attributes (store only) **[2]**
-  - Status: `BACKLOG`
-
----
-
 ## EPIC 7 — Directions & Barlines
 
 Status: `BACKLOG`
