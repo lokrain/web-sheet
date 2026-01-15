@@ -177,3 +177,23 @@ test("mapMusicXmlScorePartwise preserves tie markers without merging", () => {
   expect(notes[0]).toMatchObject({ tie: { start: true, stop: false } });
   expect(notes[1]).toMatchObject({ tie: { start: false, stop: true } });
 });
+
+test("mapMusicXmlScorePartwise preserves grace notes without advancing cursor", () => {
+  const xml = loadFixture("score-partwise.grace.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(2);
+
+  expect(notes[0]).toMatchObject({ grace: true, tOnAbsDiv: 0, durDiv: 0 });
+  expect(notes[1]).toMatchObject({ grace: false, tOnAbsDiv: 0, durDiv: 4 });
+});
+
+test("mapMusicXmlScorePartwise preserves cue note metadata", () => {
+  const xml = loadFixture("score-partwise.cue.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(1);
+  expect(notes[0]).toMatchObject({ cue: true, grace: false, chord: false });
+});

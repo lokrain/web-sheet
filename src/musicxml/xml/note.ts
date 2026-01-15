@@ -382,13 +382,17 @@ export function createNoteReducer(
           const voice = state.noteVoice ?? "1";
           const durDiv = state.noteDurationDiv;
 
-          if (!partId || durDiv == null) {
-            if (durDiv == null) {
-              diagnostics.push({
-                message: "Note is missing duration",
-                path: musicXmlPathToString(pool, ctx.path),
-              });
-            }
+          if (!partId) {
+            state.inNote = false;
+            return;
+          }
+
+          const durDivResolved = durDiv ?? (state.noteGrace ? 0 : null);
+          if (durDivResolved == null) {
+            diagnostics.push({
+              message: "Note is missing duration",
+              path: musicXmlPathToString(pool, ctx.path),
+            });
             state.inNote = false;
             return;
           }
@@ -422,7 +426,7 @@ export function createNoteReducer(
             partId,
             voice,
             tOnAbsDiv,
-            durDiv,
+            durDiv: durDivResolved,
             isRest: state.noteIsRest,
             pitch,
             chord: state.noteChord,
@@ -438,8 +442,8 @@ export function createNoteReducer(
           // Anchor for subsequent chord notes.
           setLastOnset(state, partId, voice, tOnAbsDiv);
 
-          if (!state.noteChord) {
-            const next = tOnAbsDiv + durDiv;
+          if (!state.noteChord && !state.noteGrace) {
+            const next = tOnAbsDiv + durDivResolved;
             setPartCursorAbsDiv(timing, partId, next);
             setVoiceCursor(state, partId, voice, next);
           }

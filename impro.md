@@ -91,48 +91,6 @@ Completion criteria:
 
 ---
 
-## EPIC 5 — Note Semantics
-
-Status: `IN_PROGRESS`
-
-### Story 5.1 — Pitch & Rest Parsing
-
-Status: `DONE`
-
-- Task 5.1.1: Parse pitch step/alter/octave **[2]**
-  - Status: `DONE`
-- Task 5.1.2: Represent rests as duration-only notes **[1]**
-  - Status: `DONE`
-
-### Story 5.2 — Chords
-
-Status: `DONE`
-
-- Task 5.2.1: Detect chord flag on notes **[1]**
-  - Status: `DONE`
-- Task 5.2.2: Prevent cursor advance on chord notes **[2]**
-  - Status: `DONE`
-
-### Story 5.3 — Ties (Notation-Faithful)
-
-Status: `DONE`
-
-- Task 5.3.1: Parse tie start/stop markers **[2]**
-  - Status: `DONE`
-- Task 5.3.2: Attach tie markers to NoteEvent segments **[2]**
-  - Status: `DONE`
-
-### Story 5.4 — Grace & Cue Notes
-
-Status: `BACKLOG`
-
-- Task 5.4.1: Detect grace note flag **[2]**
-  - Status: `BACKLOG`
-- Task 5.4.2: Preserve cue note metadata **[1]**
-  - Status: `BACKLOG`
-
----
-
 ## EPIC 6 — Attributes & State Changes
 
 Status: `BACKLOG`
