@@ -25,6 +25,8 @@
     "test:cov": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --coverage",
     "bench": "node --expose-gc node_modules/.bin/tsx bench/bench-xml.ts",
     "bench:prof": "node --prof --expose-gc node_modules/.bin/tsx bench/bench-xml.ts",
+    "bench:musicxml": "node --expose-gc node_modules/.bin/tsx bench/bench-musicxml.ts",
+    "bench:musicxml:prof": "node --prof --expose-gc node_modules/.bin/tsx bench/bench-musicxml.ts",
     "perf:ci": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --ci --runInBand --coverage=false perf/perf.spec.ts",
     "perf:update-baseline": "node --expose-gc node_modules/.bin/tsx perf/update-baseline.ts",
     "skills:test": "bash scripts/test-skills.sh",

@@ -93,7 +93,7 @@ Completion criteria:
 
 ## EPIC 9 — Performance & Robustness
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 9.1 — Allocation Discipline
 
@@ -102,15 +102,6 @@ Status: `BACKLOG`
 - Task 9.1.1: Pool transient note collectors **[2]**
   - Status: `BACKLOG`
 - Task 9.1.2: Intern element and attribute names **[2]**
-  - Status: `BACKLOG`
-
-### Story 9.2 — Benchmarks
-
-Status: `BACKLOG`
-
-- Task 9.2.1: Create small-score benchmark **[1]**
-  - Status: `BACKLOG`
-- Task 9.2.2: Create large-score benchmark **[2]**
   - Status: `BACKLOG`
 
 ### Story 9.3 — Fuzzing
