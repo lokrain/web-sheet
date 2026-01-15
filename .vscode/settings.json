@@ -14,10 +14,12 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "editor.defaultFormatter": "biomejs.biome",
+    "files.insertFinalNewline": true
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "files.insertFinalNewline": true
   },
   "chat.mcp.serverSampling": {
     "web-sheet/.vscode/mcp.json: shadcn": {
@@ -35,5 +37,6 @@
       ]
     }
   },
-  "markdown.validate.enabled": true
+  "markdown.validate.enabled": true,
+  "files.insertFinalNewline": true
 }
