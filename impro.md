@@ -7,7 +7,8 @@ This file is the repo’s single source of truth for ongoing improvements.
 - We treat this file like a lightweight Jira board.
 - Every **Epic**, **Story**, and **Task** has a **Status**.
 - As work progresses, we update statuses (and add notes/links as needed).
-- When an **Epic is DONE**, we **delete the Epic section** (including all its stories/tasks) to keep the file small.
+- Statuses are **propagated** from Tasks → Stories → Epics (rules below).
+- When an **Epic becomes DONE**, we **delete the Epic section** (including all its stories/tasks) to keep the file small.
 
 ### Statuses
 
@@ -19,6 +20,29 @@ Use one of:
 - `BLOCKED` — cannot proceed (explain why + what unblocks)
 - `REVIEW` — implemented, awaiting review/verification
 - `DONE` — complete (when an Epic is DONE, delete it)
+
+### Status propagation (must follow)
+
+We do not set Epic/Story status arbitrarily; we derive it from child items.
+
+For a **Story**:
+
+- `BACKLOG` if **all tasks** are `BACKLOG`
+- `DONE` if **all tasks** are `DONE`
+- otherwise it is at least `IN_PROGRESS`
+
+For an **Epic**:
+
+- `BACKLOG` if **all stories** are `BACKLOG`
+- `DONE` if **all stories** are `DONE`
+- otherwise it is at least `IN_PROGRESS`
+
+Operationally, when updating this file:
+
+1. Update Task statuses.
+2. Recompute Story statuses from tasks.
+3. Recompute Epic statuses from stories.
+4. If any Epic is `DONE`, delete the Epic section entirely.
 
 ### Complexity metric
 
@@ -67,67 +91,6 @@ Completion criteria:
 
 ---
 
-## EPIC 1 — Project Foundations & Contracts
-
-Status: `DONE`
-
-### Story 1.1 — Define Notation-Faithful Contract
-
-Status: `DONE`
-
-- Task 1.1.1: Write formal definition of “notation-faithful” output (no repeat expansion, no tie merging) **[2]**
-  - Status: `DONE`
-- Task 1.1.2: Specify normalized event model and invariants **[3]**
-  - Status: `DONE`
-- Task 1.1.3: Define strict vs permissive parsing modes **[2]**
-  - Status: `DONE`
-
-### Story 1.2 — Test Corpus & Golden Outputs
-
-Status: `DONE`
-
-- Task 1.2.1: Create minimal MusicXML fixtures (single part, single voice) **[2]**
-  - Status: `DONE`
-- Task 1.2.2: Add multi-voice fixtures with backup/forward **[3]**
-  - Status: `DONE`
-- Task 1.2.3: Define golden event traces for fixtures **[3]**
-  - Status: `DONE`
-
----
-
-## EPIC 3 — Score Structure Parsing
-
-Status: `DONE`
-
-### Story 3.1 — Score Root Handling
-
-Status: `DONE`
-
-- Task 3.1.1: Detect and validate score-partwise root **[1]**
-  - Status: `DONE`
-- Task 3.1.2: Detect and validate score-timewise root **[2]**
-  - Status: `DONE`
-
-### Story 3.2 — Part List Mapping
-
-Status: `DONE`
-
-- Task 3.2.1: Parse part-list/score-part ids **[2]**
-  - Status: `DONE`
-- Task 3.2.2: Emit PartDef events with names/instruments **[3]**
-  - Status: `DONE`
-
-### Story 3.3 — Measure Boundaries
-
-Status: `DONE`
-
-- Task 3.3.1: Emit MeasureStart/MeasureEnd events **[2]**
-  - Status: `DONE`
-- Task 3.3.2: Track measure numbers and implicit measures **[2]**
-  - Status: `DONE`
-
----
-
 ## EPIC 4 — Timing Engine (Notation-Faithful)
 
 Status: `IN_PROGRESS`
@@ -143,7 +106,7 @@ Status: `DONE`
 
 ### Story 4.2 — Voice Cursor Model
 
-Status: `IN_PROGRESS`
+Status: `DONE`
 
 - Task 4.2.1: Initialize per-voice cursor model **[3]**
   - Status: `DONE`
