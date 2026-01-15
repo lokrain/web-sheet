@@ -52,45 +52,6 @@ For this backlog: **all tasks are ≤ 3**. Anything larger must be decomposed.
 
 ---
 
-## EPIC R1 — Repo follow-ups
-
-Status: `BACKLOG`
-
-### Story R1.1 — pnpm + Node 25 DX clarity
-
-Status: `BACKLOG`
-
-- Task R1.1.1: Ensure the pnpm availability story is unambiguous (README + troubleshooting) **[2]**
-  - Status: `BACKLOG`
-
-### Story R1.2 — Next.js security headers hygiene
-
-Status: `BACKLOG`
-
-- Task R1.2.1: Revisit `next.config.ts` headers (CSP decision + document intent) **[3]**
-  - Status: `BACKLOG`
-
-### Story R1.3 — shadcn/ui conventions
-
-Status: `BACKLOG`
-
-- Task R1.3.1: Verify `components.json` + shadcn paths and document conventions **[2]**
-  - Status: `BACKLOG`
-
----
-
-# MusicXML Notation-Faithful Implementation Backlog
-
-Complexity metric: Fibonacci (1, 2, 3, 5, 8, 13, 21). **All tasks are ≤ 3**. Larger work is decomposed.
-
-Completion criteria:
-
-- All fixtures emit deterministic, notation-faithful event streams.
-- No task exceeds complexity 3.
-- No performance interpretation (repeat expansion, tie merging) is applied.
-
----
-
 ## EPIC 9 — Performance & Robustness
 
 Status: `IN_PROGRESS`
