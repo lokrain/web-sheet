@@ -95,42 +95,18 @@ Status: `REVIEW`
 
 ---
 
-## EPIC 2 — Streaming Mapper Infrastructure
-
-Status: `IN_PROGRESS`
-
-### Story 2.1 — Path-Aware XML Context
-
-Status: `IN_PROGRESS`
-
-- Task 2.1.1: Implement element path stack with indices **[3]**
-  - Status: `REVIEW`
-- Task 2.1.2: Attach source path + offset metadata to emitted events **[2]**
-  - Status: `REVIEW`
-
-### Story 2.2 — Reducer Architecture
-
-Status: `IN_PROGRESS`
-
-- Task 2.2.1: Create reducer interface (init, consume, flush) **[2]**
-  - Status: `REVIEW`
-- Task 2.2.2: Implement reducer dispatcher for XML events **[3]**
-  - Status: `REVIEW`
-
----
-
 ## EPIC 3 — Score Structure Parsing
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 3.1 — Score Root Handling
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 3.1.1: Detect and validate score-partwise root **[1]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 - Task 3.1.2: Detect and validate score-timewise root **[2]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 
 ### Story 3.2 — Part List Mapping
 
