@@ -2,8 +2,9 @@
 set -e
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# scripts/ -> skills/
 repo_root="$(cd "$script_dir/.." && pwd)"
-skills_root="$repo_root/.github/skills"
+skills_root="$repo_root"
 
 tmpdir=""
 cleanup() {
@@ -34,12 +35,14 @@ for skill_dir in "$skills_root"/*/ ; do
   name="$(basename "$skill_dir")"
   record_tmp="$tmpdir/$name.json"
 
+  if [ ! -f "$skill_dir/SKILL.md" ]; then
+    # Skip helper directories that are not skills (e.g., scripts)
+    continue
+  fi
+
   failures=()
   warnings=()
 
-  if [ ! -f "$skill_dir/SKILL.md" ]; then
-    failures+=("missing:SKILL.md")
-  fi
   if [ ! -d "$skill_dir/scripts" ]; then
     failures+=("missing:scripts/")
   fi
