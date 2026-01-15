@@ -24,9 +24,13 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10.26.2
+          run_install: false
 
-      - name: Install
-        run: pnpm install --frozen-lockfile
+      - name: Activate pnpm
+        run: corepack prepare pnpm@10.26.2 --activate && pnpm --version
+
+      - name: Install dependencies
+        run: corepack enable && pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm lint
