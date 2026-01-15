@@ -34,6 +34,11 @@ export function parseXml(
   };
 
   const events: XmlEvent[] = [];
-  parseXmlStream(tokenizeXml(input, tOpts, pool), (e) => events.push(e), pOpts, pool);
+  parseXmlStream(
+    tokenizeXml(input, tOpts, pool),
+    (e) => events.push(e),
+    pOpts,
+    pool,
+  );
   return { pool, events };
 }

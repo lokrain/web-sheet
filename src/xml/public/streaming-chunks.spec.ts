@@ -8,7 +8,8 @@ import {
   type XmlNamePool,
 } from "@/xml";
 
-const SAMPLE_XML = "<root a=\"1\"><item id=\"x\">hello &amp; world</item><b/></root>";
+const SAMPLE_XML =
+  '<root a="1"><item id="x">hello &amp; world</item><b/></root>';
 
 function signatureForEvent(evt: XmlEvent, pool: XmlNamePool): string {
   switch (evt.kind) {
@@ -82,19 +83,28 @@ test("streaming parser is chunk-invariant", async () => {
 
   const poolSingle = createNamePool();
   const sigSingle = await collectSignatures(
-    parseEventsFromAsyncIterable(fromChunks([SAMPLE_XML]), { pool: poolSingle, ...options }),
+    parseEventsFromAsyncIterable(fromChunks([SAMPLE_XML]), {
+      pool: poolSingle,
+      ...options,
+    }),
     poolSingle,
   );
 
   const poolRandom = createNamePool();
   const sigRandom = await collectSignatures(
-    parseEventsFromAsyncIterable(fromChunks(chunkStringRandom(SAMPLE_XML)), { pool: poolRandom, ...options }),
+    parseEventsFromAsyncIterable(fromChunks(chunkStringRandom(SAMPLE_XML)), {
+      pool: poolRandom,
+      ...options,
+    }),
     poolRandom,
   );
 
   const poolBytes = createNamePool();
   const sigBytes = await collectSignatures(
-    parseEventsFromAsyncIterable(fromChunks(chunkBytesOneByOne(SAMPLE_XML)), { pool: poolBytes, ...options }),
+    parseEventsFromAsyncIterable(fromChunks(chunkBytesOneByOne(SAMPLE_XML)), {
+      pool: poolBytes,
+      ...options,
+    }),
     poolBytes,
   );
 

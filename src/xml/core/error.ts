@@ -9,7 +9,12 @@ export class XmlError extends Error {
   public readonly position: XmlPosition;
   public readonly context?: string;
 
-  constructor(code: string, position: XmlPosition, message: string, context?: string) {
+  constructor(
+    code: string,
+    position: XmlPosition,
+    message: string,
+    context?: string,
+  ) {
     super(message);
     this.name = "XmlError";
     this.code = code;
@@ -23,7 +28,12 @@ export class XmlError extends Error {
 }
 
 export class XmlParseError extends XmlError {
-  constructor(code: string, position: XmlPosition, message: string, context?: string) {
+  constructor(
+    code: string,
+    position: XmlPosition,
+    message: string,
+    context?: string,
+  ) {
     super(code, position, message, context);
     this.name = "XmlParseError";
   }

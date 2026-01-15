@@ -16,7 +16,10 @@ function parseAll(
 ): void {
   const opts = { ...DEFAULT_XML_STREAM_PARSER_OPTIONS, ...(parserOpts ?? {}) };
   const parser = createStreamParser(opts, pool);
-  parser.writeAll(tokenize(xml, DEFAULT_XML_TOKENIZER_OPTIONS, pool), () => undefined);
+  parser.writeAll(
+    tokenize(xml, DEFAULT_XML_TOKENIZER_OPTIONS, pool),
+    () => undefined,
+  );
   parser.end();
 }
 
@@ -24,8 +27,7 @@ test("multiple roots are rejected when single-root is required", () => {
   const pool = createNamePool();
   assert.throws(
     () => parseAll("<a/><b/>", pool),
-    (e: unknown) =>
-      e instanceof XmlError && e.code === "XML_MULTIPLE_ROOTS",
+    (e: unknown) => e instanceof XmlError && e.code === "XML_MULTIPLE_ROOTS",
   );
 });
 
@@ -33,8 +35,7 @@ test("text before root is rejected when single-root is required", () => {
   const pool = createNamePool();
   assert.throws(
     () => parseAll("oops<a/>", pool),
-    (e: unknown) =>
-      e instanceof XmlError && e.code === "XML_TEXT_BEFORE_ROOT",
+    (e: unknown) => e instanceof XmlError && e.code === "XML_TEXT_BEFORE_ROOT",
   );
 });
 
@@ -42,8 +43,7 @@ test("text after root is rejected when single-root is required", () => {
   const pool = createNamePool();
   assert.throws(
     () => parseAll("<a/>tail", pool),
-    (e: unknown) =>
-      e instanceof XmlError && e.code === "XML_TEXT_AFTER_ROOT",
+    (e: unknown) => e instanceof XmlError && e.code === "XML_TEXT_AFTER_ROOT",
   );
 });
 
@@ -66,8 +66,7 @@ test("unclosed tags are rejected", () => {
   const pool = createNamePool();
   assert.throws(
     () => parseAll("<a><b></b>", pool),
-    (e: unknown) =>
-      e instanceof XmlError && e.code === "XML_UNCLOSED_TAGS",
+    (e: unknown) => e instanceof XmlError && e.code === "XML_UNCLOSED_TAGS",
   );
 });
 

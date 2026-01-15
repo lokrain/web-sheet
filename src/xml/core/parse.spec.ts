@@ -21,8 +21,6 @@ test("parseEvents errors include line/column", () => {
   assert.throws(
     () => parseEvents("<a>\n</b>"),
     (e: unknown) =>
-      e instanceof XmlError &&
-      e.position.line === 2 &&
-      e.position.column === 1,
+      e instanceof XmlError && e.position.line === 2 && e.position.column === 1,
   );
 });

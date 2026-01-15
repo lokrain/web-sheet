@@ -17,6 +17,10 @@
 .jest-localstorage
 /.test-dist/
 
+# local tool artifacts
+/.tmp-tscheck/
+/bench/results.json
+
 # next.js
 /.next/
 /out/

@@ -15,7 +15,7 @@ const assertNonNegativeInt = (value: number, label: string): void => {
     throw new XmlError(
       "XML_INVALID_POSITION",
       { offset: 0, line: 1, column: 1 },
-      `${label} must be a non-negative integer`
+      `${label} must be a non-negative integer`,
     );
   }
 };
@@ -49,7 +49,10 @@ export function offsetToLineColumn(input: string, offset: number): LineColumn {
   return { line, column };
 }
 
-export function spanToLineColumn(input: string, span: { start: number; end: number }): SpanLineColumn {
+export function spanToLineColumn(
+  input: string,
+  span: { start: number; end: number },
+): SpanLineColumn {
   return {
     start: offsetToLineColumn(input, span.start),
     end: offsetToLineColumn(input, span.end),

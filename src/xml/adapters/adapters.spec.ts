@@ -120,14 +120,17 @@ test("selector dispatches enter/text/exit events", () => {
   const path = compilePathString("root/a", pool);
   const hit: string[] = [];
 
-  const { selector } = createPathSelector([
-    {
-      path,
-      onEnter: (ctx: SelectorContext) => hit.push(`enter:${ctx.depth}`),
-      onExit: (ctx: SelectorContext) => hit.push(`exit:${ctx.depth}`),
-      onText: (_ctx: SelectorContext, t: string) => hit.push(`text:${t}`),
-    },
-  ], pool);
+  const { selector } = createPathSelector(
+    [
+      {
+        path,
+        onEnter: (ctx: SelectorContext) => hit.push(`enter:${ctx.depth}`),
+        onExit: (ctx: SelectorContext) => hit.push(`exit:${ctx.depth}`),
+        onText: (_ctx: SelectorContext, t: string) => hit.push(`text:${t}`),
+      },
+    ],
+    pool,
+  );
   const { events } = parseEvents("<root><a>hi</a></root>");
   for (const e of events) selector.onEvent(e);
 

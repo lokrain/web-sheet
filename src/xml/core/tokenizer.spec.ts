@@ -62,8 +62,7 @@ test("entity errors report correct offsets after trimming", () => {
   const pool = createNamePool();
   // Leading whitespace is trimmed, but the entity starts at offset 2.
   assert.throws(
-    () =>
-      Array.from(tokenize("  &nope;", DEFAULT_XML_TOKENIZER_OPTIONS, pool)),
+    () => Array.from(tokenize("  &nope;", DEFAULT_XML_TOKENIZER_OPTIONS, pool)),
     (e: unknown) =>
       e instanceof XmlError &&
       e.code === "XML_ENTITY_UNKNOWN" &&
@@ -76,16 +75,17 @@ test("tokenize errors include line/column", () => {
   assert.throws(
     () => Array.from(tokenize("<a>\n<1>", DEFAULT_XML_TOKENIZER_OPTIONS, pool)),
     (e: unknown) =>
-      e instanceof XmlError &&
-      e.position.line === 2 &&
-      e.position.column === 2,
+      e instanceof XmlError && e.position.line === 2 && e.position.column === 2,
   );
 });
 
 test("tokenize rejects invalid numeric entities", () => {
   const pool = createNamePool();
   assert.throws(
-    () => Array.from(tokenize("<a>&#xD800;</a>", DEFAULT_XML_TOKENIZER_OPTIONS, pool)),
+    () =>
+      Array.from(
+        tokenize("<a>&#xD800;</a>", DEFAULT_XML_TOKENIZER_OPTIONS, pool),
+      ),
     (e: unknown) => e instanceof XmlError && e.code === "XML_ENTITY_BAD",
   );
 });
@@ -144,7 +144,10 @@ test("tokenizer instances are reusable", () => {
 
 test("streaming tokenizer emits tokens across chunks", () => {
   const pool = createNamePool();
-  const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
+  const tokenizer = createStreamingTokenizer(
+    DEFAULT_XML_TOKENIZER_OPTIONS,
+    pool,
+  );
   const out: string[] = [];
   const emit = (tok: { kind: string }) => out.push(tok.kind);
 
@@ -158,7 +161,10 @@ test("streaming tokenizer emits tokens across chunks", () => {
 
 test("streaming tokenizer accepts Uint8Array chunks", () => {
   const pool = createNamePool();
-  const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
+  const tokenizer = createStreamingTokenizer(
+    DEFAULT_XML_TOKENIZER_OPTIONS,
+    pool,
+  );
   const encoder = new TextEncoder();
   const tokens: string[] = [];
   const emit = (tok: { kind: string }) => tokens.push(tok.kind);

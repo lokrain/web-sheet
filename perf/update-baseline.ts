@@ -26,10 +26,13 @@ type ModeMetrics = {
 
 type Baseline = {
   generatedAt: string;
-  fixtures: Record<string, {
-    bytes: number;
-    modes: Record<string, ModeMetrics>;
-  }>;
+  fixtures: Record<
+    string,
+    {
+      bytes: number;
+      modes: Record<string, ModeMetrics>;
+    }
+  >;
 };
 
 const FIXTURES_DIR = path.join(process.cwd(), "bench", "fixtures");
@@ -98,7 +101,10 @@ function signatureForEvent(evt: XmlEvent, pool: XmlNamePool): string {
   }
 }
 
-async function collectHashAndCount(source: AsyncIterable<XmlEvent>, pool: XmlNamePool): Promise<{ events: number; hash: number }> {
+async function collectHashAndCount(
+  source: AsyncIterable<XmlEvent>,
+  pool: XmlNamePool,
+): Promise<{ events: number; hash: number }> {
   let count = 0;
   let hash = 0x811c9dc5;
   for await (const evt of source) {
@@ -109,14 +115,20 @@ async function collectHashAndCount(source: AsyncIterable<XmlEvent>, pool: XmlNam
   return { events: count, hash };
 }
 
-async function* chunkBytes(text: string, size = 64 * 1024): AsyncIterable<Uint8Array> {
+async function* chunkBytes(
+  text: string,
+  size = 64 * 1024,
+): AsyncIterable<Uint8Array> {
   const bytes = new TextEncoder().encode(text);
   for (let i = 0; i < bytes.length; i += size) {
     yield bytes.slice(i, i + size);
   }
 }
 
-async function runTimed(iterations: number, fn: () => Promise<{ events: number; hash?: number }>): Promise<{ times: number[]; events: number; hash?: number }> {
+async function runTimed(
+  iterations: number,
+  fn: () => Promise<{ events: number; hash?: number }>,
+): Promise<{ times: number[]; events: number; hash?: number }> {
   const times: number[] = [];
   let events = 0;
   let hash: number | undefined;
@@ -134,14 +146,19 @@ async function runTimed(iterations: number, fn: () => Promise<{ events: number; 
 async function main(): Promise<void> {
   const fixtures = loadFixtures();
   const iterations = 5;
-  const baseline: Baseline = { generatedAt: new Date().toISOString(), fixtures: {} };
+  const baseline: Baseline = {
+    generatedAt: new Date().toISOString(),
+    fixtures: {},
+  };
 
   for (const fixture of fixtures) {
     const modes: Record<string, ModeMetrics> = {};
 
     const stringSink = await runTimed(iterations, async () => {
       let count = 0;
-      await parseEventsToSink(fixture.text, () => { count++; });
+      await parseEventsToSink(fixture.text, () => {
+        count++;
+      });
       return { events: count };
     });
     modes["string->sink"] = {
@@ -169,7 +186,9 @@ async function main(): Promise<void> {
 
     const streamSink = await runTimed(iterations, async () => {
       let count = 0;
-      await parseEventsToSink(chunkBytes(fixture.text), () => { count++; });
+      await parseEventsToSink(chunkBytes(fixture.text), () => {
+        count++;
+      });
       return { events: count };
     });
     modes["stream->sink"] = {
@@ -180,7 +199,10 @@ async function main(): Promise<void> {
 
     const streamCollect = await runTimed(iterations, async () => {
       const pool = createNamePool();
-      const result = await collectHashAndCount(parseEventsFromAsyncIterable(chunkBytes(fixture.text), { pool }), pool);
+      const result = await collectHashAndCount(
+        parseEventsFromAsyncIterable(chunkBytes(fixture.text), { pool }),
+        pool,
+      );
       return { events: result.events, hash: result.hash };
     });
     modes["stream->collect"] = {

@@ -49,8 +49,7 @@ export function expectCharCode(
   msg: string,
 ): void {
   const got = nextCharCode(c);
-  if (got !== code)
-    throw new XmlParseError(errCode, position(c), msg);
+  if (got !== code) throw new XmlParseError(errCode, position(c), msg);
 }
 
 export function indexOfFrom(c: Cursor, needle: string, from: number): number {

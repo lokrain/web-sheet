@@ -36,7 +36,7 @@ const assertNonNegativeInt = (value: number, label: string): void => {
     throw new XmlError(
       "XML_INVALID_SPAN",
       { offset: 0, line: 1, column: 1 },
-      `${label} must be a non-negative integer`
+      `${label} must be a non-negative integer`,
     );
   }
 };
@@ -48,7 +48,7 @@ export function createSpan(start: number, end: number): Span {
     throw new XmlError(
       "XML_INVALID_SPAN",
       { offset: 0, line: 1, column: 1 },
-      `end (${end}) must be >= start (${start})`
+      `end (${end}) must be >= start (${start})`,
     );
   }
   return { start, end };

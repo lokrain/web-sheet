@@ -55,12 +55,13 @@ export type XmlStreamParserOptions = Readonly<{
   maxTokens: number;
 }>;
 
-export const DEFAULT_XML_STREAM_PARSER_OPTIONS: XmlStreamParserOptions = Object.freeze({
-  emitNonContentEvents: false,
-  requireSingleRoot: true,
-  maxDepth: 4096,
-  maxTokens: 1_000_000,
-});
+export const DEFAULT_XML_STREAM_PARSER_OPTIONS: XmlStreamParserOptions =
+  Object.freeze({
+    emitNonContentEvents: false,
+    requireSingleRoot: true,
+    maxDepth: 4096,
+    maxTokens: 1_000_000,
+  });
 
 type StackFrame = {
   name: NameId;
@@ -88,7 +89,11 @@ export class StreamParserImpl {
     throw new XmlParseError(code, position, message);
   }
 
-  private spanStartPosition(span: { start: number; startLine?: number; startColumn?: number }): {
+  private spanStartPosition(span: {
+    start: number;
+    startLine?: number;
+    startColumn?: number;
+  }): {
     offset: number;
     line: number;
     column: number;
@@ -204,13 +209,13 @@ export class StreamParserImpl {
           this.fail(
             "XML_UNEXPECTED_CLOSETAG",
             this.spanStartPosition(token.span),
-            `Unexpected close tag </${this.nameToString(token.name)}>`
+            `Unexpected close tag </${this.nameToString(token.name)}>`,
           );
         } else if (frame.name !== token.name) {
           this.fail(
             "XML_TAG_MISMATCH",
             this.spanStartPosition(token.span),
-            `Mismatched close tag </${this.nameToString(token.name)}>, expected </${this.nameToString(frame.name)}>`
+            `Mismatched close tag </${this.nameToString(token.name)}>, expected </${this.nameToString(frame.name)}>`,
           );
         }
 
@@ -247,7 +252,11 @@ export class StreamParserImpl {
     }
 
     if (this.options.requireSingleRoot && !this.seenRoot) {
-      this.fail("XML_NO_ROOT", { offset: 0, line: 1, column: 1 }, "No root element found");
+      this.fail(
+        "XML_NO_ROOT",
+        { offset: 0, line: 1, column: 1 },
+        "No root element found",
+      );
     }
   }
 }
