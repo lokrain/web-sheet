@@ -99,7 +99,6 @@ Status: `DONE`
 
 Status: `DONE`
 
-
 ### Story 3.1 — Score Root Handling
 
 Status: `DONE`
