@@ -126,3 +126,22 @@ test("mapMusicXmlScorePartwise emits notation-faithful note segments", () => {
     pitch: null,
   });
 });
+
+test("mapMusicXmlScorePartwise applies backup/forward to cursor", () => {
+  const xml = loadFixture("score-partwise.multi-voice.backup-forward.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(3);
+
+  const simplified = notes.map((n) => ({
+    voice: n.voice,
+    t: n.tOnAbsDiv,
+    dur: n.durDiv,
+  }));
+  expect(simplified).toEqual([
+    { voice: "1", t: 0, dur: 4 },
+    { voice: "2", t: 0, dur: 4 },
+    { voice: "1", t: 8, dur: 4 },
+  ]);
+});

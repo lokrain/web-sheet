@@ -115,14 +115,14 @@ Status: `DONE`
 
 ### Story 4.3 — Backup / Forward Semantics
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 4.3.1: Parse backup elements and durations **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 4.3.2: Apply backup to voice cursor **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 4.3.3: Parse and apply forward elements **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 4.4 — Absolute Time Calculation
 

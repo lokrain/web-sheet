@@ -36,7 +36,22 @@ export type MusicXmlNoteEvent = Readonly<{
 
 type State = {
   currentPartId: string | null;
-  noteDepth: number;
+
+  // Part-level cursor (absolute divisions).
+  cursorAbsDivByPartId: Map<string, number>;
+
+  // Per-voice cursors for future validation.
+  cursorByPartVoice: Map<string, Map<string, number>>;
+
+  // backup/forward parsing
+  inBackup: boolean;
+  inForward: boolean;
+  captureBackupDurationText: boolean;
+  captureForwardDurationText: boolean;
+  pendingBackupDurationDiv: number | null;
+  pendingForwardDurationDiv: number | null;
+
+  // note parsing
   inNote: boolean;
   noteIsRest: boolean;
   noteChord: boolean;
@@ -50,11 +65,10 @@ type State = {
   tieStart: boolean;
   tieStop: boolean;
   captureVoiceText: boolean;
-  captureDurationText: boolean;
+  captureNoteDurationText: boolean;
   captureStepText: boolean;
   captureAlterText: boolean;
   captureOctaveText: boolean;
-  cursorByPartVoice: Map<string, Map<string, number>>;
 };
 
 function segmentName(pool: XmlNamePool, evt: XmlEvent): string | null {
@@ -82,13 +96,12 @@ function parseIntStrict(value: string): number | null {
   return n;
 }
 
-function getVoiceCursor(state: State, partId: string, voice: string): number {
-  let byVoice = state.cursorByPartVoice.get(partId);
-  if (!byVoice) {
-    byVoice = new Map();
-    state.cursorByPartVoice.set(partId, byVoice);
-  }
-  return byVoice.get(voice) ?? 0;
+function getPartCursor(state: State, partId: string): number {
+  return state.cursorAbsDivByPartId.get(partId) ?? 0;
+}
+
+function setPartCursor(state: State, partId: string, value: number): void {
+  state.cursorAbsDivByPartId.set(partId, value);
 }
 
 function setVoiceCursor(
@@ -112,7 +125,14 @@ export function createNoteReducer(
   return {
     init: () => ({
       currentPartId: null,
-      noteDepth: 0,
+      cursorAbsDivByPartId: new Map(),
+      cursorByPartVoice: new Map(),
+      inBackup: false,
+      inForward: false,
+      captureBackupDurationText: false,
+      captureForwardDurationText: false,
+      pendingBackupDurationDiv: null,
+      pendingForwardDurationDiv: null,
       inNote: false,
       noteIsRest: false,
       noteChord: false,
@@ -126,11 +146,10 @@ export function createNoteReducer(
       tieStart: false,
       tieStop: false,
       captureVoiceText: false,
-      captureDurationText: false,
+      captureNoteDurationText: false,
       captureStepText: false,
       captureAlterText: false,
       captureOctaveText: false,
-      cursorByPartVoice: new Map(),
     }),
 
     consume(state, evt, ctx, emit) {
@@ -142,9 +161,20 @@ export function createNoteReducer(
           return;
         }
 
+        if (name === "backup") {
+          state.inBackup = true;
+          state.pendingBackupDurationDiv = null;
+          return;
+        }
+
+        if (name === "forward") {
+          state.inForward = true;
+          state.pendingForwardDurationDiv = null;
+          return;
+        }
+
         if (name === "note") {
           state.inNote = true;
-          state.noteDepth = 1;
           state.noteIsRest = false;
           state.noteChord = false;
           state.noteGrace = false;
@@ -157,32 +187,35 @@ export function createNoteReducer(
           state.tieStart = false;
           state.tieStop = false;
           state.captureVoiceText = false;
-          state.captureDurationText = false;
+          state.captureNoteDurationText = false;
           state.captureStepText = false;
           state.captureAlterText = false;
           state.captureOctaveText = false;
           return;
         }
 
-        if (!state.inNote) return;
+        if (state.inNote) {
+          if (name === "rest") state.noteIsRest = true;
+          if (name === "chord") state.noteChord = true;
+          if (name === "grace") state.noteGrace = true;
+          if (name === "cue") state.noteCue = true;
 
-        state.noteDepth += 1;
+          if (name === "voice") state.captureVoiceText = true;
+          if (name === "duration") state.captureNoteDurationText = true;
+          if (name === "step") state.captureStepText = true;
+          if (name === "alter") state.captureAlterText = true;
+          if (name === "octave") state.captureOctaveText = true;
 
-        if (name === "rest") state.noteIsRest = true;
-        if (name === "chord") state.noteChord = true;
-        if (name === "grace") state.noteGrace = true;
-        if (name === "cue") state.noteCue = true;
+          if (name === "tie") {
+            const type = getAttr(pool, evt, "type");
+            if (type === "start") state.tieStart = true;
+            if (type === "stop") state.tieStop = true;
+          }
+        }
 
-        if (name === "voice") state.captureVoiceText = true;
-        if (name === "duration") state.captureDurationText = true;
-        if (name === "step") state.captureStepText = true;
-        if (name === "alter") state.captureAlterText = true;
-        if (name === "octave") state.captureOctaveText = true;
-
-        if (name === "tie") {
-          const type = getAttr(pool, evt, "type");
-          if (type === "start") state.tieStart = true;
-          if (type === "stop") state.tieStop = true;
+        if (name === "duration") {
+          if (state.inBackup) state.captureBackupDurationText = true;
+          if (state.inForward) state.captureForwardDurationText = true;
         }
 
         return;
@@ -192,12 +225,46 @@ export function createNoteReducer(
         const text = String(evt.value).trim();
         if (!text) return;
 
+        if (
+          state.captureBackupDurationText &&
+          state.pendingBackupDurationDiv == null
+        ) {
+          const n = parseIntStrict(text);
+          if (n == null || n < 0) {
+            diagnostics.push({
+              message: `Invalid backup duration: ${text}`,
+              path: musicXmlPathToString(pool, ctx.path),
+            });
+          } else {
+            state.pendingBackupDurationDiv = n;
+          }
+          return;
+        }
+
+        if (
+          state.captureForwardDurationText &&
+          state.pendingForwardDurationDiv == null
+        ) {
+          const n = parseIntStrict(text);
+          if (n == null || n < 0) {
+            diagnostics.push({
+              message: `Invalid forward duration: ${text}`,
+              path: musicXmlPathToString(pool, ctx.path),
+            });
+          } else {
+            state.pendingForwardDurationDiv = n;
+          }
+          return;
+        }
+
+        if (!state.inNote) return;
+
         if (state.captureVoiceText && state.noteVoice == null) {
           state.noteVoice = text;
           return;
         }
 
-        if (state.captureDurationText && state.noteDurationDiv == null) {
+        if (state.captureNoteDurationText && state.noteDurationDiv == null) {
           const n = parseIntStrict(text);
           if (n == null || n < 0) {
             diagnostics.push({
@@ -247,40 +314,65 @@ export function createNoteReducer(
         const name = segmentName(pool, evt);
 
         if (name === "voice") state.captureVoiceText = false;
-        if (name === "duration") state.captureDurationText = false;
+        if (name === "duration") {
+          state.captureNoteDurationText = false;
+          state.captureBackupDurationText = false;
+          state.captureForwardDurationText = false;
+        }
         if (name === "step") state.captureStepText = false;
         if (name === "alter") state.captureAlterText = false;
         if (name === "octave") state.captureOctaveText = false;
 
-        if (!state.inNote) {
-          if (name === "part") state.currentPartId = null;
+        if (name === "backup" && state.inBackup) {
+          const partId = state.currentPartId;
+          const dur = state.pendingBackupDurationDiv;
+          state.inBackup = false;
+          state.pendingBackupDurationDiv = null;
+          if (!partId || dur == null) return;
+
+          const prev = getPartCursor(state, partId);
+          const next = prev - dur;
+          if (next < 0) {
+            diagnostics.push({
+              message: "Cursor underflow on backup",
+              path: musicXmlPathToString(pool, ctx.path),
+            });
+            setPartCursor(state, partId, 0);
+            return;
+          }
+          setPartCursor(state, partId, next);
           return;
         }
 
-        state.noteDepth -= 1;
-
-        if (name === "note") {
+        if (name === "forward" && state.inForward) {
           const partId = state.currentPartId;
-          if (!partId) {
-            state.inNote = false;
-            state.noteDepth = 0;
-            return;
-          }
+          const dur = state.pendingForwardDurationDiv;
+          state.inForward = false;
+          state.pendingForwardDurationDiv = null;
+          if (!partId || dur == null) return;
 
+          const prev = getPartCursor(state, partId);
+          setPartCursor(state, partId, prev + dur);
+          return;
+        }
+
+        if (name === "note" && state.inNote) {
+          const partId = state.currentPartId;
           const voice = state.noteVoice ?? "1";
           const durDiv = state.noteDurationDiv;
 
-          if (durDiv == null) {
-            diagnostics.push({
-              message: "Note is missing duration",
-              path: musicXmlPathToString(pool, ctx.path),
-            });
+          if (!partId || durDiv == null) {
+            if (durDiv == null) {
+              diagnostics.push({
+                message: "Note is missing duration",
+                path: musicXmlPathToString(pool, ctx.path),
+              });
+            }
             state.inNote = false;
-            state.noteDepth = 0;
             return;
           }
 
-          const tOnAbsDiv = getVoiceCursor(state, partId, voice);
+          const tOnAbsDiv = getPartCursor(state, partId);
 
           const pitch: MusicXmlPitch | null = state.noteIsRest
             ? null
@@ -311,11 +403,19 @@ export function createNoteReducer(
           });
 
           if (!state.noteChord) {
-            setVoiceCursor(state, partId, voice, tOnAbsDiv + durDiv);
+            const next = tOnAbsDiv + durDiv;
+            setPartCursor(state, partId, next);
+            setVoiceCursor(state, partId, voice, next);
           }
 
           state.inNote = false;
-          state.noteDepth = 0;
+          return;
+        }
+
+        if (name === "part") {
+          state.currentPartId = null;
+          state.inBackup = false;
+          state.inForward = false;
         }
       }
     },
