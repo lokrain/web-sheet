@@ -1,3 +1,4 @@
+import { XmlError } from "@/xml/core/error";
 import type { NameId } from "@/xml/core/types";
 
 export class XmlNamePool {
@@ -17,7 +18,11 @@ export class XmlNamePool {
   public toString(id: NameId): string {
     const s = this.#strings[id as unknown as number];
     if (s === undefined)
-      throw new Error(`NameId out of range: ${id as unknown as number}`);
+      throw new XmlError(
+        "XML_NAME_ID_OUT_OF_RANGE",
+        { offset: 0 },
+        `NameId out of range: ${id as unknown as number}`
+      );
     return s;
   }
 }

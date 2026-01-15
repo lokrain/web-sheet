@@ -1,11 +1,34 @@
-export class XmlParseError extends Error {
-  public readonly code: string;
-  public readonly offset: number;
+export type XmlPosition = Readonly<{
+  offset: number;
+  line?: number;
+  column?: number;
+}>;
 
-  constructor(code: string, offset: number, message: string) {
+export class XmlError extends Error {
+  public readonly code: string;
+  public readonly position: XmlPosition;
+  public readonly context?: string;
+
+  constructor(code: string, position: XmlPosition, message: string, context?: string) {
     super(message);
-    this.name = "XmlParseError";
+    this.name = "XmlError";
     this.code = code;
-    this.offset = offset;
+    this.position = position;
+    this.context = context;
+  }
+
+  public get offset(): number {
+    return this.position.offset;
+  }
+}
+
+export class XmlParseError extends XmlError {
+  constructor(code: string, offset: number, message: string, context?: string) {
+    super(code, { offset }, message, context);
+    this.name = "XmlParseError";
+  }
+
+  public get offset(): number {
+    return this.position.offset;
   }
 }

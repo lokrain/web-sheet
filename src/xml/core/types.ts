@@ -1,3 +1,5 @@
+import { XmlError } from "@/xml/core/error";
+
 export type Brand<T, B extends string> = T & { readonly __brand: B };
 
 export type NameId = Brand<number, "NameId">;
@@ -27,7 +29,11 @@ export type XmlToken =
 
 const assertNonNegativeInt = (value: number, label: string): void => {
   if (!Number.isInteger(value) || value < 0) {
-    throw new Error(`${label} must be a non-negative integer`);
+    throw new XmlError(
+      "XML_INVALID_SPAN",
+      { offset: 0 },
+      `${label} must be a non-negative integer`
+    );
   }
 };
 
@@ -35,7 +41,11 @@ export function createSpan(start: number, end: number): Span {
   assertNonNegativeInt(start, "start");
   assertNonNegativeInt(end, "end");
   if (end < start) {
-    throw new Error(`end (${end}) must be >= start (${start})`);
+    throw new XmlError(
+      "XML_INVALID_SPAN",
+      { offset: 0 },
+      `end (${end}) must be >= start (${start})`
+    );
   }
   return { start, end };
 }

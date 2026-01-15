@@ -1,3 +1,5 @@
+import { XmlError } from "@/xml/core/error";
+
 export type LineColumn = Readonly<{
   line: number;
   column: number;
@@ -10,7 +12,11 @@ export type SpanLineColumn = Readonly<{
 
 const assertNonNegativeInt = (value: number, label: string): void => {
   if (!Number.isInteger(value) || value < 0) {
-    throw new Error(`${label} must be a non-negative integer`);
+    throw new XmlError(
+      "XML_INVALID_POSITION",
+      { offset: 0 },
+      `${label} must be a non-negative integer`
+    );
   }
 };
 

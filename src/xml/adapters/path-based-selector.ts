@@ -2,6 +2,7 @@
 
 import type { XmlNamePool } from "@/xml/core/name-pool";
 import type { XmlEvent } from "@/xml/core/stream-parser";
+import { XmlError } from "@/xml/core/error";
 import type { NameId, Span } from "@/xml/core/types";
 
 /**
@@ -163,7 +164,11 @@ export function compileSelector(specs: readonly PathSpec[]): CompiledSelector {
   for (let s = 0; s < specs.length; s++) {
     const spec = specs[s];
     if (spec.path.length === 0)
-      throw new Error("compileSelector: empty path is invalid");
+      throw new XmlError(
+        "XML_INVALID_SELECTOR",
+        { offset: 0 },
+        "compileSelector: empty path is invalid"
+      );
 
     // Stack of nodes along the path for persistent rebuild.
     const pathNodes: TrieNode[] = new Array(spec.path.length + 1);
@@ -216,14 +221,6 @@ function findChild(node: TrieNode, name: NameId): TrieNode | null {
   return null;
 }
 
-type Frame = {
-  currentName: NameId;
-  node: TrieNode | null;
-  handlers: HandlerSet | null;
-  // Number of active subtree-capture handler sets from ancestors (including current if it captures)
-  activeCaptureDepth: number;
-};
-
 /**
  * Runtime selector: stateful for performance.
  * Consumes XmlEvent stream and dispatches handlers.
@@ -233,7 +230,10 @@ export class PathSelector {
   private readonly pool?: XmlNamePool;
   private readonly nameToString: (id: NameId) => string;
 
-  private readonly stack: Frame[] = [];
+  private readonly stackNames: NameId[] = [];
+  private readonly stackNodes: (TrieNode | null)[] = [];
+  private readonly stackHandlers: (HandlerSet | null)[] = [];
+  private readonly stackCaptureDepth: number[] = [];
 
   /**
    * Active subtree-capture handler stack:
@@ -285,15 +285,14 @@ export class PathSelector {
     selfClosing: boolean,
     span: Span,
   ): void {
-    const depth = this.stack.length + 1;
+    const depth = this.stackNames.length + 1;
 
-    const parentFrame = depth === 1 ? null : this.stack[depth - 2];
-    const parentNode = parentFrame?.node ?? this.compiled.root;
+    const parentNode = depth === 1 ? this.compiled.root : this.stackNodes[depth - 2];
 
     const node = parentNode ? findChild(parentNode, name) : null;
     const handlers = node?.handlers ?? null;
 
-    const prevCaptureDepth = parentFrame?.activeCaptureDepth ?? 0;
+    const prevCaptureDepth = depth === 1 ? 0 : this.stackCaptureDepth[depth - 2];
     let activeCaptureDepth = prevCaptureDepth;
 
     // If this exact node wants subtree capture, push it onto captureStack and increment depth counter.
@@ -302,7 +301,10 @@ export class PathSelector {
       activeCaptureDepth = prevCaptureDepth + 1;
     }
 
-    this.stack.push({ currentName: name, node, handlers, activeCaptureDepth });
+    this.stackNames.push(name);
+    this.stackNodes.push(node);
+    this.stackHandlers.push(handlers);
+    this.stackCaptureDepth.push(activeCaptureDepth);
 
     if (handlers && handlers.enter.length > 0) {
       const c = this.ctx(depth, name, span);
@@ -315,15 +317,16 @@ export class PathSelector {
   }
 
   private onEnd(name: NameId, span: Span): void {
-    const depth = this.stack.length;
+    const depth = this.stackNames.length;
     if (depth === 0) {
-      throw new Error(
-        "PathSelector: EndElement with empty stack (upstream parser should prevent this)",
+      throw new XmlError(
+        "XML_INTERNAL",
+        { offset: 0 },
+        "PathSelector: EndElement with empty stack (upstream parser should prevent this)"
       );
     }
 
-    const frame = this.stack[depth - 1];
-    const handlers = frame.handlers;
+    const handlers = this.stackHandlers[depth - 1];
 
     if (handlers && handlers.exit.length > 0) {
       const c = this.ctx(depth, name, span);
@@ -336,29 +339,37 @@ export class PathSelector {
       const top = this.captureStack.pop();
       if (top !== handlers) {
         // This indicates misuse (events out of order) or a bug upstream. Fail fast.
-        throw new Error("PathSelector: capture stack mismatch");
+        throw new XmlError(
+          "XML_INTERNAL",
+          { offset: 0 },
+          "PathSelector: capture stack mismatch"
+        );
       }
     }
 
-    this.stack.pop();
+    this.stackNames.pop();
+    this.stackNodes.pop();
+    this.stackHandlers.pop();
+    this.stackCaptureDepth.pop();
   }
 
   private onText(text: string, span: Span): void {
-    const depth = this.stack.length;
+    const depth = this.stackNames.length;
     if (depth === 0) return;
 
-    const frame = this.stack[depth - 1];
-    const c = this.ctx(depth, frame.currentName, span);
+    const name = this.stackNames[depth - 1];
+    const handlers = this.stackHandlers[depth - 1];
+    const c = this.ctx(depth, name, span);
 
     // Exact path onText
-    if (frame.handlers && frame.handlers.text.length > 0) {
-      const t = frame.handlers.text;
+    if (handlers && handlers.text.length > 0) {
+      const t = handlers.text;
       for (let i = 0; i < t.length; i++) t[i](c, text);
     }
 
     // Subtree capture: deliver to all active captures (ancestors that opted in).
     // This is O(active captures), not O(depth).
-    if (frame.activeCaptureDepth === 0) return;
+    if (this.stackCaptureDepth[depth - 1] === 0) return;
 
     const captures = this.captureStack;
     for (let i = 0; i < captures.length; i++) {
@@ -397,7 +408,11 @@ export function compilePathString(
 ): readonly NameId[] {
   const segs = path.split("/").filter((p) => p.length > 0);
   if (segs.length === 0)
-    throw new Error(`compilePathString: invalid path '${path}'`);
+    throw new XmlError(
+      "XML_INVALID_SELECTOR",
+      { offset: 0 },
+      `compilePathString: invalid path '${path}'`
+    );
   const out: NameId[] = new Array(segs.length);
   for (let i = 0; i < segs.length; i++) out[i] = pool.intern(segs[i]);
   return out;

@@ -55,12 +55,12 @@ export type XmlStreamParserOptions = Readonly<{
   maxTokens: number;
 }>;
 
-export const DEFAULT_XML_STREAM_PARSER_OPTIONS: XmlStreamParserOptions = {
+export const DEFAULT_XML_STREAM_PARSER_OPTIONS: XmlStreamParserOptions = Object.freeze({
   emitNonContentEvents: false,
   requireSingleRoot: true,
   maxDepth: 4096,
   maxTokens: 1_000_000,
-} as const;
+});
 
 type StackFrame = {
   name: NameId;

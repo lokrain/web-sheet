@@ -1,9 +1,21 @@
 // src/xml/index.ts
 
 // factories
-export { createTokenizer, tokenize } from "@/xml/public/tokenizer";
+export {
+  createStreamingTokenizer,
+  createTokenizer,
+  tokenize,
+} from "@/xml/public/tokenizer";
 export { createStreamParser, parseEvents } from "@/xml/public/parser";
 export { createNamePool } from "@/xml/public/name-pool";
+export {
+  parseEventsFromAsyncIterable,
+  parseEventsFromReadable,
+  parseEventsFromString,
+  parseEventsIterable,
+  parseEventsToSink,
+} from "@/xml/public/streaming";
+export type { ParseEventsOptions } from "@/xml/public/streaming";
 
 // adapters
 export { createDomlessTreeBuilder } from "@/xml/public/domless-tree";
@@ -40,7 +52,7 @@ export type { DomlessTreeBuilder, XmlElementNode, XmlNode, XmlTextNode } from "@
 export type { CompiledSelector, PathSpec, PathSelector, SelectorContext } from "@/xml/public/path-selector";
 
 // errors
-export { XmlError } from "@/xml/public/error";
+export { XmlError, XmlParseError } from "@/xml/public/error";
 
 // options and helpers
 export { DEFAULT_XML_TOKENIZER_OPTIONS } from "@/xml/public/tokenizer";

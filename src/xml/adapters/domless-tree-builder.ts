@@ -1,5 +1,6 @@
 // DOM-less tree builder (src/xml/adapters/domless-tree-builder.ts)
 
+import { XmlError } from "@/xml/core/error";
 import type { NameId } from "@/xml/core/types";
 import type { XmlEvent } from "@/xml/core/stream-parser";
 
@@ -62,7 +63,11 @@ export class DomlessTreeBuilder {
             case "EndElement": {
                 const frame = this.stack.pop();
                 if (!frame) {
-                    throw new Error("DomlessTreeBuilder: EndElement with empty stack");
+                    throw new XmlError(
+                        "XML_INTERNAL",
+                        { offset: 0 },
+                        "DomlessTreeBuilder: EndElement with empty stack",
+                    );
                 }
 
                 const node: XmlElementNode = {
@@ -115,7 +120,9 @@ export class DomlessTreeBuilder {
      */
     public getResult(): readonly XmlNode[] {
         if (this.stack.length !== 0) {
-            throw new Error(
+            throw new XmlError(
+                "XML_INTERNAL",
+                { offset: 0 },
                 `DomlessTreeBuilder: unfinished tree, ${this.stack.length} open elements remain`,
             );
         }

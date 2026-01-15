@@ -10,9 +10,9 @@ export type XmlTokenizerOptions = Readonly<{
   entityResolver?: XmlEntityResolver;
 }>;
 
-export const DEFAULT_XML_TOKENIZER_OPTIONS = {
+export const DEFAULT_XML_TOKENIZER_OPTIONS: XmlTokenizerOptions = Object.freeze({
   trimText: true,
   skipWhitespaceText: true,
   decodeEntities: true,
   emitNonContentEvents: false,
-} satisfies XmlTokenizerOptions;
+});

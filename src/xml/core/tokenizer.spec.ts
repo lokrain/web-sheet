@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 
 import {
   DEFAULT_XML_TOKENIZER_OPTIONS,
+  createStreamingTokenizer,
   createNamePool,
   createTokenizer,
   tokenize,
@@ -70,6 +71,17 @@ test("entity errors report correct offsets after trimming", () => {
   );
 });
 
+test("tokenize errors include line/column", () => {
+  const pool = createNamePool();
+  assert.throws(
+    () => Array.from(tokenize("<a>\n<1>", DEFAULT_XML_TOKENIZER_OPTIONS, pool)),
+    (e: unknown) =>
+      e instanceof XmlError &&
+      e.position.line === 2 &&
+      e.position.column === 2,
+  );
+});
+
 test("tokenize rejects invalid numeric entities", () => {
   const pool = createNamePool();
   assert.throws(
@@ -128,4 +140,33 @@ test("tokenizer instances are reusable", () => {
   const tokens = Array.from(tokenizer.tokenize("<a/>"));
   assert.equal(tokens.length, 1);
   assert.equal(tokens[0].kind, "open");
+});
+
+test("streaming tokenizer emits tokens across chunks", () => {
+  const pool = createNamePool();
+  const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
+  const out: string[] = [];
+
+  for (const tok of tokenizer.write("<root>")) out.push(tok.kind);
+  for (const tok of tokenizer.write("<a/>")) out.push(tok.kind);
+  for (const tok of tokenizer.write("</root>")) out.push(tok.kind);
+  for (const tok of tokenizer.end()) out.push(tok.kind);
+
+  assert.deepEqual(out, ["open", "open", "close"]);
+});
+
+test("streaming tokenizer accepts Uint8Array chunks", () => {
+  const pool = createNamePool();
+  const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
+  const encoder = new TextEncoder();
+
+  const a = Array.from(tokenizer.write(encoder.encode("<a>")));
+  const b = Array.from(tokenizer.write(encoder.encode("hi</a>")));
+  const c = Array.from(tokenizer.end());
+
+  const tokens = [...a, ...b, ...c];
+  assert.equal(tokens.length, 3);
+  assert.equal(tokens[0].kind, "open");
+  assert.equal(tokens[1].kind, "text");
+  assert.equal(tokens[2].kind, "close");
 });

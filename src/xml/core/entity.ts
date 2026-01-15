@@ -7,10 +7,13 @@ export function decodeXmlEntities(
   baseOffset: number,
   resolver?: XmlEntityResolver,
 ): string {
+  const firstAmp = text.indexOf("&");
+  if (firstAmp === -1) return text;
+
   const parts: string[] = [];
   let last = 0;
 
-  for (let i = 0; i < text.length; i++) {
+  for (let i = firstAmp; i < text.length; i++) {
     if (text.charCodeAt(i) !== 38) continue; // '&'
     parts.push(text.slice(last, i));
 

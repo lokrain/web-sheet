@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { createNamePool, parseEvents } from "@/xml";
+import { createNamePool, parseEvents, XmlError } from "@/xml";
 
 test("parseEvents returns events with a reusable name pool", () => {
   const { events, pool } = parseEvents("<root><a>hi</a></root>");
@@ -15,4 +15,14 @@ test("parseEvents respects tokenizer and parser options", () => {
     parser: { emitNonContentEvents: true },
   });
   assert.equal(events[0].kind, "Comment");
+});
+
+test("parseEvents errors include line/column", () => {
+  assert.throws(
+    () => parseEvents("<a>\n</b>"),
+    (e: unknown) =>
+      e instanceof XmlError &&
+      e.position.line === 2 &&
+      e.position.column === 1,
+  );
 });

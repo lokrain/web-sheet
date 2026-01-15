@@ -1,1 +1,1 @@
-export { XmlParseError as XmlError } from "@/xml/core/error";
+export { XmlError, XmlParseError } from "@/xml/core/error";

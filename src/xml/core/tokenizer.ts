@@ -305,7 +305,38 @@ function scanTextSegment(
   env: ScannerEnv,
   emit: Emit,
 ): void {
+  if (until <= c.i) {
+    c.i = until;
+    return;
+  }
+
+  let hasNonWs = false;
+  let hasAmp = false;
+  for (let i = c.i; i < until; i++) {
+    const cc = c.input.charCodeAt(i);
+    if (cc === 38) hasAmp = true; // '&'
+    if (!isWs(cc)) {
+      hasNonWs = true;
+      if (!env.opts.skipWhitespaceText && !env.opts.trimText && hasAmp) break;
+    }
+  }
+
+  if (env.opts.skipWhitespaceText && !hasNonWs) {
+    c.i = until;
+    return;
+  }
+
   const raw = slice(c, c.i, until);
+
+  if (!env.opts.trimText) {
+    if (raw.length > 0) {
+      const value = hasAmp ? env.decode(raw, c.i) : raw;
+      emit({ kind: "text", value, span: makeSpan(c.i, until) });
+    }
+    c.i = until;
+    return;
+  }
+
   const normalized = normalizeText(raw, env, c.i);
   if (normalized !== null) {
     emit({ kind: "text", value: normalized, span: makeSpan(c.i, until) });
@@ -346,15 +377,22 @@ export function createTokenizer(
     while (!eof(c)) {
       const lt = indexOfFrom(c, "<", c.i);
       if (lt === -1) {
-        const tail = normalizeText(slice(c, c.i, c.len), env, c.i);
-        if (tail !== null)
-          yield { kind: "text", value: tail, span: makeSpan(c.i, c.len) };
+        if (c.i < c.len) {
+          scanTextSegment(c, c.len, env, emit);
+          for (let i = 0; i < emitQueue.length; i++) {
+            yield emitQueue[i] as XmlToken;
+          }
+          emitQueue.length = 0;
+        }
         return;
       }
 
       if (lt > c.i) {
         scanTextSegment(c, lt, env, emit);
-        while (emitQueue.length) yield emitQueue.shift() as XmlToken;
+        for (let i = 0; i < emitQueue.length; i++) {
+          yield emitQueue[i] as XmlToken;
+        }
+        emitQueue.length = 0;
       }
 
       // consume '<'
@@ -362,7 +400,10 @@ export function createTokenizer(
       c.i++;
 
       scanMarkup(c, start, env, emit);
-      while (emitQueue.length) yield emitQueue.shift() as XmlToken;
+      for (let i = 0; i < emitQueue.length; i++) {
+        yield emitQueue[i] as XmlToken;
+      }
+      emitQueue.length = 0;
     }
   };
 }
