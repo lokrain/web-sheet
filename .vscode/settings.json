@@ -1,4 +1,6 @@
 {
+  "biome.enabled": true,
+  "biome.lsp.bin": "${workspaceFolder}/node_modules/.bin/biome",
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },

@@ -5,11 +5,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
+# or
+npm run dev
 # or
 bun dev
 ```
@@ -28,11 +26,11 @@ This repo uses different `.env*` files depending on what you’re running:
 	- Put local developer values in `.env.local`.
 	- Do not commit secrets.
 
-- **Jest (`npm test`, `npm run test:ci`, etc.)**: Jest loads test env files via `dotenv` in `jest.setup.ts`.
+- **Jest (`pnpm test`, `pnpm test:ci`, etc.)**: Jest loads test env files via `dotenv` in `jest.setup.ts`.
 	- Committed defaults: `.env.test`
 	- Local overrides (git-ignored): `.env.test.local`
 
-- **Bench (`npm run bench`)**: the benchmark runner loads env via `dotenv`.
+- **Bench (`pnpm bench`)**: the benchmark runner loads env via `dotenv`.
 	- Local developer values: `.env.local`
 	- Optional shared defaults: `.env`
 

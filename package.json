@@ -2,6 +2,15 @@
   "name": "web-sheet",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.26.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "msw",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,7 +24,8 @@
     "bench": "node --expose-gc node_modules/.bin/tsx bench/bench-xml.ts",
     "bench:prof": "node --prof --expose-gc node_modules/.bin/tsx bench/bench-xml.ts",
     "perf:ci": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --ci --runInBand --coverage=false perf/perf.spec.ts",
-    "perf:update-baseline": "node --expose-gc node_modules/.bin/tsx perf/update-baseline.ts"
+    "perf:update-baseline": "node --expose-gc node_modules/.bin/tsx perf/update-baseline.ts",
+    "skills:test": "bash scripts/test-skills.sh"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
