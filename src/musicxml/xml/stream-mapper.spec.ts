@@ -197,3 +197,35 @@ test("mapMusicXmlScorePartwise preserves cue note metadata", () => {
   expect(notes).toHaveLength(1);
   expect(notes[0]).toMatchObject({ cue: true, grace: false, chord: false });
 });
+
+test("mapMusicXmlScorePartwise emits TimeSig events", () => {
+  const xml = loadFixture("score-partwise.single-part.single-voice.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const time = res.events.filter((e) => e.kind === "TimeSig");
+  expect(time).toEqual([
+    expect.objectContaining({
+      partId: "P1",
+      beats: 4,
+      beatType: 4,
+      tAbsDiv: 0,
+    }),
+  ]);
+});
+
+test("mapMusicXmlScorePartwise emits TimeSig changes", () => {
+  const xml = loadFixture("score-partwise.time-sig-change.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const time = res.events.filter((e) => e.kind === "TimeSig");
+  expect(
+    time.map((t) => ({
+      beats: t.beats,
+      beatType: t.beatType,
+      tAbsDiv: t.tAbsDiv,
+    })),
+  ).toEqual([
+    { beats: 3, beatType: 4, tAbsDiv: 0 },
+    { beats: 4, beatType: 4, tAbsDiv: 12 },
+  ]);
+});

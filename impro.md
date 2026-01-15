@@ -93,16 +93,16 @@ Completion criteria:
 
 ## EPIC 6 — Attributes & State Changes
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 6.1 — Time Signature
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 6.1.1: Parse attributes/time beats & beat-type **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 6.1.2: Emit TimeSig change events **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 6.2 — Key Signature
 
