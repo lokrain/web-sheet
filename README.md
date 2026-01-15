@@ -37,16 +37,16 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 This repo uses different `.env*` files depending on what you’re running:
 
 - **Next.js dev/build/start**: Next.js loads `.env*` automatically.
-	- Put local developer values in `.env.local`.
-	- Do not commit secrets.
+  - Put local developer values in `.env.local`.
+  - Do not commit secrets.
 
 - **Jest (`pnpm test`, `pnpm test:ci`, etc.)**: Jest loads test env files via `dotenv` in `jest.setup.ts`.
-	- Committed defaults: `.env.test`
-	- Local overrides (git-ignored): `.env.test.local`
+  - Committed defaults: `.env.test`
+  - Local overrides (git-ignored): `.env.test.local`
 
 - **Bench (`pnpm bench`)**: the benchmark runner loads env via `dotenv`.
-	- Local developer values: `.env.local`
-	- Optional shared defaults: `.env`
+  - Local developer values: `.env.local`
+  - Optional shared defaults: `.env`
 
 ### Committed templates
 

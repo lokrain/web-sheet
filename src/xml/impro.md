@@ -29,6 +29,7 @@ These appear deliberate, but should be explicit in docs to prevent “it’s an 
 - **No namespace processing** beyond allowing `:` in names.
 
 Documented:
+
 - “Supported XML subset” added in `src/xml/README.md`.
 
 ## Testing status

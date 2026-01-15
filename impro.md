@@ -59,8 +59,8 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
   - Removed tracked `.test-dist/` artifacts and kept it gitignored.
   - Consider adding more Biome force-ignore patterns for future generated folders.
 
-- [ ] Decide how to format/lint Markdown repo docs.
-  - Biome currently doesn’t process Markdown in this repo (so `biome check impro.md` is expected to skip).
-  - Options:
-    - leave Markdown un-linted
-    - add a dedicated Markdown formatter/linter (Prettier/remark) for docs-only checks
+- [x] Decide how to format/lint Markdown repo docs.
+  - Kept Biome for code, and added Prettier for Markdown-only checks.
+  - Scripts:
+    - `pnpm md:check`
+    - `pnpm md:format`

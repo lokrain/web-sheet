@@ -28,10 +28,15 @@ skills/
 
 ### SKILL.md Format
 
-```markdown
+````markdown
 ---
-name: {skill-name}
-description: {One sentence describing when to use this skill. Include trigger phrases like "Deploy my app", "Check logs", etc.}
+name: { skill-name }
+description:
+  {
+    One sentence describing when to use this skill. Include trigger phrases like "Deploy my app",
+    "Check logs",
+    etc.,
+  }
 ---
 
 # {Skill Title}
@@ -47,8 +52,10 @@ description: {One sentence describing when to use this skill. Include trigger ph
 ```bash
 bash /mnt/skills/user/{skill-name}/scripts/{script}.sh [args]
 ```
+````
 
 **Arguments:**
+
 - `arg1` - Description (defaults to X)
 
 **Examples:**
@@ -65,7 +72,8 @@ bash /mnt/skills/user/{skill-name}/scripts/{script}.sh [args]
 ## Troubleshooting
 
 {Common issues and solutions, especially network/permissions errors}
-```
+
+````
 
 ### Best Practices for Context Efficiency
 
@@ -93,7 +101,7 @@ After creating or updating a skill:
 ```bash
 cd skills
 zip -r {skill-name}.zip {skill-name}/
-```
+````
 
 If the `zip` CLI is not available, you can package with Python:
 
@@ -106,10 +114,12 @@ python3 -m zipfile -c {skill-name}.zip {skill-name}/
 Document these installation methods for users:
 
 **GitHub Copilot Chat (VS Code):**
+
 - Keep the skill folder in the repo under `skills/{skill-name}/`.
 - In Copilot Chat, reference files directly (for example, “use skills/{skill-name}/SKILL.md”).
 
 **ChatGPT 5.2:**
+
 - Upload `skills/{skill-name}/SKILL.md` (and any referenced files) to your ChatGPT Project / workspace.
 - Or zip the folder and upload the zip.
 

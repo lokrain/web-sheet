@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+coverage
+.test-dist
+.tmp-tscheck
+bench/results.json
+
+# archives
+skills/*.zip
+
+# lockfiles
+pnpm-lock.yaml
