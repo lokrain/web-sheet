@@ -229,3 +229,16 @@ test("mapMusicXmlScorePartwise emits TimeSig changes", () => {
     { beats: 4, beatType: 4, tAbsDiv: 12 },
   ]);
 });
+
+test("mapMusicXmlScorePartwise emits KeySig changes", () => {
+  const xml = loadFixture("score-partwise.key-sig-change.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const key = res.events.filter((e) => e.kind === "KeySig");
+  expect(
+    key.map((k) => ({ fifths: k.fifths, mode: k.mode, tAbsDiv: k.tAbsDiv })),
+  ).toEqual([
+    { fifths: 0, mode: "major", tAbsDiv: 0 },
+    { fifths: -3, mode: "minor", tAbsDiv: 4 },
+  ]);
+});

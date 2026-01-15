@@ -1,5 +1,6 @@
 export type { MusicXmlDivisionsEvent } from "@/musicxml/xml/divisions";
 export type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
+export type { MusicXmlKeySigEvent } from "@/musicxml/xml/key-signature";
 export type {
   MusicXmlMeasureBoundaryEvent,
   MusicXmlMeasureEndEvent,

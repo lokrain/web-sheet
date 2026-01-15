@@ -106,12 +106,12 @@ Status: `DONE`
 
 ### Story 6.2 — Key Signature
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 6.2.1: Parse attributes/key fifths/mode **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 6.2.2: Emit KeySig change events **[1]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 6.3 — Clefs, Staves, Transpose
 

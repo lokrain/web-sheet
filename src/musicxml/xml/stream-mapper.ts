@@ -1,6 +1,7 @@
 import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
 import { createDivisionsReducer } from "@/musicxml/xml/divisions";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
+import { createKeySignatureReducer } from "@/musicxml/xml/key-signature";
 import { createMeasureBoundaryReducer } from "@/musicxml/xml/measure";
 import { createNoteReducer } from "@/musicxml/xml/note";
 import { createPartListReducer } from "@/musicxml/xml/part-list";
@@ -106,6 +107,7 @@ export function mapMusicXmlScorePartwise(
     createDivisionsReducer(pool, diagnostics),
     createPartListReducer(pool, diagnostics),
     createTimeSignatureReducer(pool, diagnostics, timing),
+    createKeySignatureReducer(pool, diagnostics, timing),
     createMeasureBoundaryReducer(pool, diagnostics, timing),
     createNoteReducer(pool, diagnostics, timing),
   ]);
