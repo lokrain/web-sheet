@@ -1,3 +1,4 @@
+export type { MusicXmlDivisionsEvent } from "@/musicxml/xml/divisions";
 export type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 export type {
   MusicXmlMeasureBoundaryEvent,
@@ -10,7 +11,6 @@ export type {
 } from "@/musicxml/xml/part-list";
 export type {
   MusicXmlDiagnostic,
-  MusicXmlDivisionsEvent,
   MusicXmlExtract,
   MusicXmlMapperOptions,
   MusicXmlMeasure,

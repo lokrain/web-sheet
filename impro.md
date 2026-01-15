@@ -97,7 +97,8 @@ Status: `DONE`
 
 ## EPIC 3 — Score Structure Parsing
 
-Status: `IN_PROGRESS`
+Status: `  - Status: `DONE`
+`
 
 ### Story 3.1 — Score Root Handling
 
@@ -130,16 +131,16 @@ Status: `DONE`
 
 ## EPIC 4 — Timing Engine (Notation-Faithful)
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 4.1 — Divisions & State
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 4.1.1: Parse attributes/divisions **[1]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 4.1.2: Maintain divisions state per part **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 4.2 — Voice Cursor Model
 
