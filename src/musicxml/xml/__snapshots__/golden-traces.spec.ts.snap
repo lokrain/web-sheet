@@ -1,0 +1,1585 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MusicXML golden traces fixture: score-partwise.chord.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": true,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "E",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[2]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "G",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.clef-staves-transpose.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "kind": "Staves",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/staves[0]",
+      },
+      "partId": "P1",
+      "staves": 2,
+      "tAbsDiv": 0,
+    },
+    {
+      "kind": "Clef",
+      "line": 2,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/clef[0]",
+      },
+      "octaveChange": 1,
+      "partId": "P1",
+      "sign": "G",
+      "tAbsDiv": 0,
+    },
+    {
+      "chromatic": 2,
+      "diatonic": 1,
+      "double": true,
+      "kind": "Transpose",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/transpose[0]",
+      },
+      "octaveChange": 0,
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.cue.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": true,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "E",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.directions.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "glyphs": [
+        "f",
+      ],
+      "kind": "Dynamics",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/direction[0]/direction-type[0]/dynamics[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "kind": "Words",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/direction[0]/direction-type[0]/words[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+      "text": "Allegro",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "glyphs": [
+        "p",
+      ],
+      "kind": "Dynamics",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/direction[1]/direction-type[0]/dynamics[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 4,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.divisions-change.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "2",
+      "measureStartAbsDiv": 4,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 8,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 8,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "2",
+      "measureStartAbsDiv": 4,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.grace.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 0,
+      "grace": true,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.implicit-measure.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": true,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": true,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.key-sig-change.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "fifths": 0,
+      "kind": "KeySig",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/key[0]",
+      },
+      "mode": "major",
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "2",
+      "measureStartAbsDiv": 4,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+    {
+      "fifths": -3,
+      "kind": "KeySig",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/attributes[0]/key[0]",
+      },
+      "mode": "minor",
+      "partId": "P1",
+      "tAbsDiv": 4,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "2",
+      "measureStartAbsDiv": 4,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.multi-voice.backup-forward.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "E",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "2",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[2]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "G",
+      },
+      "tOnAbsDiv": 8,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.repeats-endings.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "direction": "forward",
+      "kind": "Repeat",
+      "measureNo": "1",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/barline[0]/repeat[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "kind": "Ending",
+      "measureNo": "1",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/barline[1]/ending[0]",
+      },
+      "numbers": [
+        "1",
+      ],
+      "partId": "P1",
+      "tAbsDiv": 0,
+      "type": "start",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "kind": "Ending",
+      "measureNo": "1",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/barline[2]/ending[0]",
+      },
+      "numbers": [
+        "1",
+      ],
+      "partId": "P1",
+      "tAbsDiv": 4,
+      "type": "stop",
+    },
+    {
+      "direction": "backward",
+      "kind": "Repeat",
+      "measureNo": "1",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/barline[2]/repeat[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 4,
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.single-part.single-voice.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "beatType": 4,
+      "beats": 4,
+      "kind": "TimeSig",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/time[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": true,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": null,
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.tempo.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "bpm": 120,
+      "kind": "Tempo",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/direction[0]/sound[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "bpm": 90,
+      "kind": "Tempo",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/direction[1]/direction-type[0]/metronome[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 4,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.tie.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": true,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": true,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;
+
+exports[`MusicXML golden traces fixture: score-partwise.time-sig-change.xml 1`] = `
+{
+  "diagnostics": [],
+  "events": [
+    {
+      "instruments": [],
+      "kind": "PartDef",
+      "meta": {
+        "path": "score-partwise[0]/part-list[0]/score-part[0]",
+      },
+      "name": "Piano",
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "divisions": 4,
+      "kind": "Divisions",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/divisions[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "beatType": 4,
+      "beats": 3,
+      "kind": "TimeSig",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/attributes[0]/time[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 0,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "C",
+      },
+      "tOnAbsDiv": 0,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "D",
+      },
+      "tOnAbsDiv": 4,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]/note[2]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "E",
+      },
+      "tOnAbsDiv": 8,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "1",
+      "measureStartAbsDiv": 0,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[0]",
+      },
+      "partId": "P1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureStart",
+      "measureNo": "2",
+      "measureStartAbsDiv": 12,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+    {
+      "beatType": 4,
+      "beats": 4,
+      "kind": "TimeSig",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/attributes[0]/time[0]",
+      },
+      "partId": "P1",
+      "tAbsDiv": 12,
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[0]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "F",
+      },
+      "tOnAbsDiv": 12,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[1]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "G",
+      },
+      "tOnAbsDiv": 16,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[2]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "A",
+      },
+      "tOnAbsDiv": 20,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "chord": false,
+      "cue": false,
+      "durDiv": 4,
+      "grace": false,
+      "isRest": false,
+      "kind": "Note",
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]/note[3]",
+      },
+      "partId": "P1",
+      "pitch": {
+        "alter": 0,
+        "octave": 4,
+        "step": "B",
+      },
+      "tOnAbsDiv": 24,
+      "tie": {
+        "start": false,
+        "stop": false,
+      },
+      "voice": "1",
+    },
+    {
+      "implicit": false,
+      "kind": "MeasureEnd",
+      "measureNo": "2",
+      "measureStartAbsDiv": 12,
+      "meta": {
+        "path": "score-partwise[0]/part[0]/measure[1]",
+      },
+      "partId": "P1",
+    },
+  ],
+}
+`;

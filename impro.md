@@ -91,8 +91,6 @@ Completion criteria:
 
 ---
 
-## EPIC 8 — Validation & Error Handling
-
 ## EPIC 9 — Performance & Robustness
 
 Status: `BACKLOG`
@@ -128,7 +126,7 @@ Status: `BACKLOG`
 
 ## EPIC 10 — Output & Integration
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 10.1 — Stable Event Stream API
 
@@ -141,9 +139,9 @@ Status: `BACKLOG`
 
 ### Story 10.2 — Golden Trace Verification
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 10.2.1: Snapshot golden traces for fixtures **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 10.2.2: CI diff tests against golden traces **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
