@@ -1,0 +1,1 @@
+export { XmlParseError as XmlError } from "@/xml/core/error";

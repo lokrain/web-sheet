@@ -1,0 +1,25 @@
+"use strict";
+// src/xml/index.ts
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tokenizeXml = exports.createTokenizer = exports.parseXmlStream = exports.DEFAULT_XML_STREAM_PARSER_OPTIONS = exports.DEFAULT_XML_TOKENIZER_OPTIONS = exports.XmlNamePool = exports.XmlParseError = exports.decodeXmlEntities = exports.PathSelector = exports.createPathSelector = exports.compileSelector = exports.compilePathString = exports.DomlessTreeBuilder = void 0;
+var domless_tree_builder_1 = require("@/xml/adapters/domless-tree-builder");
+Object.defineProperty(exports, "DomlessTreeBuilder", { enumerable: true, get: function () { return domless_tree_builder_1.DomlessTreeBuilder; } });
+var path_based_selector_1 = require("@/xml/adapters/path-based-selector");
+Object.defineProperty(exports, "compilePathString", { enumerable: true, get: function () { return path_based_selector_1.compilePathString; } });
+Object.defineProperty(exports, "compileSelector", { enumerable: true, get: function () { return path_based_selector_1.compileSelector; } });
+Object.defineProperty(exports, "createPathSelector", { enumerable: true, get: function () { return path_based_selector_1.createPathSelector; } });
+Object.defineProperty(exports, "PathSelector", { enumerable: true, get: function () { return path_based_selector_1.PathSelector; } });
+var entity_1 = require("@/xml/core/entity");
+Object.defineProperty(exports, "decodeXmlEntities", { enumerable: true, get: function () { return entity_1.decodeXmlEntities; } });
+var error_1 = require("@/xml/core/error");
+Object.defineProperty(exports, "XmlParseError", { enumerable: true, get: function () { return error_1.XmlParseError; } });
+var name_pool_1 = require("@/xml/core/name-pool");
+Object.defineProperty(exports, "XmlNamePool", { enumerable: true, get: function () { return name_pool_1.XmlNamePool; } });
+var options_1 = require("@/xml/core/options");
+Object.defineProperty(exports, "DEFAULT_XML_TOKENIZER_OPTIONS", { enumerable: true, get: function () { return options_1.DEFAULT_XML_TOKENIZER_OPTIONS; } });
+var stream_parser_1 = require("@/xml/core/stream-parser");
+Object.defineProperty(exports, "DEFAULT_XML_STREAM_PARSER_OPTIONS", { enumerable: true, get: function () { return stream_parser_1.DEFAULT_XML_STREAM_PARSER_OPTIONS; } });
+Object.defineProperty(exports, "parseXmlStream", { enumerable: true, get: function () { return stream_parser_1.parseXmlStream; } });
+var tokenizer_1 = require("@/xml/core/tokenizer");
+Object.defineProperty(exports, "createTokenizer", { enumerable: true, get: function () { return tokenizer_1.createTokenizer; } });
+Object.defineProperty(exports, "tokenizeXml", { enumerable: true, get: function () { return tokenizer_1.tokenizeXml; } });
