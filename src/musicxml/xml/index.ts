@@ -33,6 +33,8 @@ export type {
   MusicXmlScorePartwise,
 } from "@/musicxml/xml/stream-mapper";
 export { mapMusicXmlScorePartwise } from "@/musicxml/xml/stream-mapper";
+export type { MusicXmlEventStream } from "@/musicxml/xml/streaming";
+export { mapMusicXmlScorePartwiseEventStream } from "@/musicxml/xml/streaming";
 export type { MusicXmlTempoEvent } from "@/musicxml/xml/tempo";
 export type { MusicXmlTimeSigEvent } from "@/musicxml/xml/time-signature";
 export type { MusicXmlTransposeEvent } from "@/musicxml/xml/transpose";
