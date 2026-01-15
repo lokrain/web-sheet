@@ -45,6 +45,9 @@ type State = {
   // Per-voice cursors for future validation.
   cursorByPartVoice: Map<string, Map<string, number>>;
 
+  // Most recent onset per part+voice (used to anchor chord notes).
+  lastOnsetAbsDivByPartVoice: Map<string, Map<string, number>>;
+
   // backup/forward parsing
   inBackup: boolean;
   inForward: boolean;
@@ -112,6 +115,29 @@ function setVoiceCursor(
   byVoice.set(voice, value);
 }
 
+function getLastOnset(
+  state: State,
+  partId: string,
+  voice: string,
+): number | null {
+  const byVoice = state.lastOnsetAbsDivByPartVoice.get(partId);
+  return byVoice ? (byVoice.get(voice) ?? null) : null;
+}
+
+function setLastOnset(
+  state: State,
+  partId: string,
+  voice: string,
+  value: number,
+): void {
+  let byVoice = state.lastOnsetAbsDivByPartVoice.get(partId);
+  if (!byVoice) {
+    byVoice = new Map();
+    state.lastOnsetAbsDivByPartVoice.set(partId, byVoice);
+  }
+  byVoice.set(voice, value);
+}
+
 export function createNoteReducer(
   pool: XmlNamePool,
   diagnostics: MusicXmlDiagnostic[],
@@ -121,6 +147,7 @@ export function createNoteReducer(
     init: () => ({
       currentPartId: null,
       cursorByPartVoice: new Map(),
+      lastOnsetAbsDivByPartVoice: new Map(),
       inBackup: false,
       inForward: false,
       captureBackupDurationText: false,
@@ -366,7 +393,19 @@ export function createNoteReducer(
             return;
           }
 
-          const tOnAbsDiv = getPartCursorAbsDiv(timing, partId);
+          const cursorAbsDiv = getPartCursorAbsDiv(timing, partId);
+          const chordAnchor = state.noteChord
+            ? getLastOnset(state, partId, voice)
+            : null;
+          const tOnAbsDiv = state.noteChord
+            ? (chordAnchor ?? cursorAbsDiv)
+            : cursorAbsDiv;
+          if (state.noteChord && chordAnchor == null) {
+            diagnostics.push({
+              message: "Chord note without prior onset",
+              path: musicXmlPathToString(pool, ctx.path),
+            });
+          }
 
           const pitch: MusicXmlPitch | null = state.noteIsRest
             ? null
@@ -395,6 +434,9 @@ export function createNoteReducer(
               offset: ctx.pos.offset,
             },
           });
+
+          // Anchor for subsequent chord notes.
+          setLastOnset(state, partId, voice, tOnAbsDiv);
 
           if (!state.noteChord) {
             const next = tOnAbsDiv + durDiv;

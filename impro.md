@@ -106,21 +106,21 @@ Status: `DONE`
 
 ### Story 5.2 — Chords
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 5.2.1: Detect chord flag on notes **[1]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 5.2.2: Prevent cursor advance on chord notes **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 5.3 — Ties (Notation-Faithful)
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 5.3.1: Parse tie start/stop markers **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 5.3.2: Attach tie markers to NoteEvent segments **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 5.4 — Grace & Cue Notes
 

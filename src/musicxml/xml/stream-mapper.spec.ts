@@ -153,3 +153,27 @@ test("mapMusicXmlScorePartwise tracks measureStartAbsDiv per part", () => {
   const starts = res.events.filter((e) => e.kind === "MeasureStart");
   expect(starts.map((s) => s.measureStartAbsDiv)).toEqual([0, 4]);
 });
+
+test("mapMusicXmlScorePartwise handles chords without advancing cursor", () => {
+  const xml = loadFixture("score-partwise.chord.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(3);
+
+  // note[1] is chord, so it must share tOn with note[0] and not advance cursor.
+  expect(notes[0]).toMatchObject({ tOnAbsDiv: 0, durDiv: 4, chord: false });
+  expect(notes[1]).toMatchObject({ tOnAbsDiv: 0, durDiv: 4, chord: true });
+  expect(notes[2]).toMatchObject({ tOnAbsDiv: 4, durDiv: 4, chord: false });
+});
+
+test("mapMusicXmlScorePartwise preserves tie markers without merging", () => {
+  const xml = loadFixture("score-partwise.tie.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(2);
+
+  expect(notes[0]).toMatchObject({ tie: { start: true, stop: false } });
+  expect(notes[1]).toMatchObject({ tie: { start: false, stop: true } });
+});
