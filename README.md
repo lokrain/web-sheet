@@ -57,6 +57,12 @@ This repo uses different `.env*` files depending on what you’re running:
 
 CI should inject secrets and environment variables through the CI system (GitHub Actions / etc.), not via committed `.env.local` files.
 
+## Formatting & checks
+
+- Code formatting/lint: `pnpm lint` / `pnpm lint:fix`
+- Markdown formatting: `pnpm md:check` / `pnpm md:format`
+- Full local CI-equivalent: `pnpm verify`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

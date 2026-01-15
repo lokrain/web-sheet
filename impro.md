@@ -11,8 +11,8 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
 
 ## Now (highest leverage)
 
-- [ ] Keep the repo always-green locally + in CI.
-  - `pnpm lint`, `pnpm md:check`, `pnpm test`, `pnpm skills:test`.
+- [x] Keep the repo always-green locally + in CI.
+  - Canonical command: `pnpm verify`.
 
 - [x] Remove duplicate/accidental files.
   - Example: `skills/react-best-practices/rules/js-index-maps (1).md` looks like an accidental duplicate.
@@ -37,11 +37,11 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
   - README should be pnpm-first and mention `corepack` path.
   - Consider adding `engineStrict` guidance (or a short troubleshooting section).
 
-- [ ] Add `pnpm typecheck` (separate from `next build`).
+- [x] Add `pnpm typecheck` (separate from `next build`).
   - Useful for CI signals and faster feedback.
 
-- [ ] Add a dependency update mechanism.
-  - Dependabot or Renovate config.
+- [x] Add a dependency update mechanism.
+  - Added Dependabot config.
 
 ## Next.js app hygiene
 
@@ -63,7 +63,7 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
   - Every skill should have a sibling `skills/{name}.zip`.
   - CI should fail if packing produces diffs (already enforced).
 
-- [ ] Remove accidental duplicates inside skills.
+- [x] Remove accidental duplicates inside skills.
   - e.g. `js-index-maps (1).md`.
   - Consider adding a check in `scripts/test-skills.sh` for duplicate filenames (case-insensitive) and “copy” suffixes.
 
@@ -75,9 +75,9 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
 
 ## Nice-to-haves
 
-- [ ] Add `.vscode/extensions.json` recommendations.
+- [x] Add `.vscode/extensions.json` recommendations.
   - `biomejs.biome`
   - `bradlc.vscode-tailwindcss`
 
-- [ ] Add a `pnpm verify` script.
-  - Runs: lint + md:check + test + skills:test.
+- [x] Add a `pnpm verify` script.
+  - Runs: lint + md:check + typecheck + test + skills:test.
