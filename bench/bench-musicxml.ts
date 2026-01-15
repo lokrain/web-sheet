@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { mapMusicXmlScorePartwise } from "../src/musicxml/xml";
+
 type BenchResult = {
   name: string;
   iterations: number;

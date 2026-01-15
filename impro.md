@@ -104,6 +104,15 @@ Status: `BACKLOG`
 - Task 9.1.2: Intern element and attribute names **[2]**
   - Status: `BACKLOG`
 
+### Story 9.2 — Benchmarks
+
+Status: `DONE`
+
+- Task 9.2.1: Create small-score benchmark **[1]**
+  - Status: `DONE`
+- Task 9.2.2: Create large-score benchmark **[2]**
+  - Status: `DONE`
+
 ### Story 9.3 — Fuzzing
 
 Status: `BACKLOG`

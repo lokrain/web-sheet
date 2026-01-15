@@ -1,0 +1,143 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pnpm: dev",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["dev"]
+    },
+    {
+      "label": "pnpm: build",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build"]
+    },
+    {
+      "label": "pnpm: start",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["start"]
+    },
+    {
+      "label": "pnpm: lint",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint"]
+    },
+    {
+      "label": "pnpm: lint:fix",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint:fix"]
+    },
+    {
+      "label": "pnpm: format",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["format"]
+    },
+    {
+      "label": "pnpm: typecheck",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["typecheck"]
+    },
+    {
+      "label": "pnpm: test",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test"]
+    },
+    {
+      "label": "pnpm: test:watch",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test:watch"]
+    },
+    {
+      "label": "pnpm: test:ci",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test:ci"]
+    },
+    {
+      "label": "pnpm: test:cov",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test:cov"]
+    },
+    {
+      "label": "pnpm: bench",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["bench"]
+    },
+    {
+      "label": "pnpm: bench:prof",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["bench:prof"]
+    },
+    {
+      "label": "pnpm: bench:musicxml",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["bench:musicxml"]
+    },
+    {
+      "label": "pnpm: bench:musicxml:prof",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["bench:musicxml:prof"]
+    },
+    {
+      "label": "pnpm: perf:ci",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["perf:ci"]
+    },
+    {
+      "label": "pnpm: perf:update-baseline",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["perf:update-baseline"]
+    },
+    {
+      "label": "pnpm: skills:test",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["skills:test"]
+    },
+    {
+      "label": "pnpm: clean",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["clean"]
+    },
+    {
+      "label": "pnpm: md:check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["md:check"]
+    },
+    {
+      "label": "pnpm: md:format",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["md:format"]
+    },
+    {
+      "label": "pnpm: verify",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["verify"]
+    },
+    {
+      "label": "pnpm: ci",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["ci"]
+    }
+  ]
+}
