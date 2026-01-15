@@ -1,5 +1,3 @@
-// src/musicxml/index.ts
-
 export type {
   MusicXmlDiagnostic,
   MusicXmlDivisionsEvent,

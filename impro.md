@@ -1,66 +1,83 @@
 # impro.md (root)
 
-A living list of improvements for the overall repo (tooling, DX, CI, packaging, consistency).
+A living list of improvements for the overall repo (tooling, DX, CI, packaging, consistency). Items are removed or checked off as they’re implemented.
 
-## High priority
+## Iteration rule
 
-- [x] Fix Biome formatting failures and make `pnpm lint` green.
-  - Enabled Tailwind directives parsing in Biome CSS parser.
-  - Ignored generated artifacts (`.tmp-tscheck/`, `bench/results.json`).
-  - Applied `biome check --write` fixes across the repo.
+1. Add newly discovered improvements.
+2. Implement the highest-leverage items that don’t require product decisions.
+3. Remove/mark completed items.
+4. Repeat.
 
-- [x] Clean up and commit the current repo changes.
-  - Current status shows a mix of modified/untracked root files and folders (`AGENTS.md`, `scripts/`, `skills/`, `pnpm-lock.yaml`).
-  - Ensure the intended files are committed and any accidental files are removed.
+## Now (highest leverage)
 
-- [x] Commit the pnpm migration artifacts and remove npm-only artifacts.
-  - Ensure `pnpm-lock.yaml` is committed.
-  - Ensure `package-lock.json` stays deleted.
-  - Consider adding a short "Package manager" section to README stating pnpm is canonical.
+- [ ] Keep the repo always-green locally + in CI.
+  - `pnpm lint`, `pnpm md:check`, `pnpm test`, `pnpm skills:test`.
 
-- [x] Add a stable way to get pnpm under Node 25 for contributors.
-  - `.nvmrc` pins Node 25, but `corepack` wasn’t available in PATH in this environment.
-  - Add a documented install path (recommended):
-    - `corepack enable && corepack prepare pnpm@10.26.2 --activate` (or `npm i -g pnpm@10.26.2`).
+- [x] Remove duplicate/accidental files.
+  - Example: `skills/react-best-practices/rules/js-index-maps (1).md` looks like an accidental duplicate.
 
-- [x] Make skills packaging deterministic and tracked.
-  - Repo guideline says `{skill-name}.zip` should exist next to each skill.
-  - Right now only `skills/react-best-practices.zip` exists.
-  - Standardized: `pnpm skills:test` builds zips and CI verifies the working tree stays clean.
+- [x] Add missing developer scripts.
+  - `typecheck`: `tsc -p tsconfig.json --noEmit`
+  - `lint:fix`: `biome check --write`
+  - `ci`: run the same steps as CI locally
 
-## Medium priority
+- [ ] Replace MusicXML mapping stub.
+  - `src/musicxml/xml/stream-mapper.ts` currently exports a minimal stub to keep `pnpm typecheck` green.
+  - Either implement the actual mapping pipeline or remove the public re-export.
 
-- [x] Add a CI workflow.
-  - Suggested jobs:
-    - `pnpm install --frozen-lockfile`
-    - `pnpm lint`
-    - `pnpm test`
-    - `pnpm skills:test`
+## Tooling / DX
 
-- [x] Normalize VS Code workspace files.
-  - `.vscode/settings.json` now pins `biome.lsp.bin` which is good.
-  - Removed empty `.vscode/launch.json` and gitignored it to avoid reintroducing noise.
+- [ ] Tighten Biome scope + ignore list.
+  - Ensure generated outputs stay ignored at both git + Biome level.
+  - Keep Tailwind directives parsing enabled.
+  - Consider adding Biome force-ignores for other common outputs (`!!**/.turbo`, etc.).
 
-- [x] Document environment-file semantics in one place.
-  - Currently: Jest loads `.env.test(.local)`; bench loads `.env.local`/`.env`; Next loads `.env.local`.
-  - Decision: keep bench reading `.env.local`/`.env` (simple local DX; no new env file tier).
+- [ ] Ensure pnpm availability story is unambiguous.
+  - README should be pnpm-first and mention `corepack` path.
+  - Consider adding `engineStrict` guidance (or a short troubleshooting section).
 
-## Low priority
+- [ ] Add `pnpm typecheck` (separate from `next build`).
+  - Useful for CI signals and faster feedback.
 
-- [x] Add `pnpm clean` script.
-  - Remove `.next`, `.test-dist`, `.tmp-tscheck`, etc.
+- [ ] Add a dependency update mechanism.
+  - Dependabot or Renovate config.
 
-- [x] Add editorconfig (optional).
-  - Standardize newline/indent rules beyond Biome.
+## Next.js app hygiene
 
-- [x] Reduce repo noise from generated artifacts.
-  - Audit `.gitignore` for `.jest-localstorage`, `.test-dist`, perf/bench outputs, etc.
-  - Added ignore entries for `bench/results.json` and `.tmp-tscheck/` and removed them from git.
-  - Removed tracked `.test-dist/` artifacts and kept it gitignored.
-  - Consider adding more Biome force-ignore patterns for future generated folders.
+- [x] Add `tailwind.config.ts` even if Tailwind v4 can work without it.
+  - Helps editor tooling (Tailwind IntelliSense) and makes intent explicit.
 
-- [x] Decide how to format/lint Markdown repo docs.
-  - Kept Biome for code, and added Prettier for Markdown-only checks.
-  - Scripts:
-    - `pnpm md:check`
-    - `pnpm md:format`
+- [ ] Revisit `next.config.ts` headers.
+  - `X-XSS-Protection` is legacy/deprecated in modern browsers.
+  - Consider adding a CSP (or document why it’s omitted).
+  - Consider whether `images.unoptimized: true` is intended long-term.
+
+- [ ] Ensure UI component conventions are consistent.
+  - shadcn/ui additions: verify `components.json` exists (if using shadcn CLI) and paths are stable.
+
+## Skills system
+
+- [ ] Add a repo-level `skills/` policy check.
+  - Every `skills/{name}/` should have: `SKILL.md`, `scripts/`, `rules/`, `metadata.json`.
+  - Every skill should have a sibling `skills/{name}.zip`.
+  - CI should fail if packing produces diffs (already enforced).
+
+- [ ] Remove accidental duplicates inside skills.
+  - e.g. `js-index-maps (1).md`.
+  - Consider adding a check in `scripts/test-skills.sh` for duplicate filenames (case-insensitive) and “copy” suffixes.
+
+## Docs
+
+- [ ] Keep docs consistent and scoped.
+  - Prettier is used for `*.md` only; Biome remains the code formatter.
+  - Consider adding a small “Formatting” section in README describing `pnpm lint` vs `pnpm md:check`.
+
+## Nice-to-haves
+
+- [ ] Add `.vscode/extensions.json` recommendations.
+  - `biomejs.biome`
+  - `bradlc.vscode-tailwindcss`
+
+- [ ] Add a `pnpm verify` script.
+  - Runs: lint + md:check + test + skills:test.

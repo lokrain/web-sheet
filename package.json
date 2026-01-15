@@ -16,7 +16,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
+    "lint:fix": "biome check --write",
     "format": "biome format --write",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest",
     "test:watch": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --watch",
     "test:ci": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --ci",
@@ -28,7 +30,8 @@
     "skills:test": "bash scripts/test-skills.sh",
     "clean": "bash scripts/clean.sh",
     "md:check": "prettier --check \"**/*.md\"",
-    "md:format": "prettier --write \"**/*.md\""
+    "md:format": "prettier --write \"**/*.md\"",
+    "verify": "pnpm lint && pnpm md:check && pnpm typecheck && pnpm test && pnpm skills:test"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
