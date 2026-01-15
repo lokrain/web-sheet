@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getPartCursorAbsDiv,
   type MusicXmlTimingState,
@@ -88,8 +91,10 @@ export function createStavesReducer(
         const parsed = parsePositiveInt(text);
         if (parsed == null) {
           diagnostics.push({
+            code: MusicXmlErrorCode.InvalidStavesCount,
             message: `Invalid staves count: ${text}`,
             path: musicXmlPathToString(pool, ctx.path),
+            offset: ctx.pos.offset,
           });
           return;
         }

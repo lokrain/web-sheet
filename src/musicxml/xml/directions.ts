@@ -1,7 +1,7 @@
+import type { MusicXmlDiagnostic } from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getPartCursorAbsDiv,
   type MusicXmlTimingState,

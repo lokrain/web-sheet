@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getMeasureStartAbsDiv,
   getPartCursorAbsDiv,
@@ -83,8 +86,10 @@ export function createMeasureBoundaryReducer(
           state.currentPartId = getAttr(pool, evt, "id");
           if (!state.currentPartId) {
             diagnostics.push({
+              code: MusicXmlErrorCode.MissingRequiredAttribute,
               message: "part is missing required id attribute",
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           }
           return;

@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getPartCursorAbsDiv,
   type MusicXmlTimingState,
@@ -93,8 +96,10 @@ export function createTempoReducer(
           const parsed = parsePositiveNumber(raw);
           if (parsed == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidSoundTempo,
               message: `Invalid sound tempo: ${raw}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
             return;
           }
@@ -126,8 +131,10 @@ export function createTempoReducer(
         const parsed = parsePositiveNumber(text);
         if (parsed == null) {
           diagnostics.push({
+            code: MusicXmlErrorCode.InvalidMetronomePerMinute,
             message: `Invalid metronome per-minute: ${text}`,
             path: musicXmlPathToString(pool, ctx.path),
+            offset: ctx.pos.offset,
           });
           return;
         }

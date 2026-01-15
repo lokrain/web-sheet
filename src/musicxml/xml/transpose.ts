@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getPartCursorAbsDiv,
   type MusicXmlTimingState,
@@ -111,8 +114,10 @@ export function createTransposeReducer(
           const n = parseIntStrict(text);
           if (n == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidTransposeChromatic,
               message: `Invalid transpose chromatic: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.chromatic = n;
@@ -124,8 +129,10 @@ export function createTransposeReducer(
           const n = parseIntStrict(text);
           if (n == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidTransposeDiatonic,
               message: `Invalid transpose diatonic: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.diatonic = n;
@@ -137,8 +144,10 @@ export function createTransposeReducer(
           const n = parseIntStrict(text);
           if (n == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidTransposeOctaveChange,
               message: `Invalid transpose octave-change: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.octaveChange = n;

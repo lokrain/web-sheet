@@ -3,6 +3,10 @@ import { createClefReducer } from "@/musicxml/xml/clef";
 import { createDirectionsReducer } from "@/musicxml/xml/directions";
 import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
 import { createDivisionsReducer } from "@/musicxml/xml/divisions";
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { createKeySignatureReducer } from "@/musicxml/xml/key-signature";
 import { createMeasureBoundaryReducer } from "@/musicxml/xml/measure";
@@ -15,11 +19,6 @@ import { createMusicXmlTimingState } from "@/musicxml/xml/timing-state";
 import { createTransposeReducer } from "@/musicxml/xml/transpose";
 import { parseEventsCollect } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
-
-export type MusicXmlDiagnostic = {
-  message: string;
-  path?: string;
-};
 
 export type MusicXmlMapperOptions = {
   strict?: boolean;
@@ -70,6 +69,9 @@ export function detectMusicXmlRoot(input: unknown): {
     root: { kind: "unknown", name },
     diagnostics: [
       {
+        code: name
+          ? MusicXmlErrorCode.UnexpectedRoot
+          : MusicXmlErrorCode.MissingRoot,
         message: name
           ? `Unexpected root element: ${name}`
           : "Missing root element",
@@ -95,6 +97,7 @@ export function mapMusicXmlScorePartwise(
     const diags = [...detected.diagnostics];
     if (detected.root.kind === "score-timewise") {
       diags.push({
+        code: MusicXmlErrorCode.UnsupportedRoot,
         message: "score-timewise is not supported by mapMusicXmlScorePartwise",
       });
     }

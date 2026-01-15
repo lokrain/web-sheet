@@ -93,16 +93,16 @@ Completion criteria:
 
 ## EPIC 8 — Validation & Error Handling
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 8.1 — Typed Error Model
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 8.1.1: Define MusicXmlError codes enum **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 8.1.2: Attach path/location to errors **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 8.2 — Invariant Checks
 

@@ -8,6 +8,8 @@ export type {
   MusicXmlWordsEvent,
 } from "@/musicxml/xml/directions";
 export type { MusicXmlDivisionsEvent } from "@/musicxml/xml/divisions";
+export type { MusicXmlDiagnostic } from "@/musicxml/xml/error";
+export { MusicXmlErrorCode } from "@/musicxml/xml/error";
 export type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 export type { MusicXmlKeySigEvent } from "@/musicxml/xml/key-signature";
 export type {
@@ -26,7 +28,6 @@ export type {
 } from "@/musicxml/xml/part-list";
 export type { MusicXmlStavesEvent } from "@/musicxml/xml/staves";
 export type {
-  MusicXmlDiagnostic,
   MusicXmlExtract,
   MusicXmlMapperOptions,
   MusicXmlScorePartwise,

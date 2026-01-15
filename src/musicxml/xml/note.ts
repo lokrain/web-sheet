@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import {
   getPartCursorAbsDiv,
   type MusicXmlTimingState,
@@ -253,8 +256,10 @@ export function createNoteReducer(
           const n = parseIntStrict(text);
           if (n == null || n < 0) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidBackupDuration,
               message: `Invalid backup duration: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.pendingBackupDurationDiv = n;
@@ -269,8 +274,10 @@ export function createNoteReducer(
           const n = parseIntStrict(text);
           if (n == null || n < 0) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidForwardDuration,
               message: `Invalid forward duration: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.pendingForwardDurationDiv = n;
@@ -289,8 +296,10 @@ export function createNoteReducer(
           const n = parseIntStrict(text);
           if (n == null || n < 0) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidNoteDuration,
               message: `Invalid note duration: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.noteDurationDiv = n;
@@ -307,8 +316,10 @@ export function createNoteReducer(
           const n = parseIntStrict(text);
           if (n == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidPitchAlter,
               message: `Invalid pitch alter: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.pitchAlter = n;
@@ -320,8 +331,10 @@ export function createNoteReducer(
           const n = parseIntStrict(text);
           if (n == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.InvalidPitchOctave,
               message: `Invalid pitch octave: ${text}`,
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           } else {
             state.pitchOctave = n;
@@ -355,8 +368,10 @@ export function createNoteReducer(
           const next = prev - dur;
           if (next < 0) {
             diagnostics.push({
+              code: MusicXmlErrorCode.CursorUnderflowOnBackup,
               message: "Cursor underflow on backup",
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
             setPartCursorAbsDiv(timing, partId, 0);
             return;
@@ -390,8 +405,10 @@ export function createNoteReducer(
           const durDivResolved = durDiv ?? (state.noteGrace ? 0 : null);
           if (durDivResolved == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.MissingNoteDuration,
               message: "Note is missing duration",
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
             state.inNote = false;
             return;
@@ -406,8 +423,10 @@ export function createNoteReducer(
             : cursorAbsDiv;
           if (state.noteChord && chordAnchor == null) {
             diagnostics.push({
+              code: MusicXmlErrorCode.ChordWithoutPriorOnset,
               message: "Chord note without prior onset",
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           }
 

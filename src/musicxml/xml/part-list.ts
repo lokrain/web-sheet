@@ -1,7 +1,10 @@
+import {
+  type MusicXmlDiagnostic,
+  MusicXmlErrorCode,
+} from "@/musicxml/xml/error";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
-import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
 import type { XmlEvent } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
@@ -72,8 +75,10 @@ export function createPartListReducer(
 
           if (!state.currentPartId) {
             diagnostics.push({
+              code: MusicXmlErrorCode.MissingRequiredAttribute,
               message: "score-part is missing required id attribute",
               path: musicXmlPathToString(pool, ctx.path),
+              offset: ctx.pos.offset,
             });
           }
           return;
