@@ -50,7 +50,7 @@ description:
 ## Usage
 
 ```bash
-bash /mnt/skills/user/{skill-name}/scripts/{script}.sh [args]
+bash .github/skills/{skill-name}/scripts/{script}.sh [args]
 ```
 ````
 
@@ -92,7 +92,7 @@ Skills are loaded on-demand — only the skill name and description are loaded a
 - Write status messages to stderr: `echo "Message" >&2`
 - Write machine-readable output (JSON) to stdout
 - Include a cleanup trap for temp files
-- Reference the script path as `/mnt/skills/user/{skill-name}/scripts/{script}.sh`
+- Reference the script path as `.github/skills/{skill-name}/scripts/{script}.sh`
 
 ### Creating the Zip Package
 
