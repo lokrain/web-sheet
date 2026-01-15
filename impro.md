@@ -93,27 +93,27 @@ Completion criteria:
 
 ## EPIC 7 — Directions & Barlines
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 7.1 — Tempo Directions
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 7.1.1: Parse sound tempo attribute **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 7.1.2: Parse metronome per-minute **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 7.1.3: Emit TempoDirection events at cursor time **[3]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 7.2 — Dynamics & Text Directions
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 7.2.1: Parse dynamics glyphs (p, f, etc.) **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 7.2.2: Parse textual direction words **[1]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 7.3 — Repeats & Endings (Structural Only)
 

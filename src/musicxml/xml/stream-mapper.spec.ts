@@ -275,3 +275,32 @@ test("mapMusicXmlScorePartwise emits Clef/Staves/Transpose events", () => {
     }),
   ]);
 });
+
+test("mapMusicXmlScorePartwise emits Tempo from sound tempo and metronome", () => {
+  const xml = loadFixture("score-partwise.tempo.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const tempo = res.events.filter((e) => e.kind === "Tempo");
+  expect(tempo.map((t) => ({ bpm: t.bpm, tAbsDiv: t.tAbsDiv }))).toEqual([
+    { bpm: 120, tAbsDiv: 0 },
+    { bpm: 90, tAbsDiv: 4 },
+  ]);
+});
+
+test("mapMusicXmlScorePartwise emits Dynamics + Words directions", () => {
+  const xml = loadFixture("score-partwise.directions.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const dyn = res.events.filter((e) => e.kind === "Dynamics");
+  expect(
+    dyn.map((d) => ({ glyphs: d.glyphs.slice().sort(), tAbsDiv: d.tAbsDiv })),
+  ).toEqual([
+    { glyphs: ["f"], tAbsDiv: 0 },
+    { glyphs: ["p"], tAbsDiv: 4 },
+  ]);
+
+  const words = res.events.filter((e) => e.kind === "Words");
+  expect(words.map((w) => ({ text: w.text, tAbsDiv: w.tAbsDiv }))).toEqual([
+    { text: "Allegro", tAbsDiv: 0 },
+  ]);
+});

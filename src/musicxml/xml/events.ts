@@ -1,4 +1,8 @@
 import type { MusicXmlClefEvent } from "@/musicxml/xml/clef";
+import type {
+  MusicXmlDynamicsEvent,
+  MusicXmlWordsEvent,
+} from "@/musicxml/xml/directions";
 import type { MusicXmlDivisionsEvent } from "@/musicxml/xml/divisions";
 import type { MusicXmlKeySigEvent } from "@/musicxml/xml/key-signature";
 import type { MusicXmlMeasureBoundaryEvent } from "@/musicxml/xml/measure";
@@ -12,6 +16,7 @@ import type { MusicXmlTransposeEvent } from "@/musicxml/xml/transpose";
 export type MusicXmlMapperEvent =
   | MusicXmlDivisionsEvent
   | MusicXmlClefEvent
+  | MusicXmlDynamicsEvent
   | MusicXmlKeySigEvent
   | MusicXmlNoteEvent
   | MusicXmlPartListEvent
@@ -19,4 +24,5 @@ export type MusicXmlMapperEvent =
   | MusicXmlTempoEvent
   | MusicXmlTimeSigEvent
   | MusicXmlTransposeEvent
+  | MusicXmlWordsEvent
   | MusicXmlMeasureBoundaryEvent;

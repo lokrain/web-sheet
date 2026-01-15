@@ -1,4 +1,8 @@
 export type { MusicXmlClefEvent } from "@/musicxml/xml/clef";
+export type {
+  MusicXmlDynamicsEvent,
+  MusicXmlWordsEvent,
+} from "@/musicxml/xml/directions";
 export type { MusicXmlDivisionsEvent } from "@/musicxml/xml/divisions";
 export type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 export type { MusicXmlKeySigEvent } from "@/musicxml/xml/key-signature";
@@ -22,8 +26,8 @@ export type {
   MusicXmlExtract,
   MusicXmlMapperOptions,
   MusicXmlScorePartwise,
-  MusicXmlTempoEvent,
-  MusicXmlTie,
 } from "@/musicxml/xml/stream-mapper";
 export { mapMusicXmlScorePartwise } from "@/musicxml/xml/stream-mapper";
+export type { MusicXmlTempoEvent } from "@/musicxml/xml/tempo";
+export type { MusicXmlTimeSigEvent } from "@/musicxml/xml/time-signature";
 export type { MusicXmlTransposeEvent } from "@/musicxml/xml/transpose";

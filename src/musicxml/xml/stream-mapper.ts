@@ -1,4 +1,5 @@
 import { createClefReducer } from "@/musicxml/xml/clef";
+import { createDirectionsReducer } from "@/musicxml/xml/directions";
 import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
 import { createDivisionsReducer } from "@/musicxml/xml/divisions";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
@@ -7,6 +8,7 @@ import { createMeasureBoundaryReducer } from "@/musicxml/xml/measure";
 import { createNoteReducer } from "@/musicxml/xml/note";
 import { createPartListReducer } from "@/musicxml/xml/part-list";
 import { createStavesReducer } from "@/musicxml/xml/staves";
+import { createTempoReducer } from "@/musicxml/xml/tempo";
 import { createTimeSignatureReducer } from "@/musicxml/xml/time-signature";
 import { createMusicXmlTimingState } from "@/musicxml/xml/timing-state";
 import { createTransposeReducer } from "@/musicxml/xml/transpose";
@@ -21,9 +23,6 @@ export type MusicXmlDiagnostic = {
 export type MusicXmlMapperOptions = {
   strict?: boolean;
 };
-
-export type MusicXmlTempoEvent = unknown;
-export type MusicXmlTie = unknown;
 
 export type MusicXmlScorePartwise = unknown;
 
@@ -102,13 +101,15 @@ export function mapMusicXmlScorePartwise(
   }
 
   const xml = toXmlString(xmlInput);
-  const diagnostics: MusicXmlDiagnostic[] = [];
+  const diagnostics: MusicXmlDiagnostic[] = [...detected.diagnostics];
   const { pool, events } = parseEventsCollect(xml);
   const timing = createMusicXmlTimingState();
 
   const mapped = dispatchXmlEvents(events, [
     createDivisionsReducer(pool, diagnostics),
     createPartListReducer(pool, diagnostics),
+    createTempoReducer(pool, diagnostics, timing),
+    createDirectionsReducer(pool, diagnostics, timing),
     createTimeSignatureReducer(pool, diagnostics, timing),
     createKeySignatureReducer(pool, diagnostics, timing),
     createStavesReducer(pool, diagnostics, timing),
