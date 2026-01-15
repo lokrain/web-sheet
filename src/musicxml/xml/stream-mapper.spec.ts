@@ -304,3 +304,33 @@ test("mapMusicXmlScorePartwise emits Dynamics + Words directions", () => {
     { text: "Allegro", tAbsDiv: 0 },
   ]);
 });
+
+test("mapMusicXmlScorePartwise emits Repeat and Ending events", () => {
+  const xml = loadFixture("score-partwise.repeats-endings.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const repeats = res.events.filter((e) => e.kind === "Repeat");
+  expect(
+    repeats.map((r) => ({
+      dir: r.direction,
+      measureNo: r.measureNo,
+      t: r.tAbsDiv,
+    })),
+  ).toEqual([
+    { dir: "forward", measureNo: "1", t: 0 },
+    { dir: "backward", measureNo: "1", t: 4 },
+  ]);
+
+  const endings = res.events.filter((e) => e.kind === "Ending");
+  expect(
+    endings.map((en) => ({
+      type: en.type,
+      nums: en.numbers,
+      measureNo: en.measureNo,
+      t: en.tAbsDiv,
+    })),
+  ).toEqual([
+    { type: "start", nums: ["1"], measureNo: "1", t: 0 },
+    { type: "stop", nums: ["1"], measureNo: "1", t: 4 },
+  ]);
+});

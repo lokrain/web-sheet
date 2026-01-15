@@ -1,3 +1,4 @@
+import { createBarlinesReducer } from "@/musicxml/xml/barlines";
 import { createClefReducer } from "@/musicxml/xml/clef";
 import { createDirectionsReducer } from "@/musicxml/xml/directions";
 import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
@@ -115,6 +116,7 @@ export function mapMusicXmlScorePartwise(
     createStavesReducer(pool, diagnostics, timing),
     createClefReducer(pool, diagnostics, timing),
     createTransposeReducer(pool, diagnostics, timing),
+    createBarlinesReducer(pool, diagnostics, timing),
     createMeasureBoundaryReducer(pool, diagnostics, timing),
     createNoteReducer(pool, diagnostics, timing),
   ]);

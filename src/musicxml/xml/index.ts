@@ -1,3 +1,7 @@
+export type {
+  MusicXmlEndingEvent,
+  MusicXmlRepeatEvent,
+} from "@/musicxml/xml/barlines";
 export type { MusicXmlClefEvent } from "@/musicxml/xml/clef";
 export type {
   MusicXmlDynamicsEvent,

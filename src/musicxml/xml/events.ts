@@ -1,3 +1,7 @@
+import type {
+  MusicXmlEndingEvent,
+  MusicXmlRepeatEvent,
+} from "@/musicxml/xml/barlines";
 import type { MusicXmlClefEvent } from "@/musicxml/xml/clef";
 import type {
   MusicXmlDynamicsEvent,
@@ -20,6 +24,8 @@ export type MusicXmlMapperEvent =
   | MusicXmlKeySigEvent
   | MusicXmlNoteEvent
   | MusicXmlPartListEvent
+  | MusicXmlRepeatEvent
+  | MusicXmlEndingEvent
   | MusicXmlStavesEvent
   | MusicXmlTempoEvent
   | MusicXmlTimeSigEvent
