@@ -93,3 +93,36 @@ test("mapMusicXmlScorePartwise emits divisions changes", () => {
     [4, 8],
   );
 });
+
+test("mapMusicXmlScorePartwise emits notation-faithful note segments", () => {
+  const xml = loadFixture("score-partwise.single-part.single-voice.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const notes = res.events.filter((e) => e.kind === "Note");
+  expect(notes).toHaveLength(2);
+
+  const [n0, n1] = notes;
+  expect(n0).toMatchObject({
+    kind: "Note",
+    partId: "P1",
+    voice: "1",
+    tOnAbsDiv: 0,
+    durDiv: 4,
+    isRest: false,
+    pitch: { step: "C", alter: 0, octave: 4 },
+    chord: false,
+    grace: false,
+    cue: false,
+    tie: { start: false, stop: false },
+  });
+
+  expect(n1).toMatchObject({
+    kind: "Note",
+    partId: "P1",
+    voice: "1",
+    tOnAbsDiv: 4,
+    durDiv: 4,
+    isRest: true,
+    pitch: null,
+  });
+});

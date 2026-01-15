@@ -2,6 +2,7 @@ import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
 import { createDivisionsReducer } from "@/musicxml/xml/divisions";
 import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { createMeasureBoundaryReducer } from "@/musicxml/xml/measure";
+import { createNoteReducer } from "@/musicxml/xml/note";
 import { createPartListReducer } from "@/musicxml/xml/part-list";
 import { parseEventsCollect } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
@@ -17,11 +18,6 @@ export type MusicXmlMapperOptions = {
 
 export type MusicXmlTempoEvent = unknown;
 export type MusicXmlTie = unknown;
-
-export type MusicXmlPitch = unknown;
-export type MusicXmlNote = unknown;
-export type MusicXmlMeasure = unknown;
-export type MusicXmlPart = unknown;
 
 export type MusicXmlScorePartwise = unknown;
 
@@ -107,6 +103,7 @@ export function mapMusicXmlScorePartwise(
     createDivisionsReducer(pool, diagnostics),
     createPartListReducer(pool, diagnostics),
     createMeasureBoundaryReducer(pool, diagnostics),
+    createNoteReducer(pool, diagnostics),
   ]);
 
   return { score: undefined, events: mapped, diagnostics };

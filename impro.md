@@ -143,12 +143,12 @@ Status: `DONE`
 
 ### Story 4.2 — Voice Cursor Model
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 4.2.1: Initialize per-voice cursor model **[3]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 4.2.2: Advance cursor on note duration **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 4.3 — Backup / Forward Semantics
 
@@ -163,27 +163,27 @@ Status: `BACKLOG`
 
 ### Story 4.4 — Absolute Time Calculation
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 4.4.1: Track measureStartAbsDiv per part **[2]**
   - Status: `BACKLOG`
 - Task 4.4.2: Compute tOnAbsDiv for notes **[3]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ---
 
 ## EPIC 5 — Note Semantics
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 5.1 — Pitch & Rest Parsing
 
-Status: `BACKLOG`
+Status: `DONE`
 
 - Task 5.1.1: Parse pitch step/alter/octave **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 5.1.2: Represent rests as duration-only notes **[1]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 5.2 — Chords
 

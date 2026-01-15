@@ -6,6 +6,11 @@ export type {
   MusicXmlMeasureStartEvent,
 } from "@/musicxml/xml/measure";
 export type {
+  MusicXmlNoteEvent,
+  MusicXmlPitch,
+  MusicXmlTieMarkers,
+} from "@/musicxml/xml/note";
+export type {
   MusicXmlPartDefEvent,
   MusicXmlPartListEvent,
 } from "@/musicxml/xml/part-list";
@@ -13,10 +18,6 @@ export type {
   MusicXmlDiagnostic,
   MusicXmlExtract,
   MusicXmlMapperOptions,
-  MusicXmlMeasure,
-  MusicXmlNote,
-  MusicXmlPart,
-  MusicXmlPitch,
   MusicXmlScorePartwise,
   MusicXmlTempoEvent,
   MusicXmlTie,
