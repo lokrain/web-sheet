@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { MusicXmlErrorCode } from "@/musicxml/xml/error";
 
 import {
   detectMusicXmlRoot,
@@ -333,4 +334,41 @@ test("mapMusicXmlScorePartwise emits Repeat and Ending events", () => {
     { type: "start", nums: ["1"], measureNo: "1", t: 0 },
     { type: "stop", nums: ["1"], measureNo: "1", t: 4 },
   ]);
+});
+
+test("mapMusicXmlScorePartwise reports InvalidNoteDuration", () => {
+  const xml = loadFixture("score-partwise.invalid-negative-duration.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  expect(res.diagnostics).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ code: MusicXmlErrorCode.InvalidNoteDuration }),
+    ]),
+  );
+});
+
+test("mapMusicXmlScorePartwise reports ChordWithoutPriorOnset", () => {
+  const xml = loadFixture("score-partwise.invalid-chord-first.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  expect(res.diagnostics).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        code: MusicXmlErrorCode.ChordWithoutPriorOnset,
+      }),
+    ]),
+  );
+});
+
+test("mapMusicXmlScorePartwise reports CursorUnderflowOnBackup", () => {
+  const xml = loadFixture("score-partwise.invalid-backup-underflow.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  expect(res.diagnostics).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        code: MusicXmlErrorCode.CursorUnderflowOnBackup,
+      }),
+    ]),
+  );
 });

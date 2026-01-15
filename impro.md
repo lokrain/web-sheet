@@ -93,30 +93,6 @@ Completion criteria:
 
 ## EPIC 8 — Validation & Error Handling
 
-Status: `IN_PROGRESS`
-
-### Story 8.1 — Typed Error Model
-
-Status: `DONE`
-
-- Task 8.1.1: Define MusicXmlError codes enum **[2]**
-  - Status: `DONE`
-- Task 8.1.2: Attach path/location to errors **[2]**
-  - Status: `DONE`
-
-### Story 8.2 — Invariant Checks
-
-Status: `BACKLOG`
-
-- Task 8.2.1: Validate non-negative durations **[1]**
-  - Status: `BACKLOG`
-- Task 8.2.2: Detect chord without prior onset **[2]**
-  - Status: `BACKLOG`
-- Task 8.2.3: Detect cursor underflow on backup **[2]**
-  - Status: `BACKLOG`
-
----
-
 ## EPIC 9 — Performance & Robustness
 
 Status: `BACKLOG`
