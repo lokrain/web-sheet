@@ -12,6 +12,7 @@
       "!!**/.tmp-tscheck",
       "!!bench/results.json",
       "!!**/.test-dist",
+      "!!**/.turbo",
       "!node_modules",
       "!.next",
       "!dist",

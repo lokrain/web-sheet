@@ -28,7 +28,7 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
 
 ## Tooling / DX
 
-- [ ] Tighten Biome scope + ignore list.
+- [x] Tighten Biome scope + ignore list.
   - Ensure generated outputs stay ignored at both git + Biome level.
   - Keep Tailwind directives parsing enabled.
   - Consider adding Biome force-ignores for other common outputs (`!!**/.turbo`, etc.).
@@ -58,7 +58,7 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
 
 ## Skills system
 
-- [ ] Add a repo-level `skills/` policy check.
+- [x] Add a repo-level `skills/` policy check.
   - Every `skills/{name}/` should have: `SKILL.md`, `scripts/`, `rules/`, `metadata.json`.
   - Every skill should have a sibling `skills/{name}.zip`.
   - CI should fail if packing produces diffs (already enforced).
@@ -69,7 +69,7 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
 
 ## Docs
 
-- [ ] Keep docs consistent and scoped.
+- [x] Keep docs consistent and scoped.
   - Prettier is used for `*.md` only; Biome remains the code formatter.
   - Consider adding a small “Formatting” section in README describing `pnpm lint` vs `pnpm md:check`.
 

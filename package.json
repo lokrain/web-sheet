@@ -31,7 +31,8 @@
     "clean": "bash scripts/clean.sh",
     "md:check": "prettier --check \"**/*.md\"",
     "md:format": "prettier --write \"**/*.md\"",
-    "verify": "pnpm lint && pnpm md:check && pnpm typecheck && pnpm test && pnpm skills:test"
+    "verify": "pnpm lint && pnpm md:check && pnpm typecheck && pnpm test && pnpm skills:test",
+    "ci": "pnpm verify"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
