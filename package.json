@@ -34,7 +34,8 @@
     "md:check": "prettier --check \"**/*.md\"",
     "md:format": "prettier --write \"**/*.md\"",
     "verify": "pnpm lint && pnpm md:check && pnpm typecheck && pnpm test && pnpm skills:test",
-    "ci": "pnpm verify"
+    "ci": "pnpm verify",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
