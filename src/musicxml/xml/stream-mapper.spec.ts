@@ -145,3 +145,11 @@ test("mapMusicXmlScorePartwise applies backup/forward to cursor", () => {
     { voice: "1", t: 8, dur: 4 },
   ]);
 });
+
+test("mapMusicXmlScorePartwise tracks measureStartAbsDiv per part", () => {
+  const xml = loadFixture("score-partwise.divisions-change.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  const starts = res.events.filter((e) => e.kind === "MeasureStart");
+  expect(starts.map((s) => s.measureStartAbsDiv)).toEqual([0, 4]);
+});

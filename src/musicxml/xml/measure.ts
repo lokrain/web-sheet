@@ -2,6 +2,12 @@ import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
 import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
+import {
+  getMeasureStartAbsDiv,
+  getPartCursorAbsDiv,
+  type MusicXmlTimingState,
+  setMeasureStartAbsDiv,
+} from "@/musicxml/xml/timing-state";
 import type { XmlEvent } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
@@ -10,6 +16,7 @@ export type MusicXmlMeasureStartEvent = Readonly<{
   partId: string;
   measureNo: string | null;
   implicit: boolean;
+  measureStartAbsDiv: number;
   meta: Readonly<{
     path: string;
     offset: number;
@@ -21,6 +28,7 @@ export type MusicXmlMeasureEndEvent = Readonly<{
   partId: string;
   measureNo: string | null;
   implicit: boolean;
+  measureStartAbsDiv: number;
   meta: Readonly<{
     path: string;
     offset: number;
@@ -58,6 +66,7 @@ function getAttr(
 export function createMeasureBoundaryReducer(
   pool: XmlNamePool,
   diagnostics: MusicXmlDiagnostic[],
+  timing: MusicXmlTimingState,
 ): MusicXmlReducer<State, MusicXmlMapperEvent> {
   return {
     init: () => ({
@@ -89,11 +98,15 @@ export function createMeasureBoundaryReducer(
           state.currentMeasureImplicit =
             getAttr(pool, evt, "implicit") === "yes";
 
+          const measureStartAbsDiv = getPartCursorAbsDiv(timing, partId);
+          setMeasureStartAbsDiv(timing, partId, measureStartAbsDiv);
+
           emit({
             kind: "MeasureStart",
             partId,
             measureNo: state.currentMeasureNo,
             implicit: state.currentMeasureImplicit,
+            measureStartAbsDiv,
             meta: {
               path: musicXmlPathToString(pool, ctx.path),
               offset: ctx.pos.offset,
@@ -113,11 +126,14 @@ export function createMeasureBoundaryReducer(
           const partId = state.currentPartId;
           if (!partId) return;
 
+          const measureStartAbsDiv = getMeasureStartAbsDiv(timing, partId);
+
           emit({
             kind: "MeasureEnd",
             partId,
             measureNo: state.currentMeasureNo,
             implicit: state.currentMeasureImplicit,
+            measureStartAbsDiv,
             meta: {
               path: musicXmlPathToString(pool, ctx.path),
               offset: ctx.pos.offset,

@@ -91,50 +91,6 @@ Completion criteria:
 
 ---
 
-## EPIC 4 — Timing Engine (Notation-Faithful)
-
-Status: `IN_PROGRESS`
-
-### Story 4.1 — Divisions & State
-
-Status: `DONE`
-
-- Task 4.1.1: Parse attributes/divisions **[1]**
-  - Status: `DONE`
-- Task 4.1.2: Maintain divisions state per part **[2]**
-  - Status: `DONE`
-
-### Story 4.2 — Voice Cursor Model
-
-Status: `DONE`
-
-- Task 4.2.1: Initialize per-voice cursor model **[3]**
-  - Status: `DONE`
-- Task 4.2.2: Advance cursor on note duration **[2]**
-  - Status: `DONE`
-
-### Story 4.3 — Backup / Forward Semantics
-
-Status: `DONE`
-
-- Task 4.3.1: Parse backup elements and durations **[2]**
-  - Status: `DONE`
-- Task 4.3.2: Apply backup to voice cursor **[2]**
-  - Status: `DONE`
-- Task 4.3.3: Parse and apply forward elements **[2]**
-  - Status: `DONE`
-
-### Story 4.4 — Absolute Time Calculation
-
-Status: `IN_PROGRESS`
-
-- Task 4.4.1: Track measureStartAbsDiv per part **[2]**
-  - Status: `BACKLOG`
-- Task 4.4.2: Compute tOnAbsDiv for notes **[3]**
-  - Status: `DONE`
-
----
-
 ## EPIC 5 — Note Semantics
 
 Status: `IN_PROGRESS`

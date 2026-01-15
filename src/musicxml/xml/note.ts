@@ -2,6 +2,11 @@ import type { MusicXmlMapperEvent } from "@/musicxml/xml/events";
 import { musicXmlPathToString } from "@/musicxml/xml/path";
 import type { MusicXmlReducer } from "@/musicxml/xml/reducer";
 import type { MusicXmlDiagnostic } from "@/musicxml/xml/stream-mapper";
+import {
+  getPartCursorAbsDiv,
+  type MusicXmlTimingState,
+  setPartCursorAbsDiv,
+} from "@/musicxml/xml/timing-state";
 import type { XmlEvent } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
@@ -36,9 +41,6 @@ export type MusicXmlNoteEvent = Readonly<{
 
 type State = {
   currentPartId: string | null;
-
-  // Part-level cursor (absolute divisions).
-  cursorAbsDivByPartId: Map<string, number>;
 
   // Per-voice cursors for future validation.
   cursorByPartVoice: Map<string, Map<string, number>>;
@@ -96,14 +98,6 @@ function parseIntStrict(value: string): number | null {
   return n;
 }
 
-function getPartCursor(state: State, partId: string): number {
-  return state.cursorAbsDivByPartId.get(partId) ?? 0;
-}
-
-function setPartCursor(state: State, partId: string, value: number): void {
-  state.cursorAbsDivByPartId.set(partId, value);
-}
-
 function setVoiceCursor(
   state: State,
   partId: string,
@@ -121,11 +115,11 @@ function setVoiceCursor(
 export function createNoteReducer(
   pool: XmlNamePool,
   diagnostics: MusicXmlDiagnostic[],
+  timing: MusicXmlTimingState,
 ): MusicXmlReducer<State, MusicXmlMapperEvent> {
   return {
     init: () => ({
       currentPartId: null,
-      cursorAbsDivByPartId: new Map(),
       cursorByPartVoice: new Map(),
       inBackup: false,
       inForward: false,
@@ -330,17 +324,17 @@ export function createNoteReducer(
           state.pendingBackupDurationDiv = null;
           if (!partId || dur == null) return;
 
-          const prev = getPartCursor(state, partId);
+          const prev = getPartCursorAbsDiv(timing, partId);
           const next = prev - dur;
           if (next < 0) {
             diagnostics.push({
               message: "Cursor underflow on backup",
               path: musicXmlPathToString(pool, ctx.path),
             });
-            setPartCursor(state, partId, 0);
+            setPartCursorAbsDiv(timing, partId, 0);
             return;
           }
-          setPartCursor(state, partId, next);
+          setPartCursorAbsDiv(timing, partId, next);
           return;
         }
 
@@ -351,8 +345,8 @@ export function createNoteReducer(
           state.pendingForwardDurationDiv = null;
           if (!partId || dur == null) return;
 
-          const prev = getPartCursor(state, partId);
-          setPartCursor(state, partId, prev + dur);
+          const prev = getPartCursorAbsDiv(timing, partId);
+          setPartCursorAbsDiv(timing, partId, prev + dur);
           return;
         }
 
@@ -372,7 +366,7 @@ export function createNoteReducer(
             return;
           }
 
-          const tOnAbsDiv = getPartCursor(state, partId);
+          const tOnAbsDiv = getPartCursorAbsDiv(timing, partId);
 
           const pitch: MusicXmlPitch | null = state.noteIsRest
             ? null
@@ -404,7 +398,7 @@ export function createNoteReducer(
 
           if (!state.noteChord) {
             const next = tOnAbsDiv + durDiv;
-            setPartCursor(state, partId, next);
+            setPartCursorAbsDiv(timing, partId, next);
             setVoiceCursor(state, partId, voice, next);
           }
 
