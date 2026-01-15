@@ -1,4 +1,6 @@
 import {
+  advanceBy,
+  advanceTo,
   type Cursor,
   eof,
   expectCharCode,
@@ -6,6 +8,7 @@ import {
   makeCursor,
   nextCharCode,
   peekCharCode,
+  position,
   slice,
 } from "@/xml/core/cursor";
 import { decodeXmlEntities } from "@/xml/core/entity";
@@ -17,10 +20,14 @@ import {
   type XmlTokenizerOptions,
 } from "@/xml/core/options";
 import type { Attr, NameId, Span, XmlToken } from "@/xml/core/types";
+import { advancePosition } from "@/xml/internal/position";
 
 type Emit = (t: XmlToken) => void;
 
-type Decode = (s: string, baseOffset: number) => string;
+type Decode = (
+  s: string,
+  basePosition: { offset: number; line: number; column: number },
+) => string;
 
 type Intern = (name: string) => NameId;
 
@@ -37,21 +44,32 @@ function isWs(c: number): boolean {
 function skipWs(c: Cursor): void {
   while (!eof(c)) {
     const cc = peekCharCode(c);
-    if (cc !== -1 && isWs(cc)) c.i++;
+    if (cc !== -1 && isWs(cc)) advanceBy(c, 1);
     else break;
   }
 }
 
 function readNameString(c: Cursor): string {
   const c0 = peekCharCode(c);
-  if (c0 === -1 || !isXmlNameStart(c0)) {
-    throw new XmlParseError("XML_NAME_START", c.i, "Invalid XML name start");
+  if (c0 === -1) {
+    throw new XmlParseError(
+      "XML_EOF",
+      position(c),
+      "Unexpected EOF while reading name",
+    );
+  }
+  if (!isXmlNameStart(c0)) {
+    throw new XmlParseError(
+      "XML_NAME_START",
+      position(c),
+      "Invalid XML name start",
+    );
   }
   const start = c.i;
-  c.i++;
+  advanceBy(c, 1);
   while (!eof(c)) {
     const cc = peekCharCode(c);
-    if (cc !== -1 && isXmlNameChar(cc)) c.i++;
+    if (cc !== -1 && isXmlNameChar(cc)) advanceBy(c, 1);
     else break;
   }
   return c.input.slice(start, c.i);
@@ -62,22 +80,23 @@ function readAttrValue(c: Cursor, env: ScannerEnv): string {
   if (q !== 34 && q !== 39)
     throw new XmlParseError(
       "XML_ATTR_QUOTE",
-      Math.max(0, c.i - 1),
+      position(c),
       "Expected attribute quote",
     );
   const quote = q;
   const start = c.i;
+  const startPos = position(c);
 
   while (!eof(c)) {
     const cc = nextCharCode(c);
     if (cc === quote) {
       const raw = slice(c, start, c.i - 1);
-      return env.decode(raw, start);
+      return env.decode(raw, startPos);
     }
   }
   throw new XmlParseError(
     "XML_ATTR_UNTERMINATED",
-    start,
+    startPos,
     "Unterminated attribute value",
   );
 }
@@ -85,7 +104,7 @@ function readAttrValue(c: Cursor, env: ScannerEnv): string {
 function normalizeText(
   raw: string,
   env: ScannerEnv,
-  baseOffset: number,
+  basePosition: { offset: number; line: number; column: number },
 ): string | null {
   let t = raw;
   let leadingTrim = 0;
@@ -108,14 +127,28 @@ function normalizeText(
     if (allWs) return null;
   }
   if (t.length === 0) return null;
-  return env.decode(t, baseOffset + leadingTrim);
+  return env.decode(t, advancePosition(basePosition, raw, leadingTrim));
 }
 
-function makeSpan(start: number, end: number): Span {
-  return { start, end };
+function makeSpan(
+  start: { offset: number; line: number; column: number },
+  end: { offset: number; line: number; column: number },
+): Span {
+  return {
+    start: start.offset,
+    end: end.offset,
+    startLine: start.line,
+    startColumn: start.column,
+    endLine: end.line,
+    endColumn: end.column,
+  };
 }
 
-function scanComment(c: Cursor, start: number, emit: Emit): void {
+function scanComment(
+  c: Cursor,
+  start: { offset: number; line: number; column: number },
+  emit: Emit,
+): void {
   const endIdx = indexOfFrom(c, "-->", c.i);
   if (endIdx === -1)
     throw new XmlParseError(
@@ -123,11 +156,15 @@ function scanComment(c: Cursor, start: number, emit: Emit): void {
       start,
       "Unterminated comment",
     );
-  c.i = endIdx + 3;
-  emit({ kind: "comment", span: makeSpan(start, c.i) });
+  const endPos = advanceTo(c, endIdx + 3);
+  emit({ kind: "comment", span: makeSpan(start, endPos) });
 }
 
-function scanPI(c: Cursor, start: number, emit: Emit): void {
+function scanPI(
+  c: Cursor,
+  start: { offset: number; line: number; column: number },
+  emit: Emit,
+): void {
   const endIdx = indexOfFrom(c, "?>", c.i);
   if (endIdx === -1)
     throw new XmlParseError(
@@ -135,13 +172,13 @@ function scanPI(c: Cursor, start: number, emit: Emit): void {
       start,
       "Unterminated processing instruction",
     );
-  c.i = endIdx + 2;
-  emit({ kind: "pi", span: makeSpan(start, c.i) });
+  const endPos = advanceTo(c, endIdx + 2);
+  emit({ kind: "pi", span: makeSpan(start, endPos) });
 }
 
 function scanCloseTag(
   c: Cursor,
-  start: number,
+  start: { offset: number; line: number; column: number },
   env: ScannerEnv,
   emit: Emit,
 ): void {
@@ -151,12 +188,12 @@ function scanCloseTag(
   skipWs(c);
   expectCharCode(c, 62, "XML_CLOSETAG_GT", "Expected '>'");
   const name = env.intern(nameStr);
-  emit({ kind: "close", name, span: makeSpan(start, c.i) });
+  emit({ kind: "close", name, span: makeSpan(start, position(c)) });
 }
 
 function scanOpenTag(
   c: Cursor,
-  start: number,
+  start: { offset: number; line: number; column: number },
   env: ScannerEnv,
   emit: Emit,
 ): void {
@@ -174,7 +211,7 @@ function scanOpenTag(
 
     if (cc === 47) {
       // "/>"
-      c.i++;
+      advanceBy(c, 1);
       expectCharCode(c, 62, "XML_TAG_END", "Expected '>' after '/'");
       selfClosing = true;
       emit({
@@ -182,20 +219,20 @@ function scanOpenTag(
         name,
         attrs,
         selfClosing,
-        span: makeSpan(start, c.i),
+        span: makeSpan(start, position(c)),
       });
       return;
     }
 
     if (cc === 62) {
       // ">"
-      c.i++;
+      advanceBy(c, 1);
       emit({
         kind: "open",
         name,
         attrs,
         selfClosing,
-        span: makeSpan(start, c.i),
+        span: makeSpan(start, position(c)),
       });
       return;
     }
@@ -219,7 +256,7 @@ function scanOpenTag(
 
 function scanMarkup(
   c: Cursor,
-  start: number,
+  start: { offset: number; line: number; column: number },
   env: ScannerEnv,
   emit: Emit,
 ): void {
@@ -231,9 +268,9 @@ function scanMarkup(
   // comment or doctype
   if (cc === 33) {
     // "<!"
-    c.i++;
+    advanceBy(c, 1);
     if (c.input.startsWith("--", c.i)) {
-      c.i += 2; // after "<!--"
+      advanceBy(c, 2); // after "<!--"
       if (!env.opts.emitNonContentEvents) {
         const endIdx = indexOfFrom(c, "-->", c.i);
         if (endIdx === -1)
@@ -242,7 +279,7 @@ function scanMarkup(
             start,
             "Unterminated comment",
           );
-        c.i = endIdx + 3;
+        advanceTo(c, endIdx + 3);
         return;
       }
       scanComment(c, start, emit);
@@ -272,7 +309,7 @@ function scanMarkup(
   // processing instruction
   if (cc === 63) {
     // "<?"
-    c.i++;
+    advanceBy(c, 1);
     if (!env.opts.emitNonContentEvents) {
       const endIdx = indexOfFrom(c, "?>", c.i);
       if (endIdx === -1)
@@ -281,7 +318,7 @@ function scanMarkup(
           start,
           "Unterminated processing instruction",
         );
-      c.i = endIdx + 2;
+      advanceTo(c, endIdx + 2);
       return;
     }
     scanPI(c, start, emit);
@@ -290,7 +327,7 @@ function scanMarkup(
 
   // close tag
   if (cc === 47) {
-    c.i++; // after "</"
+    advanceBy(c, 1); // after "</"
     scanCloseTag(c, start, env, emit);
     return;
   }
@@ -306,7 +343,7 @@ function scanTextSegment(
   emit: Emit,
 ): void {
   if (until <= c.i) {
-    c.i = until;
+    advanceTo(c, until);
     return;
   }
 
@@ -322,26 +359,26 @@ function scanTextSegment(
   }
 
   if (env.opts.skipWhitespaceText && !hasNonWs) {
-    c.i = until;
+    advanceTo(c, until);
     return;
   }
 
+  const startPos = position(c);
   const raw = slice(c, c.i, until);
+  const endPos = advanceTo(c, until);
 
   if (!env.opts.trimText) {
     if (raw.length > 0) {
-      const value = hasAmp ? env.decode(raw, c.i) : raw;
-      emit({ kind: "text", value, span: makeSpan(c.i, until) });
+      const value = hasAmp ? env.decode(raw, startPos) : raw;
+      emit({ kind: "text", value, span: makeSpan(startPos, endPos) });
     }
-    c.i = until;
     return;
   }
 
-  const normalized = normalizeText(raw, env, c.i);
+  const normalized = normalizeText(raw, env, startPos);
   if (normalized !== null) {
-    emit({ kind: "text", value: normalized, span: makeSpan(c.i, until) });
+    emit({ kind: "text", value: normalized, span: makeSpan(startPos, endPos) });
   }
-  c.i = until;
 }
 
 function makeDecoder(opts: XmlTokenizerOptions): Decode {
@@ -359,6 +396,7 @@ function makeDecoder(opts: XmlTokenizerOptions): Decode {
 export function createTokenizer(
   opts: XmlTokenizerOptions,
   pool: XmlNamePool,
+  startPosition?: { offset: number; line: number; column: number },
 ): (input: string) => Generator<XmlToken> {
   const env: ScannerEnv = {
     opts,
@@ -367,7 +405,12 @@ export function createTokenizer(
   };
 
   return function* run(input: string): Generator<XmlToken> {
-    const c = makeCursor(input);
+    const c = makeCursor(
+      input,
+      startPosition?.offset ?? 0,
+      startPosition?.line ?? 1,
+      startPosition?.column ?? 1,
+    );
 
     const emitQueue: XmlToken[] = [];
     const emit: Emit = (t) => {
@@ -396,8 +439,8 @@ export function createTokenizer(
       }
 
       // consume '<'
-      const start = c.i;
-      c.i++;
+      const start = position(c);
+      advanceBy(c, 1);
 
       scanMarkup(c, start, env, emit);
       for (let i = 0; i < emitQueue.length; i++) {
@@ -412,8 +455,9 @@ export function* tokenizeXml(
   input: string,
   options: XmlTokenizerOptions = DEFAULT_XML_TOKENIZER_OPTIONS,
   pool?: XmlNamePool,
+  startPosition?: { offset: number; line: number; column: number },
 ): Generator<XmlToken> {
   const namePool = pool ?? new XmlNamePool();
-  const tokenizer = createTokenizer(options, namePool);
+  const tokenizer = createTokenizer(options, namePool, startPosition);
   yield* tokenizer(input);
 }

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { offsetToLineColumn, spanToLineColumn } from "@/xml";
+import { offsetToLineColumn, spanToLineColumn } from "@/xml/public/position";
 
 test("line/column mapping handles LF newlines", () => {
   const input = "a\nb";

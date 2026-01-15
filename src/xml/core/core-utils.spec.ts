@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createNamePool } from "@/xml/public/name-pool";
 import {
   createAttr,
   createCloseToken,
@@ -7,8 +8,7 @@ import {
   createProcessingInstructionToken,
   createSpan,
   createTextToken,
-  createNamePool,
-} from "@/xml";
+} from "@/xml/public/types";
 
 test("interning the same name yields the same id", () => {
   const pool = createNamePool();
@@ -16,15 +16,16 @@ test("interning the same name yields the same id", () => {
   const a2 = pool.intern("a");
   const b = pool.intern("b");
 
-  assert.equal(a1, a2);
-  assert.notEqual(a1, b);
-  assert.equal(pool.toString(a1), "a");
-  assert.equal(pool.toString(b), "b");
+  assert.strictEqual(a1, a2);
+  assert.notStrictEqual(a1, b);
+  assert.strictEqual(pool.toString(a1), "a");
+  assert.strictEqual(pool.toString(b), "b");
 });
 
 test("unknown ids are rejected", () => {
   const pool = createNamePool();
-  assert.throws(() => pool.toString(9999 as never));
+  const unknownId = 9999 as unknown as ReturnType<typeof pool.intern>;
+  assert.throws(() => pool.toString(unknownId));
 });
 
 test("spans reject negative or inverted offsets", () => {
@@ -40,21 +41,21 @@ test("token factories produce well-formed tokens", () => {
   const attr = createAttr(pool.intern("x"), "1");
 
   const open = createOpenToken(name, [attr], false, 0, 3);
-  assert.equal(open.kind, "open");
+  assert.strictEqual(open.kind, "open");
   if (open.kind === "open") {
-    assert.equal(open.name, name);
-    assert.equal(open.attrs.length, 1);
+    assert.strictEqual(open.name, name);
+    assert.strictEqual(open.attrs.length, 1);
   }
 
   const text = createTextToken("hi", 3, 5);
-  assert.equal(text.kind, "text");
+  assert.strictEqual(text.kind, "text");
 
   const close = createCloseToken(name, 5, 9);
-  assert.equal(close.kind, "close");
+  assert.strictEqual(close.kind, "close");
 
   const comment = createCommentToken(10, 14);
-  assert.equal(comment.kind, "comment");
+  assert.strictEqual(comment.kind, "comment");
 
   const pi = createProcessingInstructionToken(15, 20);
-  assert.equal(pi.kind, "pi");
+  assert.strictEqual(pi.kind, "pi");
 });

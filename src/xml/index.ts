@@ -1,30 +1,54 @@
 // src/xml/index.ts
 
-// factories
-export {
-  createStreamingTokenizer,
-  createTokenizer,
-  tokenize,
-} from "@/xml/public/tokenizer";
-export { createStreamParser, parseEvents } from "@/xml/public/parser";
-export { createNamePool } from "@/xml/public/name-pool";
-export {
-  parseEventsFromAsyncIterable,
-  parseEventsFromReadable,
-  parseEventsFromString,
-  parseEventsIterable,
-  parseEventsToSink,
-} from "@/xml/public/streaming";
-export type { ParseEventsOptions } from "@/xml/public/streaming";
-
+export type {
+  DomlessTreeBuilder,
+  XmlElementNode,
+  XmlNode,
+  XmlTextNode,
+} from "@/xml/public/domless-tree";
 // adapters
 export { createDomlessTreeBuilder } from "@/xml/public/domless-tree";
+// errors
+export { XmlError } from "@/xml/public/error";
+export { getEventSignature } from "@/xml/public/event-signature";
+export type { XmlNamePool } from "@/xml/public/name-pool";
+export { createNamePool } from "@/xml/public/name-pool";
+export {
+  createStreamParser,
+  createTextCoalescer,
+  DEFAULT_XML_STREAM_PARSER_OPTIONS,
+  parseEvents,
+  parseEventsCollect,
+  parseFragment,
+} from "@/xml/public/parser";
+export type {
+  CompiledSelector,
+  PathSelector,
+  PathSpec,
+  SelectorContext,
+} from "@/xml/public/path-selector";
 export {
   compilePathString,
   compileSelector,
   createPathSelector,
 } from "@/xml/public/path-selector";
-
+export type { ParseEventsOptions } from "@/xml/public/streaming";
+export {
+  parseEventsFromAsyncIterable,
+  parseEventsFromNodeReadable,
+  parseEventsFromString,
+  parseEventsIterable,
+  parseEventsToSink,
+  parseEventsToSinkSync,
+} from "@/xml/public/streaming";
+// factories
+// options and helpers
+export {
+  createStreamingTokenizer,
+  createTokenizer,
+  DEFAULT_XML_TOKENIZER_OPTIONS,
+  tokenize,
+} from "@/xml/public/tokenizer";
 // types
 export type {
   Attr,
@@ -34,27 +58,6 @@ export type {
   XmlParserOptions,
   XmlPosition,
   XmlToken,
-  XmlTokenKind,
   XmlTokenizerOptions,
+  XmlTokenKind,
 } from "@/xml/public/types";
-export {
-  createAttr,
-  createCloseToken,
-  createCommentToken,
-  createOpenToken,
-  createProcessingInstructionToken,
-  createSpan,
-  createTextToken,
-} from "@/xml/public/types";
-export type { LineColumn, SpanLineColumn } from "@/xml/public/position";
-export type { XmlNamePool } from "@/xml/public/name-pool";
-export type { DomlessTreeBuilder, XmlElementNode, XmlNode, XmlTextNode } from "@/xml/public/domless-tree";
-export type { CompiledSelector, PathSpec, PathSelector, SelectorContext } from "@/xml/public/path-selector";
-
-// errors
-export { XmlError, XmlParseError } from "@/xml/public/error";
-
-// options and helpers
-export { DEFAULT_XML_TOKENIZER_OPTIONS } from "@/xml/public/tokenizer";
-export { DEFAULT_XML_STREAM_PARSER_OPTIONS } from "@/xml/public/parser";
-export { offsetToLineColumn, spanToLineColumn } from "@/xml/public/position";

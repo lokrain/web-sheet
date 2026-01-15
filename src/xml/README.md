@@ -28,10 +28,23 @@ This parser targets a pragmatic, safe subset of XML intended for data-oriented d
 
 - `parseEventsFromString(input)` yields events as an async iterable
 - `parseEventsFromAsyncIterable(chunks)` consumes `AsyncIterable<string | Uint8Array>`
-- `parseEventsFromReadable(readable)` is a convenience alias for async iterables
+- `parseEventsFromNodeReadable(readable)` consumes a Node `Readable`
 - `parseEventsToSink(input, sink)` delivers events to a callback without buffering arrays
+- `parseEventsToSinkSync(input, sink)` does the same for string inputs
+
+`parseEventsIterable(input)` remains the synchronous API. `parseEventsFromString` exists for API symmetry with async pipelines.
 
 These APIs stream through a decoding stage and avoid buffering all events in memory.
+
+### Text handling defaults
+
+By default, tokenization trims and skips whitespace-only text (`trimText: true`, `skipWhitespaceText: true`).
+If you need exact text preservation, use:
+
+- `trimText: false`
+- `skipWhitespaceText: false`
+
+Streaming parsing coalesces adjacent `Text` events to keep chunk invariance.
 
 ## Errors
 
@@ -39,5 +52,13 @@ All parser/tokenizer failures throw `XmlError`, which includes:
 
 - `code`: stable error code string
 - `position.offset`: 0-based offset
-- `position.line` / `position.column` when the input is a full string
+- `position.line` / `position.column`
 - `context` (optional) for extra details
+
+## Fragments
+
+Use `parseFragment()` to parse XML fragments (multiple roots) without toggling `requireSingleRoot` manually.
+
+## Utilities
+
+- `getEventSignature(evt, pool)` provides a stable event signature for hashing/comparison.

@@ -20,9 +20,14 @@ export class XmlNamePool {
     if (s === undefined)
       throw new XmlError(
         "XML_NAME_ID_OUT_OF_RANGE",
-        { offset: 0 },
-        `NameId out of range: ${id as unknown as number}`
+        { offset: 0, line: 1, column: 1 },
+        `NameId out of range: ${id as unknown as number}`,
       );
     return s;
+  }
+
+  public tryToString(id: NameId): string | null {
+    const s = this.#strings[id as unknown as number];
+    return s ?? null;
   }
 }

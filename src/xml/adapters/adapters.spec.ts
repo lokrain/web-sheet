@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 
 import {
-  compileSelector,
   compilePathString,
-  createPathSelector,
+  compileSelector,
   createDomlessTreeBuilder,
   createNamePool,
+  createPathSelector,
   parseEvents,
   type SelectorContext,
 } from "@/xml";

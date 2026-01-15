@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { createNamePool, parseEvents, XmlError } from "@/xml";
+import { parseEvents, XmlError } from "@/xml";
 
 test("parseEvents returns events with a reusable name pool", () => {
   const { events, pool } = parseEvents("<root><a>hi</a></root>");

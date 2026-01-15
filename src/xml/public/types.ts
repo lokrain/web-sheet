@@ -1,12 +1,11 @@
+import type { XmlPosition as CoreXmlPosition } from "@/xml/core/error";
+import type { XmlTokenizerOptions as CoreXmlTokenizerOptions } from "@/xml/core/options";
+import type { XmlEvent as CoreXmlEvent, XmlStreamParserOptions as CoreXmlStreamParserOptions } from "@/xml/core/stream-parser";
 import type {
   Attr as CoreAttr,
   NameId as CoreNameId,
   XmlToken as CoreXmlToken,
 } from "@/xml/core/types";
-import type { XmlEvent as CoreXmlEvent } from "@/xml/core/stream-parser";
-import type { XmlTokenizerOptions as CoreXmlTokenizerOptions } from "@/xml/core/options";
-import type { XmlStreamParserOptions as CoreXmlStreamParserOptions } from "@/xml/core/stream-parser";
-import type { XmlPosition as CoreXmlPosition } from "@/xml/core/error";
 import {
   createAttr,
   createCloseToken,

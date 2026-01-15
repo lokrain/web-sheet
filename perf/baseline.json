@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-01-15T04:14:22.628Z",
+  "fixtures": {
+    "medium": {
+      "bytes": 651,
+      "modes": {
+        "string->sink": {
+          "medianMs": 0.6791999999999803,
+          "p95Ms": 5.36239999999998,
+          "events": 64
+        },
+        "string->collect": {
+          "medianMs": 0.5711000000000013,
+          "p95Ms": 1.1806000000000267,
+          "events": 64,
+          "hash": 3844815172
+        },
+        "stream->sink": {
+          "medianMs": 0.339999999999975,
+          "p95Ms": 1.4753000000000043,
+          "events": 64
+        },
+        "stream->collect": {
+          "medianMs": 0.5912999999999897,
+          "p95Ms": 2.599300000000028,
+          "events": 64,
+          "hash": 3844815172
+        }
+      }
+    },
+    "pathological": {
+      "bytes": 583,
+      "modes": {
+        "string->sink": {
+          "medianMs": 0.4802999999999997,
+          "p95Ms": 1.0578009999999836,
+          "events": 54
+        },
+        "string->collect": {
+          "medianMs": 0.23790000000002465,
+          "p95Ms": 0.6013000000000375,
+          "events": 54,
+          "hash": 2304709310
+        },
+        "stream->sink": {
+          "medianMs": 0.27640000000002374,
+          "p95Ms": 0.40189999999995507,
+          "events": 54
+        },
+        "stream->collect": {
+          "medianMs": 0.2458000000000311,
+          "p95Ms": 0.3229000000000042,
+          "events": 54,
+          "hash": 2304709310
+        }
+      }
+    },
+    "deep": {
+      "bytes": 187,
+      "modes": {
+        "string->sink": {
+          "medianMs": 0.06419999999997117,
+          "p95Ms": 0.8876999999999953,
+          "events": 53
+        },
+        "string->collect": {
+          "medianMs": 0.09029999999995653,
+          "p95Ms": 0.11299999999999955,
+          "events": 53,
+          "hash": 1874327733
+        },
+        "stream->sink": {
+          "medianMs": 0.15320000000002665,
+          "p95Ms": 0.2290999999999599,
+          "events": 53
+        },
+        "stream->collect": {
+          "medianMs": 0.1524000000000001,
+          "p95Ms": 0.17169999999998709,
+          "events": 53,
+          "hash": 1874327733
+        }
+      }
+    },
+    "entities": {
+      "bytes": 134,
+      "modes": {
+        "string->sink": {
+          "medianMs": 0.044899999999984175,
+          "p95Ms": 0.4282999999999788,
+          "events": 8
+        },
+        "string->collect": {
+          "medianMs": 0.052500000000009095,
+          "p95Ms": 0.08139999999997372,
+          "events": 8,
+          "hash": 668408311
+        },
+        "stream->sink": {
+          "medianMs": 0.0655999999999608,
+          "p95Ms": 0.09620000000001028,
+          "events": 8
+        },
+        "stream->collect": {
+          "medianMs": 0.07290000000000418,
+          "p95Ms": 0.1411000000000513,
+          "events": 8,
+          "hash": 668408311
+        }
+      }
+    }
+  }
+}

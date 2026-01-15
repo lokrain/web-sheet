@@ -1,10 +1,10 @@
-import type { XmlEvent } from "@/xml/core/stream-parser";
 import {
   DomlessTreeBuilder as DomlessTreeBuilderImpl,
   type XmlElementNode,
   type XmlNode,
   type XmlTextNode,
 } from "@/xml/adapters/domless-tree-builder";
+import type { XmlEvent } from "@/xml/core/stream-parser";
 
 export type DomlessTreeBuilder = Readonly<{
   onEvent: (evt: XmlEvent) => void;

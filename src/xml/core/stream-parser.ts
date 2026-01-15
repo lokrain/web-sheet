@@ -1,6 +1,6 @@
 import { XmlParseError } from "@/xml/core/error";
 import type { XmlNamePool } from "@/xml/core/name-pool";
-import type { NameId, XmlToken } from "@/xml/core/types";
+import type { NameId, Span, XmlToken } from "@/xml/core/types";
 
 export type XmlEvent =
   | Readonly<{
@@ -8,25 +8,25 @@ export type XmlEvent =
       name: NameId;
       attrs: readonly Readonly<{ name: NameId; value: string }>[];
       selfClosing: boolean;
-      span: Readonly<{ start: number; end: number }>;
+      span: Span;
     }>
   | Readonly<{
       kind: "EndElement";
       name: NameId;
-      span: Readonly<{ start: number; end: number }>;
+      span: Span;
     }>
   | Readonly<{
       kind: "Text";
       value: string;
-      span: Readonly<{ start: number; end: number }>;
+      span: Span;
     }>
   | Readonly<{
       kind: "Comment";
-      span: Readonly<{ start: number; end: number }>;
+      span: Span;
     }>
   | Readonly<{
       kind: "ProcessingInstruction";
-      span: Readonly<{ start: number; end: number }>;
+      span: Span;
     }>;
 
 export type XmlEventHandler = (evt: XmlEvent) => void;
@@ -65,6 +65,8 @@ export const DEFAULT_XML_STREAM_PARSER_OPTIONS: XmlStreamParserOptions = Object.
 type StackFrame = {
   name: NameId;
   openSpanStart: number;
+  openSpanLine: number;
+  openSpanColumn: number;
 };
 
 export class StreamParserImpl {
@@ -78,8 +80,24 @@ export class StreamParserImpl {
     private readonly pool?: XmlNamePool,
   ) {}
 
-  private fail(code: string, offset: number, message: string): never {
-    throw new XmlParseError(code, offset, message);
+  private fail(
+    code: string,
+    position: { offset: number; line: number; column: number },
+    message: string,
+  ): never {
+    throw new XmlParseError(code, position, message);
+  }
+
+  private spanStartPosition(span: { start: number; startLine?: number; startColumn?: number }): {
+    offset: number;
+    line: number;
+    column: number;
+  } {
+    return {
+      offset: span.start,
+      line: span.startLine ?? 1,
+      column: span.startColumn ?? 1,
+    };
   }
 
   private nameToString(id: NameId): string {
@@ -87,12 +105,12 @@ export class StreamParserImpl {
     return this.pool.toString(id);
   }
 
-  public write(token: XmlToken): XmlEvent[] {
+  public write(token: XmlToken, emit: XmlEventHandler): void {
     this.tokenCount++;
     if (this.tokenCount > this.options.maxTokens) {
       this.fail(
         "XML_TOKEN_LIMIT",
-        token.span.start,
+        this.spanStartPosition(token.span),
         `Token limit exceeded (${this.options.maxTokens})`,
       );
     }
@@ -103,29 +121,32 @@ export class StreamParserImpl {
           if (!this.seenRoot) {
             this.fail(
               "XML_TEXT_BEFORE_ROOT",
-              token.span.start,
+              this.spanStartPosition(token.span),
               "Text is not allowed before the root element",
             );
           }
           if (this.rootClosed) {
             this.fail(
               "XML_TEXT_AFTER_ROOT",
-              token.span.start,
+              this.spanStartPosition(token.span),
               "Text is not allowed after the root element",
             );
           }
         }
-        return [{ kind: "Text", value: token.value, span: token.span }];
+        emit({ kind: "Text", value: token.value, span: token.span });
+        return;
       }
 
       case "comment": {
-        if (!this.options.emitNonContentEvents) return [];
-        return [{ kind: "Comment", span: token.span }];
+        if (!this.options.emitNonContentEvents) return;
+        emit({ kind: "Comment", span: token.span });
+        return;
       }
 
       case "pi": {
-        if (!this.options.emitNonContentEvents) return [];
-        return [{ kind: "ProcessingInstruction", span: token.span }];
+        if (!this.options.emitNonContentEvents) return;
+        emit({ kind: "ProcessingInstruction", span: token.span });
+        return;
       }
 
       case "open": {
@@ -135,7 +156,7 @@ export class StreamParserImpl {
           } else if (this.options.requireSingleRoot) {
             this.fail(
               "XML_MULTIPLE_ROOTS",
-              token.span.start,
+              this.spanStartPosition(token.span),
               "Multiple top-level elements are not allowed",
             );
           } else if (this.rootClosed) {
@@ -146,33 +167,35 @@ export class StreamParserImpl {
         if (this.stack.length >= this.options.maxDepth) {
           this.fail(
             "XML_DEPTH_LIMIT",
-            token.span.start,
+            this.spanStartPosition(token.span),
             `Max depth exceeded (${this.options.maxDepth})`,
           );
         }
 
-        const events: XmlEvent[] = [
-          {
-            kind: "StartElement",
-            name: token.name,
-            attrs: token.attrs,
-            selfClosing: token.selfClosing,
-            span: token.span,
-          },
-        ];
+        emit({
+          kind: "StartElement",
+          name: token.name,
+          attrs: token.attrs,
+          selfClosing: token.selfClosing,
+          span: token.span,
+        });
 
         if (!token.selfClosing) {
-          this.stack.push({ name: token.name, openSpanStart: token.span.start });
+          this.stack.push({
+            name: token.name,
+            openSpanStart: token.span.start,
+            openSpanLine: token.span.startLine ?? 1,
+            openSpanColumn: token.span.startColumn ?? 1,
+          });
         } else {
-          events.push({
+          emit({
             kind: "EndElement",
             name: token.name,
             span: token.span,
           });
           if (this.stack.length === 0) this.rootClosed = true;
         }
-
-        return events;
+        return;
       }
 
       case "close": {
@@ -180,56 +203,52 @@ export class StreamParserImpl {
         if (!frame) {
           this.fail(
             "XML_UNEXPECTED_CLOSETAG",
-            token.span.start,
+            this.spanStartPosition(token.span),
             `Unexpected close tag </${this.nameToString(token.name)}>`
           );
         } else if (frame.name !== token.name) {
           this.fail(
             "XML_TAG_MISMATCH",
-            token.span.start,
+            this.spanStartPosition(token.span),
             `Mismatched close tag </${this.nameToString(token.name)}>, expected </${this.nameToString(frame.name)}>`
           );
         }
 
-        const evt: XmlEvent = {
-          kind: "EndElement",
-          name: token.name,
-          span: token.span,
-        };
+        emit({ kind: "EndElement", name: token.name, span: token.span });
 
         if (this.stack.length === 0) this.rootClosed = true;
-        return [evt];
+        return;
       }
 
       default: {
         const _never: never = token;
         void _never;
-        return [];
+        return;
       }
     }
   }
 
-  public writeAll(tokens: Iterable<XmlToken>): XmlEvent[] {
-    const out: XmlEvent[] = [];
-    for (const t of tokens) out.push(...this.write(t));
-    return out;
+  public writeAll(tokens: Iterable<XmlToken>, emit: XmlEventHandler): void {
+    for (const t of tokens) this.write(t, emit);
   }
 
-  public end(): XmlEvent[] {
+  public end(): void {
     if (this.stack.length > 0) {
       const unclosed = this.stack[this.stack.length - 1];
       this.fail(
         "XML_UNCLOSED_TAGS",
-        unclosed.openSpanStart,
+        {
+          offset: unclosed.openSpanStart,
+          line: unclosed.openSpanLine,
+          column: unclosed.openSpanColumn,
+        },
         `Unclosed tag <${this.nameToString(unclosed.name)}> (depth=${this.stack.length})`,
       );
     }
 
     if (this.options.requireSingleRoot && !this.seenRoot) {
-      this.fail("XML_NO_ROOT", 0, "No root element found");
+      this.fail("XML_NO_ROOT", { offset: 0, line: 1, column: 1 }, "No root element found");
     }
-
-    return [];
   }
 }
 
@@ -240,9 +259,6 @@ export function parseXmlStream(
   namePool?: XmlNamePool,
 ): void {
   const parser = new StreamParserImpl(options, namePool);
-  for (const tok of tokens) {
-    const events = parser.write(tok);
-    for (let i = 0; i < events.length; i++) onEvent(events[i]);
-  }
+  for (const tok of tokens) parser.write(tok, onEvent);
   parser.end();
 }

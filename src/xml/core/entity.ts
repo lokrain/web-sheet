@@ -1,10 +1,12 @@
+import type { XmlPosition } from "@/xml/core/error";
 import { XmlParseError } from "@/xml/core/error";
+import { advancePosition } from "@/xml/internal/position";
 
 export type XmlEntityResolver = (name: string) => string | null;
 
 export function decodeXmlEntities(
   text: string,
-  baseOffset: number,
+  basePosition: XmlPosition,
   resolver?: XmlEntityResolver,
 ): string {
   const firstAmp = text.indexOf("&");
@@ -21,13 +23,15 @@ export function decodeXmlEntities(
     if (semi === -1) {
       throw new XmlParseError(
         "XML_ENTITY_UNTERMINATED",
-        baseOffset + i,
+        advancePosition(basePosition, text, i),
         "Unterminated entity",
       );
     }
 
     const body = text.slice(i + 1, semi);
-    parts.push(decodeEntityBody(body, baseOffset + i, resolver));
+    parts.push(
+      decodeEntityBody(body, advancePosition(basePosition, text, i), resolver),
+    );
 
     i = semi;
     last = semi + 1;
@@ -39,7 +43,7 @@ export function decodeXmlEntities(
 
 function decodeEntityBody(
   body: string,
-  at: number,
+  at: XmlPosition,
   resolver?: XmlEntityResolver,
 ): string {
   switch (body) {

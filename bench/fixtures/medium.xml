@@ -1,0 +1,24 @@
+<root>
+  <items>
+    <item id="1">alpha</item>
+    <item id="2">bravo</item>
+    <item id="3">charlie</item>
+    <item id="4">delta</item>
+    <item id="5">echo</item>
+    <item id="6">foxtrot</item>
+    <item id="7">golf</item>
+    <item id="8">hotel</item>
+    <item id="9">india</item>
+    <item id="10">juliet</item>
+    <item id="11">kilo</item>
+    <item id="12">lima</item>
+    <item id="13">mike</item>
+    <item id="14">november</item>
+    <item id="15">oscar</item>
+    <item id="16">papa</item>
+    <item id="17">quebec</item>
+    <item id="18">romeo</item>
+    <item id="19">sierra</item>
+    <item id="20">tango</item>
+  </items>
+</root>

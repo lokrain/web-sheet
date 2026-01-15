@@ -20,6 +20,31 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment variables
+
+This repo uses different `.env*` files depending on what you’re running:
+
+- **Next.js dev/build/start**: Next.js loads `.env*` automatically.
+	- Put local developer values in `.env.local`.
+	- Do not commit secrets.
+
+- **Jest (`npm test`, `npm run test:ci`, etc.)**: Jest loads test env files via `dotenv` in `jest.setup.ts`.
+	- Committed defaults: `.env.test`
+	- Local overrides (git-ignored): `.env.test.local`
+
+- **Bench (`npm run bench`)**: the benchmark runner loads env via `dotenv`.
+	- Local developer values: `.env.local`
+	- Optional shared defaults: `.env`
+
+### Committed templates
+
+- `.env.example` is the template you can copy from.
+- `.env.test` is committed so tests have a consistent baseline across machines.
+
+### CI
+
+CI should inject secrets and environment variables through the CI system (GitHub Actions / etc.), not via committed `.env.local` files.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

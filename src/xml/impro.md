@@ -35,6 +35,17 @@ Documented:
 
 - Jest specs are colocated under `src/xml/**` and cover tokenizer, entity decode, stream parser invariants, name pooling, token factories, and both adapters.
 
-## Suggested follow-up work (small, testable steps)
+## Improvements to implement (from latest feedback)
 
-None currently outstanding.
+### Potential follow-ups (new)
+
+- **Rename collect-style API for clarity:** `parseEvents()` returns an array but reads like a streaming API. Consider renaming to `parseEventsCollect()` (or similar) and keep `parseEventsIterable()` as the primary entrypoint.
+- **Clarify internal surface:** `xml/internal/index.ts` re-exports parser/tokenizer internals. Consider tightening or documenting this surface to avoid accidental consumer usage.
+- **Reconsider public token/span constructors:** `public/types.ts` re-exports `createSpan` and token constructors. If the intent is “factories-only at root”, consider keeping these helpers internal or documenting their stability explicitly.
+- **Public position helpers surface:** `public/position.ts` still exposes `offsetToLineColumn`/`spanToLineColumn`. If these are not intended for consumers, consider moving them under `internal/` or documenting their scope.
+- **Reduce parseEvents array usage in adapters tests/docs:** `adapters.spec.ts` (and likely docs) use `parseEvents()` for batch arrays. Consider using `parseEventsIterable()` for better demonstration of streaming-first usage.
+- **Optional stricter XML name rules:** `isXmlNameStart/Char` are ASCII-only by design. Consider a future toggle for full XML Name compliance or explicit validation mode (for schema-sensitive consumers).
+- **Consider a non-allocating sync iterator adapter:** `parseEventsIterable` currently buffers via an array. A small generator adapter around `StreamParserImpl.write` could yield immediately to reduce allocations for large strings.
+- **Document streaming text deferral semantics:** the streaming tokenizer may defer trailing text until the next chunk or `end()` to preserve chunk invariance; consider documenting this so consumers don’t expect immediate text callbacks on partial chunks.
+- **Define stability tiers for the public surface:** explicitly label which APIs are “stable” vs “internal/experimental” to reduce future breaking changes.
+- **Consolidate error codes into an enum-like export:** provide a shared list of error codes to avoid stringly-typed consumers and typos.

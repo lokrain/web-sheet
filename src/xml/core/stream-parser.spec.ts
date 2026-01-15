@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 
 import {
-  DEFAULT_XML_STREAM_PARSER_OPTIONS,
-  DEFAULT_XML_TOKENIZER_OPTIONS,
   createNamePool,
   createStreamParser,
+  DEFAULT_XML_STREAM_PARSER_OPTIONS,
+  DEFAULT_XML_TOKENIZER_OPTIONS,
   tokenize,
   XmlError,
 } from "@/xml";
@@ -16,7 +16,7 @@ function parseAll(
 ): void {
   const opts = { ...DEFAULT_XML_STREAM_PARSER_OPTIONS, ...(parserOpts ?? {}) };
   const parser = createStreamParser(opts, pool);
-  parser.write(tokenize(xml, DEFAULT_XML_TOKENIZER_OPTIONS, pool));
+  parser.writeAll(tokenize(xml, DEFAULT_XML_TOKENIZER_OPTIONS, pool), () => undefined);
   parser.end();
 }
 

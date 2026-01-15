@@ -1,8 +1,8 @@
 // Path-based selector (src/xml/adapters/path-based-selector.ts)
 
+import { XmlError } from "@/xml/core/error";
 import type { XmlNamePool } from "@/xml/core/name-pool";
 import type { XmlEvent } from "@/xml/core/stream-parser";
-import { XmlError } from "@/xml/core/error";
 import type { NameId, Span } from "@/xml/core/types";
 
 /**
@@ -166,8 +166,8 @@ export function compileSelector(specs: readonly PathSpec[]): CompiledSelector {
     if (spec.path.length === 0)
       throw new XmlError(
         "XML_INVALID_SELECTOR",
-        { offset: 0 },
-        "compileSelector: empty path is invalid"
+        { offset: 0, line: 1, column: 1 },
+        "compileSelector: empty path is invalid",
       );
 
     // Stack of nodes along the path for persistent rebuild.
@@ -287,16 +287,18 @@ export class PathSelector {
   ): void {
     const depth = this.stackNames.length + 1;
 
-    const parentNode = depth === 1 ? this.compiled.root : this.stackNodes[depth - 2];
+    const parentNode =
+      depth === 1 ? this.compiled.root : this.stackNodes[depth - 2];
 
     const node = parentNode ? findChild(parentNode, name) : null;
     const handlers = node?.handlers ?? null;
 
-    const prevCaptureDepth = depth === 1 ? 0 : this.stackCaptureDepth[depth - 2];
+    const prevCaptureDepth =
+      depth === 1 ? 0 : this.stackCaptureDepth[depth - 2];
     let activeCaptureDepth = prevCaptureDepth;
 
     // If this exact node wants subtree capture, push it onto captureStack and increment depth counter.
-    if (handlers && handlers.captureSubtree) {
+    if (handlers?.captureSubtree) {
       this.captureStack.push(handlers);
       activeCaptureDepth = prevCaptureDepth + 1;
     }
@@ -321,8 +323,8 @@ export class PathSelector {
     if (depth === 0) {
       throw new XmlError(
         "XML_INTERNAL",
-        { offset: 0 },
-        "PathSelector: EndElement with empty stack (upstream parser should prevent this)"
+        { offset: 0, line: 1, column: 1 },
+        "PathSelector: EndElement with empty stack (upstream parser should prevent this)",
       );
     }
 
@@ -335,14 +337,14 @@ export class PathSelector {
     }
 
     // If this frame had subtree capture, it must be the latest captureStack entry (LIFO by nesting).
-    if (handlers && handlers.captureSubtree) {
+    if (handlers?.captureSubtree) {
       const top = this.captureStack.pop();
       if (top !== handlers) {
         // This indicates misuse (events out of order) or a bug upstream. Fail fast.
         throw new XmlError(
           "XML_INTERNAL",
-          { offset: 0 },
-          "PathSelector: capture stack mismatch"
+          { offset: 0, line: 1, column: 1 },
+          "PathSelector: capture stack mismatch",
         );
       }
     }
@@ -410,8 +412,8 @@ export function compilePathString(
   if (segs.length === 0)
     throw new XmlError(
       "XML_INVALID_SELECTOR",
-      { offset: 0 },
-      `compilePathString: invalid path '${path}'`
+      { offset: 0, line: 1, column: 1 },
+      `compilePathString: invalid path '${path}'`,
     );
   const out: NameId[] = new Array(segs.length);
   for (let i = 0; i < segs.length; i++) out[i] = pool.intern(segs[i]);

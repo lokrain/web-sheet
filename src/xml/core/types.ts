@@ -7,6 +7,10 @@ export type NameId = Brand<number, "NameId">;
 export type Span = Readonly<{
   start: number;
   end: number;
+  startLine?: number;
+  startColumn?: number;
+  endLine?: number;
+  endColumn?: number;
 }>;
 
 export type Attr = Readonly<{
@@ -31,7 +35,7 @@ const assertNonNegativeInt = (value: number, label: string): void => {
   if (!Number.isInteger(value) || value < 0) {
     throw new XmlError(
       "XML_INVALID_SPAN",
-      { offset: 0 },
+      { offset: 0, line: 1, column: 1 },
       `${label} must be a non-negative integer`
     );
   }
@@ -43,7 +47,7 @@ export function createSpan(start: number, end: number): Span {
   if (end < start) {
     throw new XmlError(
       "XML_INVALID_SPAN",
-      { offset: 0 },
+      { offset: 0, line: 1, column: 1 },
       `end (${end}) must be >= start (${start})`
     );
   }

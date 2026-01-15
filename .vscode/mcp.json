@@ -3,7 +3,16 @@
     "io.github.vercel/next-devtools-mcp": {
       "type": "stdio",
       "command": "npx",
-      "args": ["next-devtools-mcp@0.3.6"]
+      "args": [
+        "next-devtools-mcp@0.3.6"
+      ]
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
     }
   },
   "inputs": []

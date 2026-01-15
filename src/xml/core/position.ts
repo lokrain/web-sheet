@@ -14,7 +14,7 @@ const assertNonNegativeInt = (value: number, label: string): void => {
   if (!Number.isInteger(value) || value < 0) {
     throw new XmlError(
       "XML_INVALID_POSITION",
-      { offset: 0 },
+      { offset: 0, line: 1, column: 1 },
       `${label} must be a non-negative integer`
     );
   }

@@ -1,12 +1,15 @@
 import { XmlError } from "@/xml/core/error";
-import { offsetToLineColumn } from "@/xml/core/position";
 import { XmlNamePool as XmlNamePoolImpl } from "@/xml/core/name-pool";
 import {
   DEFAULT_XML_TOKENIZER_OPTIONS,
   type XmlTokenizerOptions,
 } from "@/xml/core/options";
-import { createTokenizer as createTokenizerImpl, tokenizeXml } from "@/xml/core/tokenizer";
+import {
+  createTokenizer as createTokenizerImpl,
+  tokenizeXml,
+} from "@/xml/core/tokenizer";
 import type { XmlToken } from "@/xml/core/types";
+import { advancePosition } from "@/xml/internal/position";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
 export type XmlTokenizer = Readonly<{
@@ -14,8 +17,8 @@ export type XmlTokenizer = Readonly<{
 }>;
 
 export type XmlStreamingTokenizer = Readonly<{
-  write: (chunk: string | Uint8Array) => Iterable<XmlToken>;
-  end: () => Iterable<XmlToken>;
+  write: (chunk: string | Uint8Array, emit: (token: XmlToken) => void) => void;
+  end: (emit: (token: XmlToken) => void) => void;
 }>;
 
 export function createTokenizer(
@@ -26,7 +29,7 @@ export function createTokenizer(
   const implPool = pool ? (pool as XmlNamePoolImpl) : new XmlNamePoolImpl();
   const impl = createTokenizerImpl(resolved, implPool);
   return {
-    tokenize: (input) => tokenizeWithPositions(impl(input), input),
+    tokenize: (input) => impl(input),
   };
 }
 
@@ -37,7 +40,7 @@ export function tokenize(
 ): Iterable<XmlToken> {
   const implPool = pool ? (pool as XmlNamePoolImpl) : undefined;
   const resolved = { ...DEFAULT_XML_TOKENIZER_OPTIONS, ...options };
-  return tokenizeWithPositions(tokenizeXml(input, resolved, implPool), input);
+  return tokenizeXml(input, resolved, implPool);
 }
 
 export function createStreamingTokenizer(
@@ -47,23 +50,34 @@ export function createStreamingTokenizer(
   const resolved = { ...DEFAULT_XML_TOKENIZER_OPTIONS, ...options };
   const implPool = pool ? (pool as XmlNamePoolImpl) : new XmlNamePoolImpl();
   let buffer = "";
-  let baseOffset = 0;
+  let basePosition = { offset: 0, line: 1, column: 1 };
   const decoder = new TextDecoder();
 
-  const tokenizeBuffer = (): { emitted: XmlToken[]; incomplete: boolean } => {
-    const emitted: XmlToken[] = [];
+  const tokenizeBuffer = (
+    emit: (token: XmlToken) => void,
+    deferTrailingText: boolean,
+  ): { incomplete: boolean; consumed: number } => {
     let lastEnd = 0;
+    let pending: XmlToken | null = null;
     try {
-      for (const tok of tokenizeXml(buffer, resolved, implPool)) {
-        lastEnd = tok.span.end;
-        emitted.push({
-          ...tok,
-          span: { start: tok.span.start + baseOffset, end: tok.span.end + baseOffset },
-        });
+      for (const tok of tokenizeXml(buffer, resolved, implPool, basePosition)) {
+        lastEnd = tok.span.end - basePosition.offset;
+        if (pending) emit(pending);
+        pending = tok;
       }
-      buffer = buffer.slice(lastEnd);
-      baseOffset += lastEnd;
-      return { emitted, incomplete: false };
+
+      if (
+        deferTrailingText &&
+        pending &&
+        pending.kind === "text" &&
+        pending.span.end - basePosition.offset === buffer.length
+      ) {
+        const pendingStart = pending.span.start - basePosition.offset;
+        return { incomplete: false, consumed: pendingStart };
+      }
+
+      if (pending) emit(pending);
+      return { incomplete: false, consumed: lastEnd };
     } catch (e) {
       if (e instanceof Error && "code" in e) {
         const code = (e as { code: string }).code;
@@ -76,11 +90,14 @@ export function createStreamingTokenizer(
           code === "XML_CLOSETAG_GT" ||
           code === "XML_TAG_END" ||
           code === "XML_ATTR_QUOTE" ||
-          code === "XML_ATTR_EQ"
+          code === "XML_ATTR_EQ" ||
+          code === "XML_ENTITY_UNTERMINATED"
         ) {
-          buffer = buffer.slice(lastEnd);
-          baseOffset += lastEnd;
-          return { emitted, incomplete: true };
+          if (pending) {
+            emit(pending);
+            lastEnd = pending.span.end - basePosition.offset;
+          }
+          return { incomplete: true, consumed: lastEnd };
         }
       }
       throw e;
@@ -88,46 +105,40 @@ export function createStreamingTokenizer(
   };
 
   return {
-    write: (chunk: string | Uint8Array) => {
+    write: (chunk: string | Uint8Array, emit: (token: XmlToken) => void) => {
       if (typeof chunk === "string") {
         buffer += chunk;
       } else if (chunk.length > 0) {
         buffer += decoder.decode(chunk, { stream: true });
       }
-      return tokenizeBuffer().emitted;
+      const { consumed } = tokenizeBuffer(emit, true);
+      if (consumed > 0) {
+        const consumedText = buffer.slice(0, consumed);
+        buffer = buffer.slice(consumed);
+        basePosition = advancePosition(basePosition, consumedText, consumed);
+      }
     },
-    end: () => {
+    end: (emit: (token: XmlToken) => void) => {
       const tail = decoder.decode();
       if (tail.length > 0) buffer += tail;
-      if (buffer.length === 0) return [];
-      const { emitted, incomplete } = tokenizeBuffer();
+      if (buffer.length === 0) return;
+      const { incomplete, consumed } = tokenizeBuffer(emit, false);
       if (incomplete) {
+        const endPos = advancePosition(basePosition, buffer, buffer.length);
         throw new XmlError(
           "XML_STREAMING_INCOMPLETE",
-          { offset: baseOffset + buffer.length },
-          "Streaming tokenizer ended with incomplete markup"
+          endPos,
+          "Streaming tokenizer ended with incomplete markup",
         );
       }
-      return emitted;
+      if (consumed > 0) {
+        const consumedText = buffer.slice(0, consumed);
+        buffer = buffer.slice(consumed);
+        basePosition = advancePosition(basePosition, consumedText, consumed);
+      }
     },
   };
 }
 
 export { DEFAULT_XML_TOKENIZER_OPTIONS };
 export type { XmlTokenizerOptions };
-
-function* tokenizeWithPositions(
-  tokens: Iterable<XmlToken>,
-  input: string,
-): Iterable<XmlToken> {
-  try {
-    for (const token of tokens) yield token;
-  } catch (e) {
-    if (e instanceof XmlError) {
-      const { offset } = e.position;
-      const lc = offsetToLineColumn(input, offset);
-      throw new XmlError(e.code, { offset, line: lc.line, column: lc.column }, e.message, e.context);
-    }
-    throw e;
-  }
-}

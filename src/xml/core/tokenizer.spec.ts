@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 
 import {
-  DEFAULT_XML_TOKENIZER_OPTIONS,
-  createStreamingTokenizer,
   createNamePool,
+  createStreamingTokenizer,
   createTokenizer,
+  DEFAULT_XML_TOKENIZER_OPTIONS,
   tokenize,
   XmlError,
 } from "@/xml";
@@ -146,11 +146,12 @@ test("streaming tokenizer emits tokens across chunks", () => {
   const pool = createNamePool();
   const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
   const out: string[] = [];
+  const emit = (tok: { kind: string }) => out.push(tok.kind);
 
-  for (const tok of tokenizer.write("<root>")) out.push(tok.kind);
-  for (const tok of tokenizer.write("<a/>")) out.push(tok.kind);
-  for (const tok of tokenizer.write("</root>")) out.push(tok.kind);
-  for (const tok of tokenizer.end()) out.push(tok.kind);
+  tokenizer.write("<root>", emit);
+  tokenizer.write("<a/>", emit);
+  tokenizer.write("</root>", emit);
+  tokenizer.end(emit);
 
   assert.deepEqual(out, ["open", "open", "close"]);
 });
@@ -159,14 +160,15 @@ test("streaming tokenizer accepts Uint8Array chunks", () => {
   const pool = createNamePool();
   const tokenizer = createStreamingTokenizer(DEFAULT_XML_TOKENIZER_OPTIONS, pool);
   const encoder = new TextEncoder();
+  const tokens: string[] = [];
+  const emit = (tok: { kind: string }) => tokens.push(tok.kind);
 
-  const a = Array.from(tokenizer.write(encoder.encode("<a>")));
-  const b = Array.from(tokenizer.write(encoder.encode("hi</a>")));
-  const c = Array.from(tokenizer.end());
+  tokenizer.write(encoder.encode("<a>"), emit);
+  tokenizer.write(encoder.encode("hi</a>"), emit);
+  tokenizer.end(emit);
 
-  const tokens = [...a, ...b, ...c];
   assert.equal(tokens.length, 3);
-  assert.equal(tokens[0].kind, "open");
-  assert.equal(tokens[1].kind, "text");
-  assert.equal(tokens[2].kind, "close");
+  assert.equal(tokens[0], "open");
+  assert.equal(tokens[1], "text");
+  assert.equal(tokens[2], "close");
 });
