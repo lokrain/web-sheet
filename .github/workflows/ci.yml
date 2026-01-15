@@ -35,9 +35,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Markdown format check
-        run: pnpm md:check
-
       - name: Test
         run: pnpm test
 

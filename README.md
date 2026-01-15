@@ -60,7 +60,6 @@ CI should inject secrets and environment variables through the CI system (GitHub
 ## Formatting & checks
 
 - Code formatting/lint: `pnpm lint` / `pnpm lint:fix`
-- Markdown formatting: `pnpm md:check` / `pnpm md:format`
 - Full local CI-equivalent: `pnpm verify`
 
 ## Learn More

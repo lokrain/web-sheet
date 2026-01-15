@@ -17,7 +17,7 @@
 ## Developer workflows (pnpm)
 - Node 25 and pnpm 10.26.2 are required (`.nvmrc`, `package.json`).
 - Dev/build: `pnpm dev`, `pnpm build`, `pnpm start`.
-- Lint/format: `pnpm lint` (Biome), `pnpm lint:fix`, `pnpm format`; Markdown formatting uses `pnpm md:check` / `pnpm md:format`.
+- Lint/format: `pnpm lint` (Biome), `pnpm lint:fix`, `pnpm format`.
 - Tests: `pnpm test` (Jest, uses `.env.test`/`.env.test.local`).
 - Benchmarks/perf: `pnpm bench`, `pnpm bench:musicxml`, `pnpm perf:ci`, `pnpm perf:update-baseline`.
 - Full local CI equivalent: `pnpm verify`.

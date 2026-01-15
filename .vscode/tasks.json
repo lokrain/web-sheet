@@ -116,18 +116,6 @@
       "args": ["clean"]
     },
     {
-      "label": "pnpm: md:check",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["md:check"]
-    },
-    {
-      "label": "pnpm: md:format",
-      "type": "shell",
-      "command": "pnpm",
-      "args": ["md:format"]
-    },
-    {
       "label": "pnpm: verify",
       "type": "shell",
       "command": "pnpm",
