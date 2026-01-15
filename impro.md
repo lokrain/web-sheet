@@ -69,7 +69,7 @@ Completion criteria:
 
 ## EPIC 1 — Project Foundations & Contracts
 
-Status: `IN_PROGRESS`
+Status: `DONE`
 
 ### Story 1.1 — Define Notation-Faithful Contract
 
@@ -97,8 +97,8 @@ Status: `DONE`
 
 ## EPIC 3 — Score Structure Parsing
 
-Status: `  - Status: `DONE`
-`
+Status: `DONE`
+
 
 ### Story 3.1 — Score Root Handling
 
@@ -135,7 +135,7 @@ Status: `IN_PROGRESS`
 
 ### Story 4.1 — Divisions & State
 
-Status: `IN_PROGRESS`
+Status: `DONE`
 
 - Task 4.1.1: Parse attributes/divisions **[1]**
   - Status: `DONE`
