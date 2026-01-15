@@ -25,7 +25,8 @@
     "bench:prof": "node --prof --expose-gc node_modules/.bin/tsx bench/bench-xml.ts",
     "perf:ci": "NODE_ENV=test NODE_OPTIONS=--localstorage-file=.jest-localstorage jest --ci --runInBand --coverage=false perf/perf.spec.ts",
     "perf:update-baseline": "node --expose-gc node_modules/.bin/tsx perf/update-baseline.ts",
-    "skills:test": "bash scripts/test-skills.sh"
+    "skills:test": "bash scripts/test-skills.sh",
+    "clean": "bash scripts/clean.sh"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

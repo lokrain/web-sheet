@@ -9,7 +9,7 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
   - Ignored generated artifacts (`.tmp-tscheck/`, `bench/results.json`).
   - Applied `biome check --write` fixes across the repo.
 
-- [ ] Clean up and commit the current repo changes.
+- [x] Clean up and commit the current repo changes.
   - Current status shows a mix of modified/untracked root files and folders (`AGENTS.md`, `scripts/`, `skills/`, `pnpm-lock.yaml`).
   - Ensure the intended files are committed and any accidental files are removed.
 
@@ -41,21 +41,22 @@ A living list of improvements for the overall repo (tooling, DX, CI, packaging, 
   - `.vscode/settings.json` now pins `biome.lsp.bin` which is good.
   - Removed empty `.vscode/launch.json` and gitignored it to avoid reintroducing noise.
 
-- [ ] Document environment-file semantics in one place.
+- [x] Document environment-file semantics in one place.
   - Currently: Jest loads `.env.test(.local)`; bench loads `.env.local`/`.env`; Next loads `.env.local`.
-  - Decide whether to keep bench `.env.local` loading (it overlaps with Next) or switch to `.env.bench`.
+  - Decision: keep bench reading `.env.local`/`.env` (simple local DX; no new env file tier).
 
 ## Low priority
 
-- [ ] Add `pnpm clean` script.
+- [x] Add `pnpm clean` script.
   - Remove `.next`, `.test-dist`, `.tmp-tscheck`, etc.
 
-- [ ] Add editorconfig (optional).
+- [x] Add editorconfig (optional).
   - Standardize newline/indent rules beyond Biome.
 
-- [ ] Reduce repo noise from generated artifacts.
+- [x] Reduce repo noise from generated artifacts.
   - Audit `.gitignore` for `.jest-localstorage`, `.test-dist`, perf/bench outputs, etc.
   - Added ignore entries for `bench/results.json` and `.tmp-tscheck/` and removed them from git.
+  - Removed tracked `.test-dist/` artifacts and kept it gitignored.
   - Consider adding more Biome force-ignore patterns for future generated folders.
 
 - [ ] Decide how to format/lint Markdown repo docs.
