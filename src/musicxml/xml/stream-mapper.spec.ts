@@ -31,9 +31,22 @@ test("mapMusicXmlScorePartwise permissive returns diagnostics for timewise", () 
   const xml = loadFixture("score-timewise.min.xml");
   const res = mapMusicXmlScorePartwise(xml, { strict: false });
   expect(res.diagnostics.length).toBeGreaterThan(0);
+  expect(res.events).toHaveLength(0);
 });
 
 test("mapMusicXmlScorePartwise strict throws for timewise", () => {
   const xml = loadFixture("score-timewise.min.xml");
   expect(() => mapMusicXmlScorePartwise(xml, { strict: true })).toThrow();
+});
+
+test("mapMusicXmlScorePartwise emits PartDef from part-list", () => {
+  const xml = loadFixture("score-partwise.single-part.single-voice.xml");
+  const res = mapMusicXmlScorePartwise(xml, { strict: true });
+
+  expect(res.diagnostics).toHaveLength(0);
+  expect(res.events).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ kind: "PartDef", partId: "P1", name: "Piano" }),
+    ]),
+  );
 });

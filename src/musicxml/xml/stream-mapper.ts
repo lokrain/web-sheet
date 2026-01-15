@@ -1,3 +1,6 @@
+import { dispatchXmlEvents } from "@/musicxml/xml/dispatch";
+import type { MusicXmlPartListEvent } from "@/musicxml/xml/part-list";
+import { createPartListReducer } from "@/musicxml/xml/part-list";
 import { parseEventsCollect } from "@/xml";
 import type { XmlNamePool } from "@/xml/public/name-pool";
 
@@ -23,6 +26,7 @@ export type MusicXmlScorePartwise = unknown;
 
 export type MusicXmlExtract = {
   score: MusicXmlScorePartwise;
+  events: MusicXmlPartListEvent[];
   diagnostics: MusicXmlDiagnostic[];
 };
 
@@ -91,7 +95,16 @@ export function mapMusicXmlScorePartwise(
         message: "score-timewise is not supported by mapMusicXmlScorePartwise",
       });
     }
-    return { score: undefined, diagnostics: diags };
+    return { score: undefined, events: [], diagnostics: diags };
   }
-  return { score: undefined, diagnostics: [] };
+
+  const xml = toXmlString(xmlInput);
+  const diagnostics: MusicXmlDiagnostic[] = [];
+  const { pool, events } = parseEventsCollect(xml);
+
+  const partListEvents = dispatchXmlEvents(events, [
+    createPartListReducer(pool, diagnostics),
+  ]);
+
+  return { score: undefined, events: partListEvents, diagnostics };
 }

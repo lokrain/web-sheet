@@ -1,4 +1,8 @@
 export type {
+  MusicXmlPartDefEvent,
+  MusicXmlPartListEvent,
+} from "@/musicxml/xml/part-list";
+export type {
   MusicXmlDiagnostic,
   MusicXmlDivisionsEvent,
   MusicXmlExtract,

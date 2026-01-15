@@ -104,18 +104,18 @@ Status: `IN_PROGRESS`
 Status: `IN_PROGRESS`
 
 - Task 3.1.1: Detect and validate score-partwise root **[1]**
-  - Status: `REVIEW`
+  - Status: `DONE`
 - Task 3.1.2: Detect and validate score-timewise root **[2]**
-  - Status: `REVIEW`
+  - Status: `DONE`
 
 ### Story 3.2 — Part List Mapping
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 3.2.1: Parse part-list/score-part ids **[2]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 - Task 3.2.2: Emit PartDef events with names/instruments **[3]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 
 ### Story 3.3 — Measure Boundaries
 
