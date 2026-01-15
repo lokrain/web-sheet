@@ -69,29 +69,29 @@ Completion criteria:
 
 ## EPIC 1 — Project Foundations & Contracts
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 1.1 — Define Notation-Faithful Contract
 
-Status: `BACKLOG`
+Status: `REVIEW`
 
 - Task 1.1.1: Write formal definition of “notation-faithful” output (no repeat expansion, no tie merging) **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 1.1.2: Specify normalized event model and invariants **[3]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 1.1.3: Define strict vs permissive parsing modes **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 
 ### Story 1.2 — Test Corpus & Golden Outputs
 
-Status: `BACKLOG`
+Status: `REVIEW`
 
 - Task 1.2.1: Create minimal MusicXML fixtures (single part, single voice) **[2]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 1.2.2: Add multi-voice fixtures with backup/forward **[3]**
-  - Status: `BACKLOG`
+  - Status: `DONE`
 - Task 1.2.3: Define golden event traces for fixtures **[3]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 
 ---
 

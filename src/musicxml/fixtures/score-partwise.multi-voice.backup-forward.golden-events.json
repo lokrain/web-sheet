@@ -1,0 +1,49 @@
+[
+  { "type": "ScoreStart" },
+  { "type": "PartDef", "partId": "P1", "name": "Piano" },
+  { "type": "PartStart", "partId": "P1" },
+  { "type": "MeasureStart", "partId": "P1", "measureNo": "1" },
+  { "type": "Divisions", "partId": "P1", "divisions": 4 },
+  {
+    "type": "Note",
+    "partId": "P1",
+    "voice": "1",
+    "tOnAbsDiv": 0,
+    "durDiv": 4,
+    "isRest": false,
+    "pitch": { "step": "C", "alter": 0, "octave": 4 },
+    "chord": false,
+    "grace": false,
+    "cue": false,
+    "tie": { "start": false, "stop": false }
+  },
+  {
+    "type": "Note",
+    "partId": "P1",
+    "voice": "2",
+    "tOnAbsDiv": 0,
+    "durDiv": 4,
+    "isRest": false,
+    "pitch": { "step": "E", "alter": 0, "octave": 4 },
+    "chord": false,
+    "grace": false,
+    "cue": false,
+    "tie": { "start": false, "stop": false }
+  },
+  {
+    "type": "Note",
+    "partId": "P1",
+    "voice": "1",
+    "tOnAbsDiv": 8,
+    "durDiv": 4,
+    "isRest": false,
+    "pitch": { "step": "G", "alter": 0, "octave": 4 },
+    "chord": false,
+    "grace": false,
+    "cue": false,
+    "tie": { "start": false, "stop": false }
+  },
+  { "type": "MeasureEnd", "partId": "P1", "measureNo": "1" },
+  { "type": "PartEnd", "partId": "P1" },
+  { "type": "ScoreEnd" }
+]
