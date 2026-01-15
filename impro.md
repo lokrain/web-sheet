@@ -1,83 +1,390 @@
 # impro.md (root)
 
-A living list of improvements for the overall repo (tooling, DX, CI, packaging, consistency). Items are removed or checked off as they’re implemented.
+This file is the repo’s single source of truth for ongoing improvements.
 
-## Iteration rule
+## How we work with this file
 
-1. Add newly discovered improvements.
-2. Implement the highest-leverage items that don’t require product decisions.
-3. Remove/mark completed items.
-4. Repeat.
+- We treat this file like a lightweight Jira board.
+- Every **Epic**, **Story**, and **Task** has a **Status**.
+- As work progresses, we update statuses (and add notes/links as needed).
+- When an **Epic is DONE**, we **delete the Epic section** (including all its stories/tasks) to keep the file small.
 
-## Now (highest leverage)
+### Statuses
 
-- [x] Keep the repo always-green locally + in CI.
-  - Canonical command: `pnpm verify`.
+Use one of:
 
-- [x] Remove duplicate/accidental files.
-  - Example: `skills/react-best-practices/rules/js-index-maps (1).md` looks like an accidental duplicate.
+- `BACKLOG` — known work, not started
+- `READY` — well-scoped, ready to start
+- `IN_PROGRESS` — actively being worked on (limit to a small number)
+- `BLOCKED` — cannot proceed (explain why + what unblocks)
+- `REVIEW` — implemented, awaiting review/verification
+- `DONE` — complete (when an Epic is DONE, delete it)
 
-- [x] Add missing developer scripts.
-  - `typecheck`: `tsc -p tsconfig.json --noEmit`
-  - `lint:fix`: `biome check --write`
-  - `ci`: run the same steps as CI locally
+### Complexity metric
 
-- [ ] Replace MusicXML mapping stub.
-  - `src/musicxml/xml/stream-mapper.ts` currently exports a minimal stub to keep `pnpm typecheck` green.
-  - Either implement the actual mapping pipeline or remove the public re-export.
+Fibonacci: **1, 2, 3, 5, 8, 13, 21**.
 
-## Tooling / DX
+For this backlog: **all tasks are ≤ 3**. Anything larger must be decomposed.
 
-- [x] Tighten Biome scope + ignore list.
-  - Ensure generated outputs stay ignored at both git + Biome level.
-  - Keep Tailwind directives parsing enabled.
-  - Consider adding Biome force-ignores for other common outputs (`!!**/.turbo`, etc.).
+---
 
-- [ ] Ensure pnpm availability story is unambiguous.
-  - README should be pnpm-first and mention `corepack` path.
-  - Consider adding `engineStrict` guidance (or a short troubleshooting section).
+## EPIC R1 — Repo follow-ups
 
-- [x] Add `pnpm typecheck` (separate from `next build`).
-  - Useful for CI signals and faster feedback.
+Status: `BACKLOG`
 
-- [x] Add a dependency update mechanism.
-  - Added Dependabot config.
+### Story R1.1 — pnpm + Node 25 DX clarity
 
-## Next.js app hygiene
+Status: `BACKLOG`
 
-- [x] Add `tailwind.config.ts` even if Tailwind v4 can work without it.
-  - Helps editor tooling (Tailwind IntelliSense) and makes intent explicit.
+- Task R1.1.1: Ensure the pnpm availability story is unambiguous (README + troubleshooting) **[2]**
+  - Status: `BACKLOG`
 
-- [ ] Revisit `next.config.ts` headers.
-  - `X-XSS-Protection` is legacy/deprecated in modern browsers.
-  - Consider adding a CSP (or document why it’s omitted).
-  - Consider whether `images.unoptimized: true` is intended long-term.
+### Story R1.2 — Next.js security headers hygiene
 
-- [ ] Ensure UI component conventions are consistent.
-  - shadcn/ui additions: verify `components.json` exists (if using shadcn CLI) and paths are stable.
+Status: `BACKLOG`
 
-## Skills system
+- Task R1.2.1: Revisit `next.config.ts` headers (CSP decision + document intent) **[3]**
+  - Status: `BACKLOG`
 
-- [x] Add a repo-level `skills/` policy check.
-  - Every `skills/{name}/` should have: `SKILL.md`, `scripts/`, `rules/`, `metadata.json`.
-  - Every skill should have a sibling `skills/{name}.zip`.
-  - CI should fail if packing produces diffs (already enforced).
+### Story R1.3 — shadcn/ui conventions
 
-- [x] Remove accidental duplicates inside skills.
-  - e.g. `js-index-maps (1).md`.
-  - Consider adding a check in `scripts/test-skills.sh` for duplicate filenames (case-insensitive) and “copy” suffixes.
+Status: `BACKLOG`
 
-## Docs
+- Task R1.3.1: Verify `components.json` + shadcn paths and document conventions **[2]**
+  - Status: `BACKLOG`
 
-- [x] Keep docs consistent and scoped.
-  - Prettier is used for `*.md` only; Biome remains the code formatter.
-  - Consider adding a small “Formatting” section in README describing `pnpm lint` vs `pnpm md:check`.
+---
 
-## Nice-to-haves
+# MusicXML Notation-Faithful Implementation Backlog
 
-- [x] Add `.vscode/extensions.json` recommendations.
-  - `biomejs.biome`
-  - `bradlc.vscode-tailwindcss`
+Complexity metric: Fibonacci (1, 2, 3, 5, 8, 13, 21). **All tasks are ≤ 3**. Larger work is decomposed.
 
-- [x] Add a `pnpm verify` script.
-  - Runs: lint + md:check + typecheck + test + skills:test.
+Completion criteria:
+
+- All fixtures emit deterministic, notation-faithful event streams.
+- No task exceeds complexity 3.
+- No performance interpretation (repeat expansion, tie merging) is applied.
+
+---
+
+## EPIC 1 — Project Foundations & Contracts
+
+Status: `BACKLOG`
+
+### Story 1.1 — Define Notation-Faithful Contract
+
+Status: `BACKLOG`
+
+- Task 1.1.1: Write formal definition of “notation-faithful” output (no repeat expansion, no tie merging) **[2]**
+  - Status: `BACKLOG`
+- Task 1.1.2: Specify normalized event model and invariants **[3]**
+  - Status: `BACKLOG`
+- Task 1.1.3: Define strict vs permissive parsing modes **[2]**
+  - Status: `BACKLOG`
+
+### Story 1.2 — Test Corpus & Golden Outputs
+
+Status: `BACKLOG`
+
+- Task 1.2.1: Create minimal MusicXML fixtures (single part, single voice) **[2]**
+  - Status: `BACKLOG`
+- Task 1.2.2: Add multi-voice fixtures with backup/forward **[3]**
+  - Status: `BACKLOG`
+- Task 1.2.3: Define golden event traces for fixtures **[3]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 2 — Streaming Mapper Infrastructure
+
+Status: `BACKLOG`
+
+### Story 2.1 — Path-Aware XML Context
+
+Status: `BACKLOG`
+
+- Task 2.1.1: Implement element path stack with indices **[3]**
+  - Status: `BACKLOG`
+- Task 2.1.2: Attach source path + offset metadata to emitted events **[2]**
+  - Status: `BACKLOG`
+
+### Story 2.2 — Reducer Architecture
+
+Status: `BACKLOG`
+
+- Task 2.2.1: Create reducer interface (init, consume, flush) **[2]**
+  - Status: `BACKLOG`
+- Task 2.2.2: Implement reducer dispatcher for XML events **[3]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 3 — Score Structure Parsing
+
+Status: `BACKLOG`
+
+### Story 3.1 — Score Root Handling
+
+Status: `BACKLOG`
+
+- Task 3.1.1: Detect and validate score-partwise root **[1]**
+  - Status: `BACKLOG`
+- Task 3.1.2: Detect and validate score-timewise root **[2]**
+  - Status: `BACKLOG`
+
+### Story 3.2 — Part List Mapping
+
+Status: `BACKLOG`
+
+- Task 3.2.1: Parse part-list/score-part ids **[2]**
+  - Status: `BACKLOG`
+- Task 3.2.2: Emit PartDef events with names/instruments **[3]**
+  - Status: `BACKLOG`
+
+### Story 3.3 — Measure Boundaries
+
+Status: `BACKLOG`
+
+- Task 3.3.1: Emit MeasureStart/MeasureEnd events **[2]**
+  - Status: `BACKLOG`
+- Task 3.3.2: Track measure numbers and implicit measures **[2]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 4 — Timing Engine (Notation-Faithful)
+
+Status: `BACKLOG`
+
+### Story 4.1 — Divisions & State
+
+Status: `BACKLOG`
+
+- Task 4.1.1: Parse attributes/divisions **[1]**
+  - Status: `BACKLOG`
+- Task 4.1.2: Maintain divisions state per part **[2]**
+  - Status: `BACKLOG`
+
+### Story 4.2 — Voice Cursor Model
+
+Status: `BACKLOG`
+
+- Task 4.2.1: Initialize per-voice cursor model **[3]**
+  - Status: `BACKLOG`
+- Task 4.2.2: Advance cursor on note duration **[2]**
+  - Status: `BACKLOG`
+
+### Story 4.3 — Backup / Forward Semantics
+
+Status: `BACKLOG`
+
+- Task 4.3.1: Parse backup elements and durations **[2]**
+  - Status: `BACKLOG`
+- Task 4.3.2: Apply backup to voice cursor **[2]**
+  - Status: `BACKLOG`
+- Task 4.3.3: Parse and apply forward elements **[2]**
+  - Status: `BACKLOG`
+
+### Story 4.4 — Absolute Time Calculation
+
+Status: `BACKLOG`
+
+- Task 4.4.1: Track measureStartAbsDiv per part **[2]**
+  - Status: `BACKLOG`
+- Task 4.4.2: Compute tOnAbsDiv for notes **[3]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 5 — Note Semantics
+
+Status: `BACKLOG`
+
+### Story 5.1 — Pitch & Rest Parsing
+
+Status: `BACKLOG`
+
+- Task 5.1.1: Parse pitch step/alter/octave **[2]**
+  - Status: `BACKLOG`
+- Task 5.1.2: Represent rests as duration-only notes **[1]**
+  - Status: `BACKLOG`
+
+### Story 5.2 — Chords
+
+Status: `BACKLOG`
+
+- Task 5.2.1: Detect chord flag on notes **[1]**
+  - Status: `BACKLOG`
+- Task 5.2.2: Prevent cursor advance on chord notes **[2]**
+  - Status: `BACKLOG`
+
+### Story 5.3 — Ties (Notation-Faithful)
+
+Status: `BACKLOG`
+
+- Task 5.3.1: Parse tie start/stop markers **[2]**
+  - Status: `BACKLOG`
+- Task 5.3.2: Attach tie markers to NoteEvent segments **[2]**
+  - Status: `BACKLOG`
+
+### Story 5.4 — Grace & Cue Notes
+
+Status: `BACKLOG`
+
+- Task 5.4.1: Detect grace note flag **[2]**
+  - Status: `BACKLOG`
+- Task 5.4.2: Preserve cue note metadata **[1]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 6 — Attributes & State Changes
+
+Status: `BACKLOG`
+
+### Story 6.1 — Time Signature
+
+Status: `BACKLOG`
+
+- Task 6.1.1: Parse attributes/time beats & beat-type **[2]**
+  - Status: `BACKLOG`
+- Task 6.1.2: Emit TimeSig change events **[2]**
+  - Status: `BACKLOG`
+
+### Story 6.2 — Key Signature
+
+Status: `BACKLOG`
+
+- Task 6.2.1: Parse attributes/key fifths/mode **[2]**
+  - Status: `BACKLOG`
+- Task 6.2.2: Emit KeySig change events **[1]**
+  - Status: `BACKLOG`
+
+### Story 6.3 — Clefs, Staves, Transpose
+
+Status: `BACKLOG`
+
+- Task 6.3.1: Parse clef sign/line/octave-change **[2]**
+  - Status: `BACKLOG`
+- Task 6.3.2: Parse staves count **[1]**
+  - Status: `BACKLOG`
+- Task 6.3.3: Parse transpose attributes (store only) **[2]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 7 — Directions & Barlines
+
+Status: `BACKLOG`
+
+### Story 7.1 — Tempo Directions
+
+Status: `BACKLOG`
+
+- Task 7.1.1: Parse sound tempo attribute **[2]**
+  - Status: `BACKLOG`
+- Task 7.1.2: Parse metronome per-minute **[2]**
+  - Status: `BACKLOG`
+- Task 7.1.3: Emit TempoDirection events at cursor time **[3]**
+  - Status: `BACKLOG`
+
+### Story 7.2 — Dynamics & Text Directions
+
+Status: `BACKLOG`
+
+- Task 7.2.1: Parse dynamics glyphs (p, f, etc.) **[2]**
+  - Status: `BACKLOG`
+- Task 7.2.2: Parse textual direction words **[1]**
+  - Status: `BACKLOG`
+
+### Story 7.3 — Repeats & Endings (Structural Only)
+
+Status: `BACKLOG`
+
+- Task 7.3.1: Parse barline repeat forward/backward **[2]**
+  - Status: `BACKLOG`
+- Task 7.3.2: Parse ending start/stop numbers **[2]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 8 — Validation & Error Handling
+
+Status: `BACKLOG`
+
+### Story 8.1 — Typed Error Model
+
+Status: `BACKLOG`
+
+- Task 8.1.1: Define MusicXmlError codes enum **[2]**
+  - Status: `BACKLOG`
+- Task 8.1.2: Attach path/location to errors **[2]**
+  - Status: `BACKLOG`
+
+### Story 8.2 — Invariant Checks
+
+Status: `BACKLOG`
+
+- Task 8.2.1: Validate non-negative durations **[1]**
+  - Status: `BACKLOG`
+- Task 8.2.2: Detect chord without prior onset **[2]**
+  - Status: `BACKLOG`
+- Task 8.2.3: Detect cursor underflow on backup **[2]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 9 — Performance & Robustness
+
+Status: `BACKLOG`
+
+### Story 9.1 — Allocation Discipline
+
+Status: `BACKLOG`
+
+- Task 9.1.1: Pool transient note collectors **[2]**
+  - Status: `BACKLOG`
+- Task 9.1.2: Intern element and attribute names **[2]**
+  - Status: `BACKLOG`
+
+### Story 9.2 — Benchmarks
+
+Status: `BACKLOG`
+
+- Task 9.2.1: Create small-score benchmark **[1]**
+  - Status: `BACKLOG`
+- Task 9.2.2: Create large-score benchmark **[2]**
+  - Status: `BACKLOG`
+
+### Story 9.3 — Fuzzing
+
+Status: `BACKLOG`
+
+- Task 9.3.1: XML structure fuzz tests **[3]**
+  - Status: `BACKLOG`
+- Task 9.3.2: Timing semantics fuzz tests **[3]**
+  - Status: `BACKLOG`
+
+---
+
+## EPIC 10 — Output & Integration
+
+Status: `BACKLOG`
+
+### Story 10.1 — Stable Event Stream API
+
+Status: `BACKLOG`
+
+- Task 10.1.1: Define TypeScript types for all events **[2]**
+  - Status: `BACKLOG`
+- Task 10.1.2: Export streaming async iterator API **[2]**
+  - Status: `BACKLOG`
+
+### Story 10.2 — Golden Trace Verification
+
+Status: `BACKLOG`
+
+- Task 10.2.1: Snapshot golden traces for fixtures **[2]**
+  - Status: `BACKLOG`
+- Task 10.2.2: CI diff tests against golden traces **[2]**
+  - Status: `BACKLOG`
