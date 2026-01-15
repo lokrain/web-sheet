@@ -97,25 +97,25 @@ Status: `REVIEW`
 
 ## EPIC 2 — Streaming Mapper Infrastructure
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 ### Story 2.1 — Path-Aware XML Context
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 2.1.1: Implement element path stack with indices **[3]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 - Task 2.1.2: Attach source path + offset metadata to emitted events **[2]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 
 ### Story 2.2 — Reducer Architecture
 
-Status: `BACKLOG`
+Status: `IN_PROGRESS`
 
 - Task 2.2.1: Create reducer interface (init, consume, flush) **[2]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 - Task 2.2.2: Implement reducer dispatcher for XML events **[3]**
-  - Status: `BACKLOG`
+  - Status: `REVIEW`
 
 ---
 
