@@ -14,12 +14,10 @@ Review scope: line-by-line scan of the current repo.
 
 ## API / DX clarity
 - `MusicXmlScorePartwise` is `unknown` and `score` is returned as `undefined` in `src/musicxml/xml/stream-mapper.ts`. Either implement a concrete score model or remove `score` from the result shape to avoid implying a populated model.
-- Many files are empty placeholders (examples: `src/musicxml/schema/*`, `src/musicxml/model/*`, `src/musicxml/events/*`, `src/musicxml/passes/*`, `src/audio/*`, `src/hooks/*` except `use-mobile`, `src/jobs/*`, `src/shared/*`, `src/workers/*`, `src/musicxml/index.ts`). Either remove them until implemented or add brief placeholder comments/README to make the intent explicit.
+- Many files are empty placeholders (examples: `src/musicxml/schema/*`, `src/musicxml/model/*`, `src/musicxml/events/*`, `src/musicxml/passes/*`, `src/audio/*`, `src/hooks/*` except `use-mobile`, `src/jobs/*`, `src/shared/*`, `src/workers/*`, `src/musicxml/index.ts`). Remove these or implement them to avoid confusion.
+
 - `README.md` is still the create-next-app template. Update it to describe the XML/MusicXML libraries, their public APIs, and the relevant scripts (bench/perf/verify).
 
 ## Tooling / tests
 - Tighten the perf regression thresholds in `perf/perf.spec.ts` (currently 20x) or make the limits environment-based so perf regressions are detected earlier without being too noisy.
 - Add tests for failure-mode diagnostics (invalid root, missing attributes, invalid durations) to assert non-strict behavior stays deterministic.
-
-## Misc
-- `tailwind.config.ts` includes `./app/**/*` even though the app lives under `src/app`; consider removing or correcting that path for clarity.
